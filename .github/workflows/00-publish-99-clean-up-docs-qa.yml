@@ -1,0 +1,34 @@
+
+name: 00 Publish 99 Clean up docs-qa
+on: 
+  workflow_dispatch:
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+        with:
+          persist-credentials: false
+      - name: Append name of site to _config.yml
+        working-directory: ./frontend/docs-qa-index
+        run: | 
+          echo "env.BRANCH=${{ env.BRANCH }}"
+          OWNER_PLUS_REPOSITORY=${{github.repository}}
+          OWNER=${{ github.repository_owner }}
+          REPOSITORY=${OWNER_PLUS_REPOSITORY/$OWNER\//}
+          echo "repo: ${OWNER_PLUS_REPOSITORY}" >> _config.yml
+          echo "owner: ${OWNER}" >> _config.yml
+          echo "repo_name: ${REPOSITORY}" >> _config.yml
+      - name: Deploy index.md and jekyll files for docs-qa site 🚀
+        uses: JamesIves/github-pages-deploy-action@4.2.0
+        with:
+          repository-name: ${{ github.repository }}-docs-qa
+          token: ${{ secrets.DOCS_TOKEN }}
+          branch: main # The branch the action should deploy to.
+          folder: frontend/docs-qa-index 
+          clean: true 
+          target-folder: docs
+    

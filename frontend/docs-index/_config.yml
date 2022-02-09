@@ -1,0 +1,22 @@
+
+title: QA Site for Documentation
+description: >- # this means to ignore newlines until "baseurl:"
+  When reviewing a PR for this repo, you can see what the documentation,
+  e.g. the storybook, will look like when published for the branches
+  named above.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+
+repo_name: "This-should-be-overridden-by-github-actions-script"
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+
+collections:
+  branches:
+    output: true
+    permalink: /branches/:path/
+
+repo_name: "This-should-be-overridden-by-github-actions-script"

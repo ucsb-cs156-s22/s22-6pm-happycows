@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -e
+
+# Disable path conversion on Windows
+export MSYS_NO_PATHCONV=1
+
+IMAGE_NAME=demo_spring_react_example_dev
+
+docker build -t "${IMAGE_NAME}" - < Dockerfile
+
+IMAGE_ID=$(docker images -q "${IMAGE_NAME}")
+CONTAINER_NAME="${IMAGE_NAME}_${IMAGE_ID}"
+
+if [ ! "$(docker ps -aq -f "name=${CONTAINER_NAME}")" ]; then
+  docker create -p 8080:8080 -p 3000:3000 -p 6006:6006 -v "$(pwd):/app" -it --name "${CONTAINER_NAME}" "${IMAGE_ID}" /bin/bash
+fi
+
+if [ "$(docker ps -aq -f "name=${CONTAINER_NAME}" -f "status=running")" ]; then
+  docker exec -it "${CONTAINER_NAME}" /bin/bash
+else
+  docker start -a -i "${CONTAINER_NAME}"
+fi
+

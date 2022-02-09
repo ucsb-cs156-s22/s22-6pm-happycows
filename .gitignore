@@ -1,0 +1,52 @@
+## emacs ##
+*~
+
+# Stryker reports
+
+frontend/.stryker-tmp
+frontend/reports
+
+# Don't check in a built storybook #
+
+frontend/storybook-static
+
+# If a package-lock.json shows up in top level dir, don't store it in github
+# Only keep the one under frontend/
+
+package-lock.json
+!frontend/package-lock.json
+
+# Maven
+
+/target
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Local Configuration ###
+.env
