@@ -1,0 +1,19 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import { action } from "@storybook/addon-actions";
+import Profits from "main/components/Commons/Profits";
+import userCommonsFixtures from "fixtures/userCommonsFixtures"; 
+
+<Meta
+  title="components/Commons/Profits"
+  component={Profits}
+/>
+
+# Profits
+
+For a particular user's commons, profits earned from milking cows every day. 
+
+<Canvas>
+  <Story name="uncontrolled">
+    <Profits userCommons={userCommonsFixtures.oneUserCommons[0]} />
+  </Story>
+</Canvas>

@@ -6,7 +6,6 @@ import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import ProfilePage from "main/pages/ProfilePage";
-import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
 describe("ProfilePage tests", () => {
 
@@ -16,7 +15,6 @@ describe("ProfilePage tests", () => {
 
         var axiosMock = new AxiosMockAdapter(axios);
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
-        axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
 
         const { getByText } = render(
             <QueryClientProvider client={queryClient}>
@@ -34,7 +32,6 @@ describe("ProfilePage tests", () => {
 
         var axiosMock = new AxiosMockAdapter(axios);
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.adminUser);
-        axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
 
         const { getByText, getByTestId } = render(
             <QueryClientProvider client={queryClient}>

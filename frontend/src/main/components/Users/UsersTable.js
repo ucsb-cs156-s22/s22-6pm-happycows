@@ -1,33 +1,48 @@
 import React from "react";
-import OurTable from "main/components/OurTable"
+import BootstrapTable from "react-bootstrap-table-next";
 
-const columns = [
-    {
-        Header: 'id',
-        accessor: 'id', // accessor is the "key" in the data
-    },
-    {
-        Header: 'First Name',
-        accessor: 'givenName',
-    },
-    {
-        Header: 'Last Name',
-        accessor: 'familyName',
-    },
-    {
-        Header: 'Email',
-        accessor: 'email',
-    },
-    {
-        Header: 'Admin',
-        id: 'admin',
-        accessor: (row, _rowIndex) => String(row.admin) // hack needed for boolean values to show up
-    },
-];
+const addTestId = (_cell, _row, rowIndex, colIndex) => ({
+    "data-testid": `row-${rowIndex}-col-${colIndex}`,
+  });
 
 export default function UsersTable({ users }) {
-    return <OurTable
+
+    const columns = [
+        {
+            dataField: "id",
+            text: "id",
+            sort: true,
+            attrs: addTestId
+        },
+        {
+            dataField: "givenName",
+            text: "First Name",
+            sort: true,
+            attrs: addTestId
+        },
+        {
+            dataField: "familyName",
+            text: "Last Name",
+            sort: true,
+            attrs: addTestId
+        },
+        {
+            dataField: "email",
+            text: "Email",
+            sort: true,
+            attrs: addTestId
+        },
+        {
+            dataField: "admin",
+            text: "Admin",
+            sort: true,
+            attrs: addTestId
+        }
+    ];
+
+    return <BootstrapTable
+        bootstrap4={true}
+        keyField="id"
         data={users}
-        columns={columns}
-        testid={"UsersTable"} />;
+        columns={columns} />;
 };

@@ -4,7 +4,7 @@ import React from 'react';
 import HomePage from "main/pages/HomePage";
 
 export default {
-    title: 'pages/HomePage/HomePage',
+    title: 'pages/HomePage',
     component: HomePage
 };
 
