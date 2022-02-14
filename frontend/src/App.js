@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "main/pages/HomePage";
 import ProfilePage from "main/pages/ProfilePage";
-// import SwaggerPage from "main/pages/SwaggerPage";
 
 import AdminUsersPage from "main/pages/AdminUsersPage";
 import AdminCreateCommonsPage from "main/pages/AdminCreateCommonsPage";
@@ -28,7 +27,6 @@ function App() {
             hasRole(currentUser, "ROLE_ADMIN") && <Route path="/admin/createcommons" element={<AdminCreateCommonsPage />} />
           }
           <Route path="/play/:commonsId" element={<PlayPage />} /> 
-          {/* <Route path="/swagger" element={<SwaggerPage />} /> */}
         </Routes>
       </BrowserRouter>
   );

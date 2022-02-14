@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import BootstrapTable from "react-bootstrap-table-next";
+import OurTable from "main/components/OurTable"
 
 const columns = [
     {
@@ -31,9 +31,8 @@ const Profits = () => {
             <Card.Body>
                 {/* change 4am to admin-appointed time? And consider adding milk bottle as decoration */}
                 <Card.Title>You will earn profits from milking your cows everyday at 4am.</Card.Title>
-                <BootstrapTable
-                    bootstrap4={true}
-                    keyField="id"
+                <OurTable
+                    testid={"ProfitsTable"}
                     data={dummyData}
                     columns={columns} />
             </Card.Body>
