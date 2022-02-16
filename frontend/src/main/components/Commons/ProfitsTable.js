@@ -14,7 +14,7 @@ export default function ProfitsTable({ profits }) {
     ];
 
     // Stryker disable ArrayDeclaration : [columns] and [students] are performance optimization; mutation preserves correctness
-    const memoizedColumns = React.useMemo(() => columns, [columns]);
+    const memoizedColumns = React.useMemo(() => columns, []);
     const memoizedDates = React.useMemo(() => profits, [profits]);
     // Stryker enable ArrayDeclaration
 
