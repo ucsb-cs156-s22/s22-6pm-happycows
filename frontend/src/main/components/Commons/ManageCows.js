@@ -14,8 +14,9 @@ const ManageCows = ({userCommons, onBuy, onSell}) =>  {
            
                 <Row>
                     <Col>
-                        {/* change button to image */}
-                        <Button variant="outline-danger">change to image</Button>
+                        <Card.Text>
+                            [ADD PIC HERE] 
+                        </Card.Text>
                     </Col>
                     <Col>
                         <Button variant="outline-danger" onClick={()=>{onBuy(userCommons)}} data-testid={"buy-cow-button"}>+</Button>

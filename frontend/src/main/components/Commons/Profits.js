@@ -1,19 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import OurTable from "main/components/OurTable"
-
-const columns = [
-    {
-        dataField: "profit",
-        text: "Profit",
-        sort: true,
-    },
-    {
-        dataField: "date",
-        text: "Date",
-        sort: true,
-    }
-];
+import ProfitsTable from "main/components/Commons/ProfitsTable"
 
 const dummyData = [
     { id: 1, profit: 10, date: "2021-03-05" },
@@ -31,10 +18,7 @@ const Profits = () => {
             <Card.Body>
                 {/* change 4am to admin-appointed time? And consider adding milk bottle as decoration */}
                 <Card.Title>You will earn profits from milking your cows everyday at 4am.</Card.Title>
-                <OurTable
-                    testid={"ProfitsTable"}
-                    data={dummyData}
-                    columns={columns} />
+                <ProfitsTable profits={dummyData} />
             </Card.Body>
         </Card>
     );
