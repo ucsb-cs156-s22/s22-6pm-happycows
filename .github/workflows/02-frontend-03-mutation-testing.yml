@@ -1,6 +1,7 @@
 name: 02 Frontend 03 Mutation Testing (JavaScript/Stryker, testing the test suite)
 
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches:
@@ -9,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     strategy:
       matrix:

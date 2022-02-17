@@ -4,6 +4,7 @@
 name: 01 Backend 03 Mutation Testing (Pitest)
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:

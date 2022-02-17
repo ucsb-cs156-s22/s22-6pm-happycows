@@ -4,6 +4,7 @@
 name: 01 Backend 01 Tests (JUnit)
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:
