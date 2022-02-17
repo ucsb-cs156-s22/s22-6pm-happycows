@@ -8,6 +8,7 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
+    "babel-loader": "8.1.0",
     "bootstrap": "^5.0.0-beta3",
     "history": "^5.0.0",
     "nock": "^13.2.4",
@@ -50,12 +51,6 @@
     "coverage": "react-scripts test --coverage --watchAll=false",
     "storybook": "start-storybook --docs -p 6006 -s public",
     "build-storybook": "build-storybook --docs -s public"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
