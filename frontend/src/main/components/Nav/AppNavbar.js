@@ -12,7 +12,7 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
           <AppNavbarLocalhost url={currentUrl} />
         )
       }
-      <Navbar expand="xl" variant="dark" bg="dark" sticky="top">
+      <Navbar expand="xl" variant="dark" bg="dark" sticky="top" data-testid="AppNavbar">
         <Container>
           <Navbar.Brand as={Link} to="/">
             Happier Cows
