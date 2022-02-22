@@ -95,7 +95,7 @@ export default function CreateCommonsForm(props) {
           {errors.startDate?.message}
         </Form.Control.Feedback>
       </Form.Group>
-      <Button type="submit">Create</Button>
+      <Button type="submit" data-testid="CreateCommonsForm-Create-Button">Create</Button>
     </Form>
   );
 }
