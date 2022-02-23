@@ -1,7 +1,5 @@
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
-// import { useNavigate } from "react-router-dom";
-import { ToastProvider } from 'react-toast-notifications';
 import AdminCreateCommonsPage from "main/pages/AdminCreateCommonsPage";
 import { MemoryRouter } from "react-router-dom";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
@@ -10,28 +8,37 @@ import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
+// const mockedMutate = jest.fn();
 
-const mockedNavigate = jest.fn();
-
-// jest.mock('react-router-dom', () => ({
-//     ...jest.requireActual('react-router-dom'),
-//     useNavigate: () => mockedNavigate
+// jest.mock('main/utils/useBackend', () => ({
+//     ...jest.requireActual('main/utils/useBackend'),
+//     useBackendMutation: () => ({
+//         mutate: mockedMutate
+//     })
 // }));
 
-const mockedMutate = jest.fn();
+const mockedNavigate = jest.fn();
+jest.mock('react-router-dom', () => {
+    const originalModule = jest.requireActual('react-router-dom');
+    return {
+        __esModule: true,
+        ...originalModule,
+        Navigate: (x) => { mockedNavigate(x); return null; }
+    };
+});
 
-jest.mock('react-query', () => ({
-    ...jest.requireActual('react-query'),
-    useMutation: () => ({mutate: mockedMutate})
-}));
+// jest.mock('react-query', () => ({
+//     ...jest.requireActual('react-query'),
+//     useMutation: () => ({mutate: mockedMutate})
+// }));
 
-describe("AdminCreateCommonsPage tests",  () => {
+describe("AdminCreateCommonsPage tests", () => {
 
     const axiosMock = new AxiosMockAdapter(axios);
     const queryClient = new QueryClient();
 
 
-    beforeEach(()=>{
+    beforeEach(() => {
         axiosMock.reset();
         axiosMock.resetHistory();
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
@@ -42,11 +49,9 @@ describe("AdminCreateCommonsPage tests",  () => {
 
         const { getByText } = render(
             <QueryClientProvider client={queryClient}>
-                <ToastProvider>
-                    <MemoryRouter>
-                        <AdminCreateCommonsPage />
-                    </MemoryRouter>
-                </ToastProvider>
+                <MemoryRouter>
+                    <AdminCreateCommonsPage />
+                </MemoryRouter>
             </QueryClientProvider>
         );
 
@@ -56,13 +61,20 @@ describe("AdminCreateCommonsPage tests",  () => {
 
     test("When you fill in form and click submit, the right things happens", async () => {
 
+        axiosMock.onPost("/api/commons/new").reply(200, {
+            "id": 5,
+            "name": "Seths Common",
+            "day": 5,
+            "endDate": "6/11/2021",
+            "totalPlayers": 50,
+            "cowPrice": 15,
+        });
+
         const { getByText, getByLabelText, getByTestId } = render(
             <QueryClientProvider client={queryClient}>
-                <ToastProvider>
-                    <MemoryRouter>
-                        <AdminCreateCommonsPage />
-                    </MemoryRouter>
-                </ToastProvider>
+                <MemoryRouter>
+                    <AdminCreateCommonsPage />
+                </MemoryRouter>
             </QueryClientProvider>
         );
 
@@ -76,14 +88,27 @@ describe("AdminCreateCommonsPage tests",  () => {
         const button = getByTestId("CreateCommonsForm-Create-Button");
 
 
-        fireEvent.change(commonsNameField, {target: {value: 'My New Commons'}})
-        fireEvent.change(startingBalanceField, {target: {value: '500'}})
-        fireEvent.change(cowPriceField, {target: {value: '10'}})
-        fireEvent.change(milkPriceField, {target: {value: '5'}})
-        fireEvent.change(startDateField, {target: {value: '2022-05-12'}})
+        fireEvent.change(commonsNameField, { target: { value: 'My New Commons' } })
+        fireEvent.change(startingBalanceField, { target: { value: '500' } })
+        fireEvent.change(cowPriceField, { target: { value: '10' } })
+        fireEvent.change(milkPriceField, { target: { value: '5' } })
+        fireEvent.change(startDateField, { target: { value: '2022-05-12' } })
         fireEvent.click(button);
 
-        await waitFor(() => expect(mockedMutate).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
+
+        const expectedCommons = {
+            name: "My New Commons",
+            startingBalance: 500,
+            cowPrice: 10,
+            milkPrice: 5,
+            startDate: '2022-05-12T00:00:00.000Z'
+        };
+
+        expect(axiosMock.history.post[0].data).toEqual( JSON.stringify(expectedCommons) );
+
+        // await waitFor(() => expect(mockedMutate).toHaveBeenCalledTimes(1));
+       //  await waitFor(() => expect(mockedNavigate)({ "to": "/" }));
 
     });
 

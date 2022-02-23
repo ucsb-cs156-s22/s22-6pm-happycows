@@ -8,9 +8,6 @@ import { hasRole, useCurrentUser } from "main/utils/currentUser";
 import PlayPage from "main/pages/PlayPage"; 
 
 
-import "bootstrap/dist/css/bootstrap.css";
-
-
 function App() {
 
   const { data: currentUser } = useCurrentUser();
