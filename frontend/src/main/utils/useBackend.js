@@ -42,10 +42,6 @@ export function useBackend(queryKey, axiosParameters, initialData) {
     });
 }
 
-// const wrappedParams = async (params) =>
-//   await ( await axios(params)).data;
-
-
 const reportAxiosError = (error) => {
     console.error("Axios Error:", error);
     toast(`Axios Error: ${error}`);
@@ -61,7 +57,7 @@ const wrappedParams = async (params) => {
     }
 };
 
-export function useBackendMutation(objectToAxiosParams, useMutationParams, queryKey=null) {
+export function useBackendMutation(objectToAxiosParams, useMutationParams, queryKey = null) {
     const queryClient = useQueryClient();
 
     return useMutation((object) => wrappedParams(objectToAxiosParams(object)), {
@@ -70,8 +66,8 @@ export function useBackendMutation(objectToAxiosParams, useMutationParams, query
         },
         // Stryker disable all: Not sure how to set up the complex behavior needed to test this
         onSettled: () => {
-            if (queryKey!==null)
-             queryClient.invalidateQueries(queryKey);
+            if (queryKey !== null)
+                queryClient.invalidateQueries(queryKey);
         },
         // Stryker enable all
         retry: false,

@@ -8,33 +8,65 @@ import { Container, CardGroup } from "react-bootstrap";
 import ManageCows from "main/components/Commons/ManageCows";
 import FarmStats from "main/components/Commons/FarmStats";
 import Profits from "main/components/Commons/Profits";
-import userCommonsFixtures from "fixtures/userCommonsFixtures";
-
+import { useBackend } from "main/utils/useBackend";
 
 export default function PlayPage() {
-  let { _commonsId } = useParams();
-  const { data: currentUser } = useCurrentUser();
 
-  // const userCommons = ... //TODO: look up the userCommons using the commonsId and the currentUser
+  const { commonsId } = useParams();
+  const { currentUser } = useCurrentUser();
 
-  // TEMPORARY:
-  const userCommons = userCommonsFixtures.oneUserCommons[0];
-  const commons = userCommons.commons;
+  const { data: userCommons, error: userCommonsError, status: userCommonsStatus } =
+    useBackend(
+      // Stryker disable next-line all : don't test internal caching of React Query
+      [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`],
+      {  // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
+        method: "GET",
+        url: "/api/usercommons/forcurrentuser",
+        params: {
+          commonsId: commonsId
+        }
+      }
+    );
+
+  const { data: commons, error: commonsError, status: commonsStatus } =
+    useBackend(
+      // Stryker disable next-line all : don't test internal caching of React Query
+      [`/api/commons?commons_id=${commonsId}`],
+      {  // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
+        method: "GET",
+        url: "/api/commons",
+        params: {
+          id: commonsId
+        }
+      }
+    );
+
+ 
+  const onBuy = (userCommons) => { 
+    console.log("onBuy called:", userCommons); 
+  };
   
-  const onBuy = (userCommons) => { console.log("onBuy called:", userCommons); };
-  const onSell = (userCommons) => { console.log("onSell called:", userCommons); };
+  const onSell = (userCommons) => { 
+    console.log("onSell called:", userCommons);
+  };
+
+  console.log("******* userCommons=   *********",userCommons);
+  console.log("******* commonsId=   *********",commonsId);
 
   return (
+    
     <BasicLayout >
       <Container >
-        <CommonsPlay  currentUser={currentUser} />
-        <CommonsOverview commons={commons} />
+        { !!currentUser && <CommonsPlay currentUser={currentUser} />}
+        { !!commons && <CommonsOverview commons={commons} />}
         <br />
-        <CardGroup >
-          <ManageCows userCommons={userCommons} onBuy={onBuy} onSell={onSell} />
-          <FarmStats  userCommons={userCommons} />
-          <Profits  userCommons={userCommons} />
-        </CardGroup>
+        { !!userCommons &&
+          <CardGroup >
+            <ManageCows userCommons={userCommons} onBuy={onBuy} onSell={onSell} />
+            <FarmStats userCommons={userCommons} />
+            <Profits userCommons={userCommons} />
+          </CardGroup>
+        }
       </Container>
     </BasicLayout>
   )

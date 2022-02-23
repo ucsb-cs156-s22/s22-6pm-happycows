@@ -1,9 +1,6 @@
 import React from "react";
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import CreateCommonsForm from "main/components/Commons/CreateCommonsForm";
-import { createCommons } from "main/services/commons"
-import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
 import { Navigate } from 'react-router-dom'
 import { toast } from "react-toastify"
 
@@ -22,7 +19,6 @@ const AdminCreateCommonsPage = () => {
     });
 
     const onSuccess = (commons) => {
-        console.log("***** onSuccess ********");
         toast(`Commons successfully created! - id: ${commons.id} name: ${commons.name}`);
     }
 
@@ -30,15 +26,13 @@ const AdminCreateCommonsPage = () => {
         objectToAxiosParams,
         { onSuccess },
         // Stryker disable next-line all : hard to set up test for caching
-        ["/api/commons"]
+        ["/api/commons/all"]
     );
 
     const onSubmit = async (data) => {
-        console.log("***** onSubmit ********");
         mutation.mutate(data);
     }
 
-    console.log("mutation=",mutation);
 
     if (mutation.isSuccess) {
         return <Navigate to="/" />

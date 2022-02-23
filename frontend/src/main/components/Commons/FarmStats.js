@@ -3,7 +3,6 @@ import { Card } from "react-bootstrap";
 
 const FarmStats = ({userCommons}) => {
    
-    console.log("userCommons=",userCommons);
     return (
         <Card>
         <Card.Header as="h5">Your Farm Stats</Card.Header>

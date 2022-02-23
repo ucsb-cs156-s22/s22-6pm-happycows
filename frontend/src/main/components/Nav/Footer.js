@@ -6,7 +6,7 @@ export default function Footer() {
       <Container>
         <p data-testid="footer-content">
           HappierCows is a project of <a href="https://devries.chem.ucsb.edu/mattanjah-de-vries">Mattanjah de Vries</a>, 
-          Distinguished Professor of Chemistry at UC Santa Barbra. 
+          Distinguished Professor of Chemistry at UC Santa Barbara. 
           The open source code is available on <a href="https://github.com/ucsb-cs156-w22/HappierCows">GitHub</a>. 
         </p>
         

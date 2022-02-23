@@ -8,14 +8,6 @@ import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
-// const mockedMutate = jest.fn();
-
-// jest.mock('main/utils/useBackend', () => ({
-//     ...jest.requireActual('main/utils/useBackend'),
-//     useBackendMutation: () => ({
-//         mutate: mockedMutate
-//     })
-// }));
 
 const mockedNavigate = jest.fn();
 jest.mock('react-router-dom', () => {
@@ -27,10 +19,6 @@ jest.mock('react-router-dom', () => {
     };
 });
 
-// jest.mock('react-query', () => ({
-//     ...jest.requireActual('react-query'),
-//     useMutation: () => ({mutate: mockedMutate})
-// }));
 
 describe("AdminCreateCommonsPage tests", () => {
 
@@ -106,10 +94,6 @@ describe("AdminCreateCommonsPage tests", () => {
         };
 
         expect(axiosMock.history.post[0].data).toEqual( JSON.stringify(expectedCommons) );
-
-        // await waitFor(() => expect(mockedMutate).toHaveBeenCalledTimes(1));
-       //  await waitFor(() => expect(mockedNavigate)({ "to": "/" }));
-
     });
 
 });
