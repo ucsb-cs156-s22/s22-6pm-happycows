@@ -80,7 +80,7 @@ public class CommonsController extends ApiController {
     return ResponseEntity.ok().body(body);
   }
 
-  @ApiOperation(value = "Join a common")
+  @ApiOperation(value = "Join a commons")
   @PreAuthorize("hasRole('ROLE_USER')")
   @PostMapping(value = "/join", produces = "application/json")
   public ResponseEntity<String> joinCommon(
@@ -93,7 +93,8 @@ public class CommonsController extends ApiController {
 
     if (userCommonsLookup.isPresent()) {
       // user is already a member of this commons
-      String body = mapper.writeValueAsString(userCommonsLookup.get());
+      Commons joinedCommons = commonsRepository.findById(commonsId).orElseThrow( ()->new EntityNotFoundException(Commons.class, commonsId));
+      String body = mapper.writeValueAsString(joinedCommons);
       return ResponseEntity.ok().body(body);
     }
 
@@ -103,9 +104,10 @@ public class CommonsController extends ApiController {
         .totalWealth(0)
         .build();
 
-    UserCommons savedUc = userCommonsRepository.save(uc);
+    userCommonsRepository.save(uc);
 
-    String body = mapper.writeValueAsString(savedUc);
+    Commons joinedCommons = commonsRepository.findById(commonsId).orElseThrow( ()->new EntityNotFoundException(Commons.class, commonsId));
+    String body = mapper.writeValueAsString(joinedCommons);
     return ResponseEntity.ok().body(body);
   }
 

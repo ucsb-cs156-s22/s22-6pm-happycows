@@ -93,6 +93,11 @@ public class CommonsControllerTests extends ControllerTestCase {
   @Test
   public void joinCommonsTest() throws Exception {
 
+    Commons c = Commons.builder()
+      .id(2L)
+      .name("Example Commons")
+      .build();
+
     UserCommons uc = UserCommons.builder()
         .userId(1L)
         .commonsId(2L)
@@ -110,6 +115,7 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     when(userCommonsRepository.findByCommonsIdAndUserId(anyLong(),anyLong())).thenReturn(Optional.empty());
     when(userCommonsRepository.save(eq(uc))).thenReturn(ucSaved);
+    when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));
 
     MvcResult response = mockMvc
         .perform(post("/api/commons/join?commonsId=2").with(csrf()).contentType(MediaType.APPLICATION_JSON)
@@ -118,10 +124,11 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(2L, 1L);
     verify(userCommonsRepository, times(1)).save(uc);
-    String responseString = response.getResponse().getContentAsString();
-    String ucSavedAsJSON = mapper.writeValueAsString(ucSaved);
 
-    assertEquals(responseString, ucSavedAsJSON);
+    String responseString = response.getResponse().getContentAsString();
+    String cAsJson = mapper.writeValueAsString(c);
+
+    assertEquals(responseString, cAsJson);
   }
 
 }
