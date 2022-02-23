@@ -10,7 +10,7 @@ describe("CommonsCard tests", () => {
             <CommonsCard commons = {commonsFixtures.threeCommons[0]} buttonText = {"Join"}  buttonLink = {click}/>
         );
 
-        const button = getByTestId("commonsCard-button");
+        const button = getByTestId("commonsCard-button-Join-5");
         expect(button).toBeInTheDocument();
         expect(typeof(button.textContent)).toBe('string');
         expect(button.textContent).toEqual('Join');

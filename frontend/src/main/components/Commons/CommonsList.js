@@ -15,7 +15,7 @@ const CommonsList = (props) => {
                     </Row>
                 </Container>
             </Card.Subtitle>
-            {props.commonList && props.commonList.map((c)=>(<CommonsCard key={c.id} commons={c} buttonText={props.buttonText} buttonLink={props.buttonLink}/>)) }
+            {props.commonList && props.commonList.map((c)=>(<CommonsCard key={c.id}  commons={c} buttonText={props.buttonText} buttonLink={props.buttonLink}/>)) }
         </Card>
     );
 };

@@ -38,6 +38,8 @@ export default function HomePage() {
   });
 
   const onSuccess = (newlyJoinedCommons) => {
+    console.log("onSuccess function called");
+    console.log("newlyJoinedCommons",newlyJoinedCommons);
     const index = commonsJoined.findIndex(c => c.id === newlyJoinedCommons.id);
     if (index === -1) {
       setCommonsJoined([...commonsJoined, newlyJoinedCommons])

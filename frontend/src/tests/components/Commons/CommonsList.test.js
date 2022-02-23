@@ -24,7 +24,7 @@ describe("CommonsList tests", () => {
         expect(typeof(subtitle_id.textContent)).toBe('string');
         expect(subtitle_id.textContent).toEqual('ID#');
 
-        const buttons = getAllByTestId("commonsCard-button");
+        const buttons = getAllByTestId(/commonsCard-button/);
         buttons.forEach((b) => {
             expect(b).toBeInTheDocument();
             expect(typeof(b.textContent)).toBe('string');
