@@ -29,5 +29,6 @@ public class Commons {
     inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     @JsonIgnore // https://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
     private List<User> users;
+
 }
 
