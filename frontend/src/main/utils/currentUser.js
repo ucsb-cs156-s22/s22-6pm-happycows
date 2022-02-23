@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 
 export function useCurrentUser() {
   let rolesList = ["ERROR_GETTING_ROLES"];
-  return useQuery("current user", async () => {
+  return useQuery("/api/currentUser", async () => {
     try {
       const response = await axios.get("/api/currentUser");
       try {
@@ -28,7 +28,7 @@ export function useLogout() {
   const navigate = useNavigate();
   const mutation = useMutation(async () => {
     await axios.post("/logout");
-    await queryClient.resetQueries("current user", { exact: true });
+    await queryClient.resetQueries("/api/currentUser", { exact: true });
     navigate("/");
   })
   return mutation;
