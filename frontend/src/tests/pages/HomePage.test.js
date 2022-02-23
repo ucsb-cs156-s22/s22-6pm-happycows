@@ -76,7 +76,7 @@ describe("HomePage tests", () => {
         apiCurrentUserFixtures.userOnly.user.commons = commonsFixtures.oneCommons;
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.threeCommons);
-        axiosMock.onPost("/api/commons/join", {params: {commonsId: 1}}).reply(200, commonsFixtures.threeCommons[0]);
+        axiosMock.onPost("/api/commons/join").reply(200, commonsFixtures.threeCommons[0]);
 
         const { getByTestId } = render(
             <QueryClientProvider client={queryClient}>

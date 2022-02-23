@@ -16,4 +16,10 @@ describe("CommonsPlay tests", () => {
             <CommonsPlay currentUser={currentUserFixtures.adminUser } commons={commonsFixtures.oneCommons[0]} />
         );
     });
+
+    test("renders without crashing when currentUser.root is undefined", () => {
+        render(
+            <CommonsPlay currentUser={currentUserFixtures.noRoot } commons={commonsFixtures.oneCommons[0]} />
+        );
+    });
 });
