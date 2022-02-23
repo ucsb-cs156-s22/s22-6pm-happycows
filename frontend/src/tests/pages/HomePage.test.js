@@ -89,8 +89,6 @@ describe("HomePage tests", () => {
         await waitFor(() => expect(getByTestId("commonsCard-button-Join-1")).toBeInTheDocument());
         const joinButton = getByTestId("commonsCard-button-Join-1");
         fireEvent.click(joinButton);
-
-        console.log("axiosMock.history:", axiosMock.history);
     });
 
 });

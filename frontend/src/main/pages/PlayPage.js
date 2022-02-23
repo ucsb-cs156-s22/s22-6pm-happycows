@@ -13,7 +13,7 @@ import { useBackend } from "main/utils/useBackend";
 export default function PlayPage() {
 
   const { commonsId } = useParams();
-  const { currentUser } = useCurrentUser();
+  const { data: currentUser } = useCurrentUser();
 
   const { data: userCommons, error: userCommonsError, status: userCommonsStatus } =
     useBackend(
@@ -50,14 +50,11 @@ export default function PlayPage() {
     console.log("onSell called:", userCommons);
   };
 
-  console.log("******* userCommons=   *********",userCommons);
-  console.log("******* commonsId=   *********",commonsId);
-
   return (
     
     <BasicLayout >
       <Container >
-        { !!currentUser && <CommonsPlay currentUser={currentUser} />}
+        { !!currentUser &&  <CommonsPlay currentUser={currentUser} /> }
         { !!commons && <CommonsOverview commons={commons} />}
         <br />
         { !!userCommons &&

@@ -133,7 +133,6 @@ describe("utils/useBackend tests", () => {
 
             const restoreConsole = mockConsole();
 
-
             // See: https://react-query.tanstack.com/guides/testing#turn-off-retries
             const queryClient = new QueryClient({
                 defaultOptions: {

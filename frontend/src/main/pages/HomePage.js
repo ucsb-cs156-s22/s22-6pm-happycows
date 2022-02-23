@@ -3,7 +3,6 @@ import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import CommonsList from "main/components/Commons/CommonsList";
 import { Container, Row, Col } from "react-bootstrap";
 import { useCurrentUser } from "main/utils/currentUser";
-// import { useJoinCommons } from "main/utils/commons";
 import { useNavigate } from "react-router-dom";
 import Background from './../../assets/HomePageBackground.jpg';
 
@@ -27,8 +26,6 @@ export default function HomePage() {
       }
     );
 
-  // const mutation = useJoinCommons({onSuccess: () => {}, onError: (error, id) => {console.error(`Error posting data to ${"/api/commons/join/" + id}:`, error)}})
-
   const objectToAxiosParams = (newCommonsId) => ({
     url: "/api/commons/join",
     method: "POST",
@@ -37,18 +34,9 @@ export default function HomePage() {
     }
   });
 
-  const onSuccess = (newlyJoinedCommons) => {
-    console.log("onSuccess function called");
-    console.log("newlyJoinedCommons",newlyJoinedCommons);
-    // const index = commonsJoined.findIndex(c => c.id === newlyJoinedCommons.id);
-    // if (index === -1) {
-    //   setCommonsJoined([...commonsJoined, newlyJoinedCommons])
-    // }
-  };
-
   const mutation = useBackendMutation(
     objectToAxiosParams,
-    { onSuccess },
+    {  },
     // Stryker disable next-line all : hard to set up test for caching
     ["/api/currentUser"]
   );

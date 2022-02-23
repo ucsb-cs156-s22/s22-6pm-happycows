@@ -16,12 +16,6 @@ jest.mock("react-router-dom", () => ({
     })
 }));
 
-
-// jest.mock('react-router-dom', () => ({
-//     ...jest.requireActual('react-router-dom'),
-//     useParams: jest.fn().mockReturnValue({ commonsId: 1 }),
-// }))
-
 describe("PlayPage tests", () => {
 
     const axiosMock = new AxiosMockAdapter(axios);
@@ -62,8 +56,6 @@ describe("PlayPage tests", () => {
 
     test("click buy and sell buttons", async () => {
 
-        // mockedUseParams.mockReturnValue({ commonsId: 1 });
-
         const { getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
@@ -79,6 +71,20 @@ describe("PlayPage tests", () => {
         const sellCowButton = getByTestId("sell-cow-button");
         fireEvent.click(sellCowButton);
 
+    });
+
+    test("Make sure that both the Announcements and Welcome Farmer components show up", async () => {
+
+        const { getByText } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <PlayPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor( ()=>expect(getByText(/Announcements/)).toBeInTheDocument());
+        await waitFor( ()=>expect(getByText(/Welcome Farmer/)).toBeInTheDocument());
     });
 
 });
