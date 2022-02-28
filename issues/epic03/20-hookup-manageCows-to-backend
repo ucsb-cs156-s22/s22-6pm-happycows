@@ -1,0 +1,10 @@
+Hookup Manage Cows Component to Backend to populate correct information
+
+* Cow Market price should populated by the cow price for the commons
+* Number of Cows for a user's commons should be displayed as well and it should update when a cow is bought or sold
+* Buy and sell button updates user's commons cow count correctly 
+    * Cows are bought at market price and sold for (the user's commons average cow health) * .8(variable for this weighted sell factor) *(cows market price)
+
+# Acceptance Criteria:
+
+Add your own Acceptance Criteria to this issue.

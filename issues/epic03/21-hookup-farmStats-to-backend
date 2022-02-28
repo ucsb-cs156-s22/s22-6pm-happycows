@@ -1,0 +1,11 @@
+Hookup Farm Stats Component to Backend to populate correct information
+
+* Total Wealth for a user's commons should be displayed and it should update when a cow is bought or sold
+* Cow Health should be changed to average cow health and should display the avergae cow health for a user's commons
+    * Average cow health should be just one field in user's commons and it should be updated whenever a cow is bought or sold
+        * if a cow is bought: average cow health = ((number of cows before buy) * (average cow health before buy) +  1)/(number of cows after buy)
+        * if a cow is sold then the average cow health stays the same (simulate selling a cow of average health)
+
+# Acceptance Criteria:
+
+Add your own Acceptance Criteria to this issue.
