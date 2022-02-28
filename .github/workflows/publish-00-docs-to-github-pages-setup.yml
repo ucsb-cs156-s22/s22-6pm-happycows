@@ -1,0 +1,64 @@
+
+name: Publish 00 docs create repos
+on: 
+  workflow_dispatch:
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Create -docs repo"
+        working-directory: .
+        continue-on-error: true
+        run: |
+          SUFFIX="-docs"
+          DESC="Documentation for ${OWNER_PLUS_REPOSITORY}"
+          TEMPLATE="https://github.com/ucsb-cs156-w22/TEMPLATE-docs"
+          OWNER_PLUS_REPOSITORY=${{github.repository}}
+          OWNER=${{ github.repository_owner }}
+          REPOSITORY=${OWNER_PLUS_REPOSITORY/$OWNER\//}
+          HOMEPAGE="https://${OWNER}.github.io/${REPOSITORY}${SUFFIX}"
+          NEW_REPO=${OWNER_PLUS_REPOSITORY}${SUFFIX}        
+          gh repo create ${NEW_REPO} --public --description "${DESC}" --template ${TEMPLATE}
+        env:
+          GITHUB_TOKEN: ${{ secrets.DOCS_TOKEN }}
+      - name: "Set homepage in -docs repo"
+        working-directory: .
+        continue-on-error: true
+        run: |
+          SUFFIX="-docs"
+          OWNER=${{ github.repository_owner }}
+          REPOSITORY=${OWNER_PLUS_REPOSITORY/$OWNER\//}
+          HOMEPAGE="https://${OWNER}.github.io/${REPOSITORY}${SUFFIX}"
+          NEW_REPO=${OWNER_PLUS_REPOSITORY}${SUFFIX}
+          gh repo edit ${NEW_REPO} --homepage ${HOMEPAGE}
+        env:
+          GITHUB_TOKEN: ${{ secrets.DOCS_TOKEN }}
+      - name: "Create -docs-qa repo"
+        working-directory: .
+        continue-on-error: true
+        run: |
+          SUFFIX="-docs-qa"
+          DESC="Documentation QA site for ${OWNER_PLUS_REPOSITORY}"
+          TEMPLATE="https://github.com/ucsb-cs156-w22/TEMPLATE-docs"
+          OWNER_PLUS_REPOSITORY=${{github.repository}}
+          OWNER=${{ github.repository_owner }}
+          REPOSITORY=${OWNER_PLUS_REPOSITORY/$OWNER\//}
+          HOMEPAGE="https://${OWNER}.github.io/${REPOSITORY}${SUFFIX}"
+          NEW_REPO=${OWNER_PLUS_REPOSITORY}${SUFFIX}        
+          gh repo create ${NEW_REPO} --public --description "${DESC}" --template ${TEMPLATE}
+        env:
+          GITHUB_TOKEN: ${{ secrets.DOCS_TOKEN }}
+      - name: "Set homepage in -docs-qa repo"
+        working-directory: .
+        continue-on-error: true
+        run: |
+          SUFFIX="-docs-qa"
+          OWNER_PLUS_REPOSITORY=${{github.repository}}
+          OWNER=${{ github.repository_owner }}
+          REPOSITORY=${OWNER_PLUS_REPOSITORY/$OWNER\//}
+          HOMEPAGE="https://${OWNER}.github.io/${REPOSITORY}${SUFFIX}"
+          NEW_REPO=${OWNER_PLUS_REPOSITORY}${SUFFIX}
+          gh repo edit ${NEW_REPO} --homepage ${HOMEPAGE}
+        env:
+          GITHUB_TOKEN: ${{ secrets.DOCS_TOKEN }}
+   

@@ -1,12 +1,32 @@
-# demo-spring-react-example-v2: dsre-v2
+# HappyCows/HappierCows
+
+[![codecov](https://codecov.io/gh/ucsb-cs156-w22/HappierCows/branch/main/graph/badge.svg?token=cu7LTPXZh1)](https://codecov.io/gh/ucsb-cs156-w22/HappierCows)
+
+
+This is a full rewrite of the application HappyCows, a project sponsored by [Mattanjah de Vries, Distingished Professor of Chemistry at UC Santa Barbara](https://www.chem.ucsb.edu/people/mattanjah-s-de-vries).
+
+
+The application is a simulation game that gives players (typically students in Prof. de Vries' courses) an opportunity to learn about the [Tragedy of the Commons](https://en.wikipedia.org/wiki/Tragedy_of_the_commons).
+
+This rewrite uses the new tech stack being developed for [CMPSC 156](https://ucsb-cs156.github.io).    This tech stack uses:
+* Spring Boot (Java) for the backend
+* React (JavaScript) for the frontend
+* Spring Security plus Google OAuth for authentication/authorization
+  - This last point is what distinguishes this tech stack from the one currently in use (as S21) for the three legacy code apps in
+    CMPSC 156: the current apps use Auth0 with JWTs as the authentication/authorization mechanism.
 
 Storybook is here:
-* Production: <https://ucsb-cs156-w22.github.io/demo-spring-react-example-v2-docs/>
-* QA:  <https://ucsb-cs156-w22.github.io/demo-spring-react-example-v2-docs-qa/>
+* Production: <https://happycows.github.io/HappierCows-docs/>
+* QA: <https://happycows.github.io/HappierCows-docs-qa/>
+
 
 The GitHub actions script to deploy the Storybook to QA requires some configuration; see [docs/github-actions.md](docs/github-actions.md) for details.
 
 If these repos are not yet setup, see the setup steps in [`docs/storybook.md`](docs/storybook.md).
+
+# Game Play for Developers
+
+A description of how the game is played and what scheduled actions are run are given under [`docs/gamePlay.md`](docs/gamePlay.md)
 
 # Setup before running application
 
@@ -104,4 +124,3 @@ To access the swagger API endpoints, use:
    
     <img alt="Enter psql $DATABASE_URL and click Run" src="https://user-images.githubusercontent.com/1119017/150206174-43193825-1afd-49f4-aeaf-cfadf0c0c6f3.png" width="400" />
 * Cheatsheet of `psql` commands: <https://www.geeksforgeeks.org/postgresql-psql-commands/>
-

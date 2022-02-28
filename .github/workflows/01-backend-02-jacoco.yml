@@ -4,6 +4,7 @@
 name: 01 Backend 02 Coverage (Jacoco)
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:

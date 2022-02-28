@@ -1,0 +1,23 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import { action } from "@storybook/addon-actions";
+import ManageCows from "main/components/Commons/ManageCows";
+import {currentUserFixtures} from "fixtures/currentUserFixtures"; 
+import commonsFixtures from "fixtures/commonsFixtures"; 
+import userCommonsFixtures from "fixtures/userCommonsFixtures"; 
+
+<Meta
+  title="components/Commons/ManageCows"
+  component={ManageCows}
+/>
+
+
+# ManageCows
+
+For a particular user's commons, the box where you buy and sell your cows. 
+
+
+<Canvas>
+  <Story name="uncontrolled">
+    <ManageCows userCommons = {userCommonsFixtures.oneUserCommons[0]} onBuy={(userCommons) => { console.log("onBuy called:",userCommons); }} onSell={ (userCommons) => { console.log("onSell called:",userCommons); }} />
+  </Story>
+</Canvas>

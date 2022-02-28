@@ -1,0 +1,20 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import commonsFixtures from "fixtures/commonsFixtures"; 
+import CommonsList from "main/components/Commons/CommonsList";
+
+<Meta
+  title="components/Commons/CommonsList"
+  component={CommonsList}
+/>
+
+# CommonsList
+The component that displays commons cards. 
+
+<Canvas>
+  <Story name="nullButton">
+    <CommonsList commonList = {commonsFixtures.threeCommons} buttonText = {null} />
+  </Story>
+  <Story name="textButton">
+    <CommonsList commonList = {commonsFixtures.threeCommons} buttonText = {"Join"} />
+  </Story>
+</Canvas>

@@ -131,6 +131,9 @@ const currentUserFixtures = {
             ]
         },
     },
+    noRoot: {
+        loggedIn: true,
+    },
 };
 
 export { currentUserFixtures, apiCurrentUserFixtures };
