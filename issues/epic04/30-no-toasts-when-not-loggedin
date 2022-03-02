@@ -1,0 +1,10 @@
+We want to not have any toast pop up on the homepage when a user is not logged in
+* No toasts on homepage when not logged in
+    * approach 1: not do call the backend at all if you are not logged in
+    * approach 2: call the backend but have it return an empty list if your not logged in
+    * It's up to you to choose the strategy that is easiest to implement AND to write test cases for that pass test coverage and mutation testing.
+* More informative toast message when a user tries to join the same commons twice
+
+# Acceptance Criteria:
+
+Add your own Acceptance Criteria to this issue.
