@@ -28,5 +28,13 @@ public class UserCommons {
 
   private int totalWealth;
 
+    public static UserCommons dummyUserCommons(long id) {
+      UserCommons userCommons = new UserCommons();
+      userCommons.id = id;
+      userCommons.commonsId = 1;
+      userCommons.userId = 1;
+      userCommons.totalWealth = 1;
+      return userCommons;
+    }
 }
 
