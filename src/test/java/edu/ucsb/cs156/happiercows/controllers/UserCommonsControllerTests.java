@@ -44,20 +44,55 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   @MockBean
   UserRepository userRepository;
 
-  //@MockBean
-  //CommonsRepository commonsRepository;
+  @MockBean
+  CommonsRepository commonsRepository;
 
   @Autowired
   private ObjectMapper objectMapper;
 
   @WithMockUser(roles = { "ADMIN" })
   @Test
-  public void test_getUserCommonsById_admin() throws Exception {
+  public void test_getUserCommonsById_exists_admin() throws Exception {
   
     UserCommons expectedUserCommons = UserCommons.dummyUserCommons(1);
     when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.of(expectedUserCommons));
 
-    MvcResult response = mockMvc.perform(get("/api/usercommons/forcurrentuser?userId=1"))
+    MvcResult response = mockMvc.perform(get("/api/usercommons/?userId=1&commonsId=1"))
+        .andExpect(status().isOk()).andReturn();
+
+    verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L),eq(1L));
+
+    String expectedJson = mapper.writeValueAsString(expectedUserCommons);
+    String responseString = response.getResponse().getContentAsString();
+
+    assertEquals(expectedJson, responseString);
+  }
+  
+  //@WithMockUser(roles = { "ADMIN" })
+  //@Test
+  //public void test_getUserCommonsById_nonexists_admin() throws Exception {
+  
+    //when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.empty());
+
+    //MvcResult response = mockMvc.perform(get("/api/usercommons/?userId=1&commonsId=1"))
+        //.andExpect(status().isBadRequest()).andReturn();
+
+    //verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L),eq(1L));
+
+    //String expectedJson = mapper.writeValueAsString(expectedUserCommons);
+    //String responseString = response.getResponse().getContentAsString();
+
+    //assertEquals(expectedJson, responseString);
+  //}
+
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void test_getUserCommonsById_exists() throws Exception {
+  
+    UserCommons expectedUserCommons = UserCommons.dummyUserCommons(1);
+    when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.of(expectedUserCommons));
+
+    MvcResult response = mockMvc.perform(get("/api/usercommons/forcurrentuser?commonsId=1"))
         .andExpect(status().isOk()).andReturn();
 
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L),eq(1L));
