@@ -16,15 +16,16 @@ export default function HomePage() {
 
   const queryClient = useQueryClient();
 
-  const { data: commonsFromBackend, error: commonsError, status: commonsStatus } =
+  const commonsFromBackend =
     useBackend(
       // Stryker disable next-line all : don't test internal caching of React Query
       ["/api/commons/all"],
       {  // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
         method: "GET",
         url: "/api/commons/all"
-      }
-    );
+      },
+      []
+    ).data;
 
   const objectToAxiosParams = (newCommonsId) => ({
     url: "/api/commons/join",
