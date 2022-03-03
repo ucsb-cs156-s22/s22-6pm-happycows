@@ -81,9 +81,15 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L),eq(1L));
     
     String responseString = response.getResponse().getContentAsString();
-    String expected = "{\"message\":\"UserCommons with commonsId 1 and userId 1 not found\",\"type\":\"EntityNotFoundException\"}";
-
-    assertEquals(expected, responseString);
+    String expected1 = "{\"message\":\"UserCommons with commonsId 1 and userId 1 not found\",\"type\":\"EntityNotFoundException\"}";
+    String expected2 = "{\"type\":\"EntityNotFoundException\",\"message\":\"UserCommons with commonsId 1 and userId 1 not found\"}";
+    
+    if(responseString == expected1) {
+      assertEquals(expected1, responseString);
+    }
+    else {
+      assertEquals(expected2, responseString);
+    }
 
   }
 
@@ -117,9 +123,15 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L),eq(1L));
     
     String responseString = response.getResponse().getContentAsString();
-    String expected = "{\"message\":\"UserCommons with commonsId 1 and userId 1 not found\",\"type\":\"EntityNotFoundException\"}";
+    String expected1 = "{\"message\":\"UserCommons with commonsId 1 and userId 1 not found\",\"type\":\"EntityNotFoundException\"}";
+    String expected2 = "{\"type\":\"EntityNotFoundException\",\"message\":\"UserCommons with commonsId 1 and userId 1 not found\"}";
 
-    assertEquals(expected, responseString);
+    if(responseString == expected1) {
+      assertEquals(expected1, responseString);
+    }
+    else {
+      assertEquals(expected2, responseString);
+    }
 
   }
   //@WithMockUser(roles = { "ADMIN" })
