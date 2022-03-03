@@ -7,6 +7,7 @@ import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
+import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -68,22 +69,23 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     assertEquals(expectedJson, responseString);
   }
   
-  //@WithMockUser(roles = { "ADMIN" })
-  //@Test
-  //public void test_getUserCommonsById_nonexists_admin() throws Exception {
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void test_getUserCommonsById_nonexists_admin() throws Exception {
   
-    //when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.empty());
+    when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.empty());
 
-    //MvcResult response = mockMvc.perform(get("/api/usercommons/?userId=1&commonsId=1"))
-        //.andExpect(status().isBadRequest()).andReturn();
+    MvcResult response = mockMvc.perform(get("/api/usercommons/?userId=1&commonsId=1"))
+        .andExpect(status().is(404)).andReturn();
 
-    //verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L),eq(1L));
+    verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L),eq(1L));
+    
+    String responseString = response.getResponse().getContentAsString();
+    String expected = "{\"message\":\"UserCommons with commonsId 1 and userId 1 not found\",\"type\":\"EntityNotFoundException\"}";
 
-    //String expectedJson = mapper.writeValueAsString(expectedUserCommons);
-    //String responseString = response.getResponse().getContentAsString();
+    assertEquals(expected, responseString);
 
-    //assertEquals(expectedJson, responseString);
-  //}
+  }
 
   @WithMockUser(roles = { "USER" })
   @Test
@@ -101,6 +103,24 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     String responseString = response.getResponse().getContentAsString();
 
     assertEquals(expectedJson, responseString);
+  }
+  
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void test_getUserCommonsById_nonexists() throws Exception {
+  
+    when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.empty());
+
+    MvcResult response = mockMvc.perform(get("/api/usercommons/forcurrentuser?commonsId=1"))
+        .andExpect(status().is(404)).andReturn();
+
+    verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L),eq(1L));
+    
+    String responseString = response.getResponse().getContentAsString();
+    String expected = "{\"message\":\"UserCommons with commonsId 1 and userId 1 not found\",\"type\":\"EntityNotFoundException\"}";
+
+    assertEquals(expected, responseString);
+
   }
   //@WithMockUser(roles = { "ADMIN" })
   //@Test
