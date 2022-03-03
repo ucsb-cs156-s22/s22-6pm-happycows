@@ -84,7 +84,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     String expected1 = "{\"message\":\"UserCommons with commonsId 1 and userId 1 not found\",\"type\":\"EntityNotFoundException\"}";
     String expected2 = "{\"type\":\"EntityNotFoundException\",\"message\":\"UserCommons with commonsId 1 and userId 1 not found\"}";
     
-    if(responseString == expected1) {
+    if(responseString.equals(expected1)) {
       assertEquals(expected1, responseString);
     }
     else {
@@ -126,7 +126,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     String expected1 = "{\"message\":\"UserCommons with commonsId 1 and userId 1 not found\",\"type\":\"EntityNotFoundException\"}";
     String expected2 = "{\"type\":\"EntityNotFoundException\",\"message\":\"UserCommons with commonsId 1 and userId 1 not found\"}";
 
-    if(responseString == expected1) {
+    if(responseString.equals(expected1)) {
       assertEquals(expected1, responseString);
     }
     else {
