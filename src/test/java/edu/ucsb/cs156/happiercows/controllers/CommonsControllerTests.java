@@ -309,4 +309,31 @@ public class CommonsControllerTests extends ControllerTestCase {
     assertEquals(responseString, "");
   }
 
+  @WithMockUser(roles = {"ADMIN"})
+  @Test
+  public void deleteUserFromCommonsTest_nonexistent_userCommons() throws Exception {
+    UserCommons uc = UserCommons.builder()
+        .id(16L)
+        .userId(1L)
+        .commonsId(2L)
+        .totalWealth(0)
+        .build();
+
+    String requestBody = mapper.writeValueAsString(uc);
+
+    when(userCommonsRepository.findByCommonsIdAndUserId(2L,1L)).thenReturn(Optional.empty());
+
+    MvcResult response;
+    try{
+      response = mockMvc
+        .perform(delete("/api/commons/2/users/1").with(csrf()).contentType(MediaType.APPLICATION_JSON)
+            .characterEncoding("utf-8").content(requestBody))
+        .andExpect(status().is(204)).andReturn();
+
+    //The way this works is very interesting. The error message is sent as the value of a nested exception.
+    }catch(Exception e){
+      assertEquals(e.toString(), 
+      "org.springframework.web.util.NestedServletException: Request processing failed; nested exception is java.lang.Exception: UserCommons with commonsId=2 and userId=1 not found.");
+    }
+  }
 }
