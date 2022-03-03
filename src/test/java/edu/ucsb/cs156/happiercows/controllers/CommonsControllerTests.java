@@ -201,7 +201,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));
 
     MvcResult response = mockMvc
-        .perform(delete("/api/commons/2/users/1").with(csrf()))
+        .perform(delete("/api/commons/1/users/2").with(csrf()))
         .andExpect(status().isOk()).andReturn();
 
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(2L, 1L);
