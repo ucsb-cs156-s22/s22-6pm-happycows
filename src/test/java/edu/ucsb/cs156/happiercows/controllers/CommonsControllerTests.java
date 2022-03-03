@@ -89,6 +89,48 @@ public class CommonsControllerTests extends ControllerTestCase {
     assertEquals(actualCommons, expectedCommons);
   }
 
+  //This common SHOULD be in the repository
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void getCommonsByIdTest_valid() throws Exception {
+    Commons Commons1 = Commons.builder()
+      .name("TestCommons2")
+      .id(18L)
+      .build();
+
+    when(commonsRepository.findById(eq(18L))).thenReturn(Optional.of(Commons1));
+    
+    MvcResult response = mockMvc.perform(get("/api/commons?id=18"))
+        .andExpect(status().isOk()).andReturn();
+
+    verify(commonsRepository, times(1)).findById(eq(18L));
+    String expectedJson = mapper.writeValueAsString(Commons1);
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals(expectedJson, responseString);
+  }
+
+  //This common SHOULD NOT be in the repository
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void getCommonsByIdTest_invalid() throws Exception {
+
+    when(commonsRepository.findById(eq(18L))).thenReturn(Optional.empty());
+    
+    MvcResult response = mockMvc.perform(get("/api/commons?id=18"))
+        .andExpect(status().is(404)).andReturn();
+
+    verify(commonsRepository, times(1)).findById(eq(18L));
+    String responseString = response.getResponse().getContentAsString();
+
+    //Not sure how to expect this, seems like a mock json. Just parsed the string.
+    //For some reason they like to swap places randomly.
+    if(responseString.charAt(2) == 'm'){
+      assertEquals("{\"message\":\"Commons with id 18 not found\",\"type\":\"EntityNotFoundException\"}", responseString); 
+    }else{
+      assertEquals("{\"type\":\"EntityNotFoundException\",\"message\":\"Commons with id 18 not found\"}", responseString); 
+    }
+  }
+
   @WithMockUser(roles = { "USER" })
   @Test
   public void joinCommonsTest() throws Exception {
@@ -131,4 +173,41 @@ public class CommonsControllerTests extends ControllerTestCase {
     assertEquals(responseString, cAsJson);
   }
 
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void deleteUserFromCommonsTest() throws Exception {
+    Commons c = Commons.builder()
+      .id(2L)
+      .name("Example Commons")
+      .build();
+
+    UserCommons uc = UserCommons.builder()
+        .userId(1L)
+        .commonsId(2L)
+        .totalWealth(0)
+        .build();
+
+    UserCommons ucSaved = UserCommons.builder()
+        .id(17L)
+        .userId(1L)
+        .commonsId(2L)
+        .totalWealth(0)
+        .build();
+
+    String requestBody = mapper.writeValueAsString(uc);
+
+    when(userCommonsRepository.findByCommonsIdAndUserId(anyLong(),anyLong())).thenReturn(Optional.empty());
+    when(userCommonsRepository.save(eq(uc))).thenReturn(ucSaved);
+    when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));
+
+    MvcResult response = mockMvc
+        .perform(delete("/api/commons/2/users/1").with(csrf()))
+        .andExpect(status().isOk()).andReturn();
+
+    verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(2L, 1L);
+    verify(userCommonsRepository, times(1)).deleteById(1L);
+
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals("UCSBDate with id 15 deleted", responseString);
+  }
 }
