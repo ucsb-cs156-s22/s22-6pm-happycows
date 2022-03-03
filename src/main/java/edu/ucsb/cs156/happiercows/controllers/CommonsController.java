@@ -1,5 +1,7 @@
 package edu.ucsb.cs156.happiercows.controllers;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,23 +13,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import edu.ucsb.cs156.happiercows.entities.Commons;
-import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
-import edu.ucsb.cs156.happiercows.models.CreateCommonsParams;
-import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
+import edu.ucsb.cs156.happiercows.models.CreateCommonsParams;
+import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -35,7 +39,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/commons")
 @RestController
 public class CommonsController extends ApiController {
-
   @Autowired
   private CommonsRepository commonsRepository;
 
@@ -70,10 +73,31 @@ public class CommonsController extends ApiController {
   @ApiOperation(value = "Create a new commons")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping(value = "/new", produces = "application/json")
-  public ResponseEntity<String> createCommons(@ApiParam("name of commons") @RequestBody CreateCommonsParams params)
-      throws JsonProcessingException {
+  public ResponseEntity<String> createCommons(
+    @ApiParam("name of commons") @RequestBody CreateCommonsParams params
+    ) throws JsonProcessingException, NumberFormatException
+  {
     log.info("name={}", params.getName());
-    Commons c = Commons.builder().name(params.getName()).build();
+
+    GregorianCalendar some_time = new GregorianCalendar();
+
+    some_time.set(
+      Integer.parseInt(params.getYear()),
+      Integer.parseInt(params.getMonth()),
+      Integer.parseInt(params.getDay()),
+      Integer.parseInt(params.getHour()),
+      Integer.parseInt(params.getMinute()),
+      Integer.parseInt(params.getSecond())
+    );
+
+    Commons c = Commons.builder()
+      .name(params.getName())
+      .cowPrice(Double.parseDouble(params.getCowPrice()))
+      .milkPrice(Double.parseDouble(params.getMilkPrice()))
+      .startingBalance(Double.parseDouble(params.getStartingBalance()))
+      .startingDate(some_time.getTime())
+      .build();
+
     Commons savedCommons = commonsRepository.save(c);
     String body = mapper.writeValueAsString(savedCommons);
     log.info("body={}", body);
