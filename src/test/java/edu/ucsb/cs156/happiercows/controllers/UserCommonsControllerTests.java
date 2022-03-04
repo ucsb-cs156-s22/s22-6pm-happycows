@@ -91,7 +91,6 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
     Map<String, Object> jsonResponse = responseToJson(response);
     assertEquals(expectedJson, jsonResponse);
-
   }
 
   @WithMockUser(roles = { "USER" })
@@ -124,8 +123,6 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L),eq(1L));
     
     String responseString = response.getResponse().getContentAsString();
-    String expectedString = "{\"message\":\"UserCommons with commonsId 1 and userId 1 not found\",\"type\":\"EntityNotFoundException\"}";
-
     Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
     Map<String, Object> jsonResponse = responseToJson(response);
     assertEquals(expectedJson, jsonResponse);
