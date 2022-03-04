@@ -30,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -51,11 +52,15 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   @Autowired
   private ObjectMapper objectMapper;
 
+  public static UserCommons dummyUserCommons(long id) {
+    UserCommons userCommons = new UserCommons(id,1,1,1);
+    return userCommons;
+  }
   @WithMockUser(roles = { "ADMIN" })
   @Test
   public void test_getUserCommonsById_exists_admin() throws Exception {
   
-    UserCommons expectedUserCommons = UserCommons.dummyUserCommons(1);
+    UserCommons expectedUserCommons = dummyUserCommons(1);
     when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.of(expectedUserCommons));
 
     MvcResult response = mockMvc.perform(get("/api/usercommons/?userId=1&commonsId=1"))
@@ -81,15 +86,11 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L),eq(1L));
     
     String responseString = response.getResponse().getContentAsString();
-    String expected1 = "{\"message\":\"UserCommons with commonsId 1 and userId 1 not found\",\"type\":\"EntityNotFoundException\"}";
-    String expected2 = "{\"type\":\"EntityNotFoundException\",\"message\":\"UserCommons with commonsId 1 and userId 1 not found\"}";
-    
-    if(responseString == expected1) {
-      assertEquals(expected1, responseString);
-    }
-    else {
-      assertEquals(expected2, responseString);
-    }
+    String expectedString = "{\"message\":\"UserCommons with commonsId 1 and userId 1 not found\",\"type\":\"EntityNotFoundException\"}";
+
+    Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
+    Map<String, Object> jsonResponse = responseToJson(response);
+    assertEquals(expectedJson, jsonResponse);
 
   }
 
@@ -97,7 +98,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
   @Test
   public void test_getUserCommonsById_exists() throws Exception {
   
-    UserCommons expectedUserCommons = UserCommons.dummyUserCommons(1);
+    UserCommons expectedUserCommons = dummyUserCommons(1);
     when(userCommonsRepository.findByCommonsIdAndUserId(eq(1L),eq(1L))).thenReturn(Optional.of(expectedUserCommons));
 
     MvcResult response = mockMvc.perform(get("/api/usercommons/forcurrentuser?commonsId=1"))
@@ -123,35 +124,10 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(eq(1L),eq(1L));
     
     String responseString = response.getResponse().getContentAsString();
-    String expected1 = "{\"message\":\"UserCommons with commonsId 1 and userId 1 not found\",\"type\":\"EntityNotFoundException\"}";
-    String expected2 = "{\"type\":\"EntityNotFoundException\",\"message\":\"UserCommons with commonsId 1 and userId 1 not found\"}";
+    String expectedString = "{\"message\":\"UserCommons with commonsId 1 and userId 1 not found\",\"type\":\"EntityNotFoundException\"}";
 
-    if(responseString == expected1) {
-      assertEquals(expected1, responseString);
-    }
-    else {
-      assertEquals(expected2, responseString);
-    }
-
+    Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
+    Map<String, Object> jsonResponse = responseToJson(response);
+    assertEquals(expectedJson, jsonResponse);
   }
-  //@WithMockUser(roles = { "ADMIN" })
-  //@Test
-  //public void createCommonsTest() throws Exception {
-    //Commons expectedCommons = Commons.builder().name("TestCommons").build();
-    //ObjectMapper mapper = new ObjectMapper();
-    //String requestBody = mapper.writeValueAsString(expectedCommons);
-    //when(commonsRepository.save(any())).thenReturn(expectedCommons);
-
-    //MvcResult response = mockMvc
-        //.perform(post("/api/commons/new?name=TestCommons").with(csrf()).contentType(MediaType.APPLICATION_JSON)
-            //.characterEncoding("utf-8").content(requestBody))
-        //.andExpect(status().isOk()).andReturn();
-
-    //verify(commonsRepository, times(1)).save(expectedCommons);
-
-    //String responseString = response.getResponse().getContentAsString();
-    //Commons actualCommons = objectMapper.readValue(responseString, Commons.class);
-    //assertEquals(actualCommons, expectedCommons);
-  //}
-
 }
