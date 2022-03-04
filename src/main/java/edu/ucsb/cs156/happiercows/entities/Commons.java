@@ -34,7 +34,21 @@ public class Commons
   @JoinTable(name = "user_commons",
     joinColumns = @JoinColumn(name = "commons_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
-    @JsonIgnore // https://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
-    private List<User> users;
-}
+  @JsonIgnore // https://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
+  private List<User> users;
 
+  @Override
+  public int hashCode() {
+    Long boxed = id;
+    return boxed.hashCode();
+  }
+
+  @Override
+  public boolean equals​(Object other) {
+    if (other instanceof Commons) {
+      return this.hashCode() == other.hashCode();
+    }
+
+    return false;
+  }
+}

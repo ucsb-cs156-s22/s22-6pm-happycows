@@ -7,6 +7,12 @@ import java.util.Optional;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +33,6 @@ import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
 import edu.ucsb.cs156.happiercows.models.CreateCommonsParams;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Api(description = "Commons")
@@ -74,34 +74,39 @@ public class CommonsController extends ApiController {
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping(value = "/new", produces = "application/json")
   public ResponseEntity<String> createCommons(
-    @ApiParam("name of commons") @RequestBody CreateCommonsParams params
-    ) throws JsonProcessingException, NumberFormatException
+    @ApiParam("request body") @RequestBody CreateCommonsParams params
+    ) throws JsonProcessingException
   {
     log.info("name={}", params.getName());
 
     GregorianCalendar some_time = new GregorianCalendar();
 
-    some_time.set(
-      Integer.parseInt(params.getYear()),
-      Integer.parseInt(params.getMonth()),
-      Integer.parseInt(params.getDay()),
-      Integer.parseInt(params.getHour()),
-      Integer.parseInt(params.getMinute()),
-      Integer.parseInt(params.getSecond())
-    );
+    try {
+      some_time.set(
+        Integer.parseInt(params.getYear()),
+        Integer.parseInt(params.getMonth()),
+        Integer.parseInt(params.getDay()),
+        Integer.parseInt(params.getHour()),
+        Integer.parseInt(params.getMinute()),
+        Integer.parseInt(params.getSecond())
+      );
 
-    Commons c = Commons.builder()
-      .name(params.getName())
-      .cowPrice(Double.parseDouble(params.getCowPrice()))
-      .milkPrice(Double.parseDouble(params.getMilkPrice()))
-      .startingBalance(Double.parseDouble(params.getStartingBalance()))
-      .startingDate(some_time.getTime())
-      .build();
+      Commons c = Commons.builder()
+        .name(params.getName())
+        .cowPrice(Double.parseDouble(params.getCowPrice()))
+        .milkPrice(Double.parseDouble(params.getMilkPrice()))
+        .startingBalance(Double.parseDouble(params.getStartingBalance()))
+        .startingDate(some_time.getTime())
+        .build();
 
-    Commons savedCommons = commonsRepository.save(c);
-    String body = mapper.writeValueAsString(savedCommons);
-    log.info("body={}", body);
-    return ResponseEntity.ok().body(body);
+      Commons savedCommons = commonsRepository.save(c);
+      String body = mapper.writeValueAsString(savedCommons);
+      log.info("body={}", body);
+
+      return ResponseEntity.ok().body(body);
+    } catch (NumberFormatException oops) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @ApiOperation(value = "Join a commons")
