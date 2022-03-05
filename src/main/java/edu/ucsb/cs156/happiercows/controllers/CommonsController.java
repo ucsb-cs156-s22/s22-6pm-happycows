@@ -1,7 +1,6 @@
 package edu.ucsb.cs156.happiercows.controllers;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -79,10 +78,8 @@ public class CommonsController extends ApiController {
   {
     log.info("name={}", params.getName());
 
-    GregorianCalendar some_time = new GregorianCalendar();
-
     try {
-      some_time.set(
+      LocalDateTime someTime = LocalDateTime.of(
         Integer.parseInt(params.getYear()),
         Integer.parseInt(params.getMonth()),
         Integer.parseInt(params.getDay()),
@@ -96,7 +93,7 @@ public class CommonsController extends ApiController {
         .cowPrice(Double.parseDouble(params.getCowPrice()))
         .milkPrice(Double.parseDouble(params.getMilkPrice()))
         .startingBalance(Double.parseDouble(params.getStartingBalance()))
-        .startingDate(some_time.getTime())
+        .startingDate(someTime)
         .build();
 
       Commons savedCommons = commonsRepository.save(c);

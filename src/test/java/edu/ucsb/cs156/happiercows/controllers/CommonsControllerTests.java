@@ -1,8 +1,7 @@
 package edu.ucsb.cs156.happiercows.controllers;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,15 +56,14 @@ public class CommonsControllerTests extends ControllerTestCase {
   @WithMockUser(roles = { "ADMIN" })
   @Test
   public void createCommonsTest() throws Exception {
-    GregorianCalendar some_time = new GregorianCalendar();
-    some_time.set(2021, 2, 3, 16, 15, 0);
+    LocalDateTime someTime = LocalDateTime.of(2021, 2, 3, 16, 51, 0);
 
     Commons commons = Commons.builder()
       .name("Jackson's Commons")
       .cowPrice(500.99)
       .milkPrice(8.99)
       .startingBalance(1020.10)
-      .startingDate(some_time.getTime())
+      .startingDate(someTime)
       .build();
 
     CreateCommonsParams parameters = CreateCommonsParams.builder()

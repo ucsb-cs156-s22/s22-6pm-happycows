@@ -1,6 +1,6 @@
 package edu.ucsb.cs156.happiercows.entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,7 +28,7 @@ public class Commons
   private double cowPrice;
   private double milkPrice;
   private double startingBalance;
-  private Date startingDate;
+  private LocalDateTime startingDate;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
   @JoinTable(name = "user_commons",
@@ -36,19 +36,4 @@ public class Commons
     inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
   @JsonIgnore // https://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
   private List<User> users;
-
-  @Override
-  public int hashCode() {
-    Long boxed = id;
-    return boxed.hashCode();
-  }
-
-  @Override
-  public boolean equals​(Object other) {
-    if (other instanceof Commons) {
-      return this.hashCode() == other.hashCode();
-    }
-
-    return false;
-  }
 }
