@@ -10,5 +10,5 @@ import edu.ucsb.cs156.happiercows.entities.Commons;
 
 @Repository
 public interface CommonsRepository extends CrudRepository<Commons, Long> {
-    Optional<Commons> findById(Long id);
+
 }

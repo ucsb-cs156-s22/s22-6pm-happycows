@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -120,15 +121,11 @@ public class CommonsControllerTests extends ControllerTestCase {
         .andExpect(status().is(404)).andReturn();
 
     verify(commonsRepository, times(1)).findById(eq(18L));
-    String responseString = response.getResponse().getContentAsString();
 
-    //Not sure how to expect this, seems like a mock json. Just parsed the string.
-    //For some reason they like to swap places randomly.
-    if(responseString.charAt(2) == 'm'){
-      assertEquals("{\"message\":\"Commons with id 18 not found\",\"type\":\"EntityNotFoundException\"}", responseString); 
-    }else{
-      assertEquals("{\"type\":\"EntityNotFoundException\",\"message\":\"Commons with id 18 not found\"}", responseString); 
-    }
+    Map<String, Object> responseMap = responseToJson(response);
+
+    assertEquals(responseMap.get("message"), "Commons with id 18 not found");
+    assertEquals(responseMap.get("type"), "EntityNotFoundException");
   }
 
   @WithMockUser(roles = { "USER"})
@@ -233,13 +230,10 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(2L, 1L);
 
-    String responseString = response.getResponse().getContentAsString();
+    Map<String, Object> responseMap = responseToJson(response);
 
-    if(responseString.charAt(2) == 'm'){
-      assertEquals("{\"message\":\"Commons with id 2 not found\",\"type\":\"EntityNotFoundException\"}", responseString); 
-    }else{
-      assertEquals("{\"type\":\"EntityNotFoundException\",\"message\":\"Commons with id 2 not found\"}", responseString); 
-    }
+    assertEquals(responseMap.get("message"), "Commons with id 2 not found");
+    assertEquals(responseMap.get("type"), "EntityNotFoundException");
   }
 
   @WithMockUser(roles = { "USER" })
@@ -260,7 +254,7 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     String requestBody = mapper.writeValueAsString(uc);
 
-    when(userCommonsRepository.findByCommonsIdAndUserId(anyLong(),anyLong())).thenReturn(Optional.empty());
+    when(userCommonsRepository.findByCommonsIdAndUserId(2L,1L)).thenReturn(Optional.empty());
     when(userCommonsRepository.save(eq(uc))).thenReturn(ucSaved);
     when(commonsRepository.findById(eq(2L))).thenReturn(Optional.empty());
 
@@ -272,13 +266,10 @@ public class CommonsControllerTests extends ControllerTestCase {
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(2L, 1L);
     verify(userCommonsRepository, times(1)).save(uc);
 
-    String responseString = response.getResponse().getContentAsString();
+    Map<String, Object> responseMap = responseToJson(response);
 
-    if(responseString.charAt(2) == 'm'){
-      assertEquals("{\"message\":\"Commons with id 2 not found\",\"type\":\"EntityNotFoundException\"}", responseString); 
-    }else{
-      assertEquals("{\"type\":\"EntityNotFoundException\",\"message\":\"Commons with id 2 not found\"}", responseString); 
-    }
+    assertEquals(responseMap.get("message"), "Commons with id 2 not found");
+    assertEquals(responseMap.get("type"), "EntityNotFoundException");
   }
 
   @WithMockUser(roles = {"ADMIN"})
@@ -302,7 +293,6 @@ public class CommonsControllerTests extends ControllerTestCase {
     
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(2L, 1L);
     verify(userCommonsRepository, times(1)).deleteById(16L);
-    //verify(userCommonsRepository, times(1)).deleteById(1L);
 
     String responseString = response.getResponse().getContentAsString();
 
