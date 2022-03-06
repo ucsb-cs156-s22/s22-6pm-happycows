@@ -5,7 +5,10 @@ import { Card, Container, Row, Col } from "react-bootstrap";
 const CommonsList = (props) => {
     return(
         <Card style={{opacity:".9"}} className="my-3 border-0">
-            <Card.Title data-testid="commonsList-title" style={{fontSize:"35px"}} className="text-center my-3">{props.buttonText} A Commons</Card.Title>
+            {//Why does it work like this? "A commons" is assumed to always be there - and we replace the verb...
+             //Changed in order to be used in other cases.
+            }
+            <Card.Title data-testid="commonsList-title" style={{fontSize:"35px"}} className="text-center my-3">{props.title}</Card.Title>
             <Card.Subtitle>
                 <Container>
                     <Row>

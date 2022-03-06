@@ -33,11 +33,7 @@ export function useBackend(queryKey, axiosParameters, initialData) {
         } catch (e) {
             const errorMessage = `Error communicating with backend via ${axiosParameters.method} on ${axiosParameters.url}`;
 
-            // jacksoncooper, TODO: This function cannot be ejecting toasts to the user, because it
-            // has an `initialData` parameter to handle failure. The user does not care about HTTP
-            // failures.
-
-            // toast(errorMessage);
+            toast(errorMessage);
 
             console.error(errorMessage, e);
             throw e;
@@ -64,7 +60,6 @@ const wrappedParams = async (params) => {
 
 export function useBackendMutation(objectToAxiosParams, useMutationParams, queryKey = null) {
     const queryClient = useQueryClient();
-
     return useMutation((object) => wrappedParams(objectToAxiosParams(object)), {
         onError: (data) => {
             toast(`${data}`)
