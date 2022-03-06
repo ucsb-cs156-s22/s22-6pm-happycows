@@ -78,32 +78,20 @@ public class CommonsController extends ApiController {
   {
     log.info("name={}", params.getName());
 
-    try {
-      LocalDateTime someTime = LocalDateTime.of(
-        Integer.parseInt(params.getYear()),
-        Integer.parseInt(params.getMonth()),
-        Integer.parseInt(params.getDay()),
-        Integer.parseInt(params.getHour()),
-        Integer.parseInt(params.getMinute()),
-        Integer.parseInt(params.getSecond())
-      );
+    Commons commons = Commons.builder()
+      .name(params.getName())
+      .cowPrice(params.getCowPrice())
+      .milkPrice(params.getMilkPrice())
+      .startingBalance(params.getStartingBalance())
+      .startingDate(params.getStartingDate())
+      .build();
 
-      Commons c = Commons.builder()
-        .name(params.getName())
-        .cowPrice(Double.parseDouble(params.getCowPrice()))
-        .milkPrice(Double.parseDouble(params.getMilkPrice()))
-        .startingBalance(Double.parseDouble(params.getStartingBalance()))
-        .startingDate(someTime)
-        .build();
+    Commons saved = commonsRepository.save(commons);
+    String body = mapper.writeValueAsString(saved);
 
-      Commons savedCommons = commonsRepository.save(c);
-      String body = mapper.writeValueAsString(savedCommons);
-      log.info("body={}", body);
+    log.info("body={}", body);
 
-      return ResponseEntity.ok().body(body);
-    } catch (NumberFormatException oops) {
-      return ResponseEntity.badRequest().build();
-    }
+    return ResponseEntity.ok().body(body);
   }
 
   @ApiOperation(value = "Join a commons")

@@ -1,5 +1,6 @@
 package edu.ucsb.cs156.happiercows.models;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import lombok.AccessLevel;
@@ -7,6 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -19,13 +23,8 @@ import edu.ucsb.cs156.happiercows.entities.User;
 public class CreateCommonsParams
 {
   private String name;
-  private String cowPrice;
-  private String milkPrice;
-  private String startingBalance;
-  private String year;
-  private String month;
-  private String day;
-  private String hour;
-  private String minute;
-  private String second;
+  @NumberFormat private Double cowPrice;
+  @NumberFormat private Double milkPrice;
+  @NumberFormat private Double startingBalance;
+  @DateTimeFormat private LocalDateTime startingDate;
 }

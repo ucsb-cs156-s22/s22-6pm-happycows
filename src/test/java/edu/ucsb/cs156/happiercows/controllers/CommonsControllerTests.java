@@ -56,7 +56,7 @@ public class CommonsControllerTests extends ControllerTestCase {
   @WithMockUser(roles = { "ADMIN" })
   @Test
   public void createCommonsTest() throws Exception {
-    LocalDateTime someTime = LocalDateTime.of(2021, 2, 3, 16, 51, 0);
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
 
     Commons commons = Commons.builder()
       .name("Jackson's Commons")
@@ -68,19 +68,14 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     CreateCommonsParams parameters = CreateCommonsParams.builder()
       .name("Jackson's Commons")
-      .cowPrice("500.99")
-      .milkPrice("8.99")
-      .startingBalance("1020.10")
-      .year("2021")
-      .month("2")
-      .day("3")
-      .hour("16")
-      .minute("51")
-      .second("0")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
       .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
-    String responseBody = objectMapper.writeValueAsString(commons);
+    String expectedResponse = objectMapper.writeValueAsString(commons);
 
     when(commonsRepository.save(commons))
       .thenReturn(commons);
@@ -95,34 +90,8 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     verify(commonsRepository, times(1)).save(commons);
 
-    String responseString = response.getResponse().getContentAsString();
-    assertEquals(responseString, responseBody);
-  }
-
-  @WithMockUser(roles = { "ADMIN" })
-  @Test
-  public void createInvalidCommonsTest() throws Exception {
-    CreateCommonsParams parameters = CreateCommonsParams.builder()
-      .name("Jackson's Commons")
-      .cowPrice("500.99")
-      .milkPrice("8.99")
-      .startingBalance("all the money in the world")
-      .year("2021")
-      .month("2")
-      .day("3")
-      .hour("16")
-      .minute("51")
-      .second("0")
-      .build();
-
-    String requestBody = objectMapper.writeValueAsString(parameters);
-
-    mockMvc
-      .perform(post("/api/commons/new").with(csrf())
-      .contentType(MediaType.APPLICATION_JSON)
-      .characterEncoding("utf-8")
-      .content(requestBody))
-      .andExpect(status().isBadRequest());
+    String actualResponse = response.getResponse().getContentAsString();
+    assertEquals(expectedResponse, actualResponse);
   }
 
   @WithMockUser(roles = { "USER" })
