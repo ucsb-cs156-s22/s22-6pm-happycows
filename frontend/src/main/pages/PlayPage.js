@@ -41,6 +41,19 @@ export default function PlayPage() {
       }
     );
 
+  const { data: userCommonsProfits, error: userCommonsProfitsError, status: userCommonsProfitsStatus } =
+    useBackend(
+      // Stryker disable next-line all : don't test internal caching of React Query
+      [`/api/profits/all/commons?userCommonsId=${commonsId}`],
+      {  // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
+        method: "GET",
+        url: "/api/profits/all/commons",
+        params: {
+          commonsId: commonsId
+        }
+      }
+    );
+
  
   const onBuy = (userCommons) => { 
     console.log("onBuy called:", userCommons); 
@@ -61,7 +74,7 @@ export default function PlayPage() {
           <CardGroup >
             <ManageCows userCommons={userCommons} onBuy={onBuy} onSell={onSell} />
             <FarmStats userCommons={userCommons} />
-            <Profits userCommons={userCommons} />
+            <Profits userCommons={userCommons} profits={userCommonsProfits} />
           </CardGroup>
         }
       </Container>
