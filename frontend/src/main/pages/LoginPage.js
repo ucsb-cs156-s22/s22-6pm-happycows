@@ -22,7 +22,7 @@ const LoginCard = () => {
 
 export default function LoginPage() {
     var [commons, setCommons] = useState([]);
-    
+
     const commonsFromBackend =
     useBackend(
       // Stryker disable next-line all : don't test internal caching of React Query
@@ -41,7 +41,7 @@ export default function LoginPage() {
           }
         }, [commonsFromBackend]
     );
-    
+
     if(commons.length > 5){
         commons = commons.slice(0, 5);
         commons.push({id: "...", name: "..."});
@@ -57,7 +57,7 @@ export default function LoginPage() {
                 }
               <Row style={{ alignItems: "center", justifyContent: "center"}}>
                 <Col sm="auto"><LoginCard/></Col>
-                <Col sm="5"><CommonsList data-testid="loginPage-commonsList" title="Available Commons" commonList={ commons } buttonText={null} buttonLink={null} /></Col>
+                <Col sm="5"><CommonsList title="Available Commons" commonList={ commons } buttonText={null} buttonLink={null} /></Col>
               </Row>
             </Container>
           </BasicLayout>

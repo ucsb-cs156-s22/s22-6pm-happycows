@@ -8,6 +8,7 @@ import commonsFixtures from "fixtures/commonsFixtures";
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
+import { getAllByTestId } from "@testing-library/dom";
 
 describe("LoginPage tests", () => {
     const queryClient = new QueryClient();
@@ -36,12 +37,11 @@ describe("LoginPage tests", () => {
         expect(title.textContent).toEqual('Welcome to Happier Cows!');
     });
 
-    /** 
-    test("renders only a max of 6 elements in the list, despite there being 7 commons.", () => {
+    test("renders only a max of 6 elements in the list, despite there being 7 commons.", async () => {
         apiCurrentUserFixtures.userOnly.user.commons = commonsFixtures.sevenCommons;
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.sevenCommons);
-        const { getByTestId } = render(
+        const { findAllByTestId, getAllByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <LoginPage />
@@ -49,8 +49,10 @@ describe("LoginPage tests", () => {
             </QueryClientProvider>
         );
 
-        const commonsList = getByTestId("loginPage-commonsList");
-        expect(commonsList.commons.length).toEqual(6);
+        await findAllByTestId("commonsCard-id");
+
+        const cards = getAllByTestId("commonsCard-name");
+
+        expect(cards.length).toEqual(6);
     });
-    **/
 });
