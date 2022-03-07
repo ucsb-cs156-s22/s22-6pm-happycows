@@ -29,9 +29,38 @@ export default function CommonsTable({ commons, currentUser }) {
 
     const columns = [
         {
-            Header: 'Commons',
-            accessor: 'commons', // accessor is the "key" in the data
-        }
+            Header: 'id',
+            accessor: 'id', // accessor is the "key" in the data
+            
+        },
+        {
+            Header:'name',
+            accessor: 'name',
+        },
+        {
+            Header:'day',
+            accesor:'day',
+        },
+        {
+            Header:'startDate',
+            accesor:'startDate',
+        },
+        {
+            Header:'endDate',
+            accesor:'endDate',
+        },
+        {
+            Header:'totalPlayers',
+            accesor:'totalPlayers',
+        },
+        {
+            Header:'cowPrice',
+            accesor:'cowPrice',
+        },
+        {
+            Header:'milkPrice',
+            accesor:'milkPrice',
+        },
     ];
 
     if (hasRole(currentUser, "ROLE_ADMIN")) {
