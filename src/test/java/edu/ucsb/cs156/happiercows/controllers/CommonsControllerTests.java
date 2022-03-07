@@ -1,39 +1,42 @@
 package edu.ucsb.cs156.happiercows.controllers;
 
-import edu.ucsb.cs156.happiercows.ControllerTestCase;
-import edu.ucsb.cs156.happiercows.repositories.UserRepository;
-import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
-import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
-import edu.ucsb.cs156.happiercows.entities.Commons;
-import edu.ucsb.cs156.happiercows.entities.User;
-import edu.ucsb.cs156.happiercows.entities.UserCommons;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.http.MediaType;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.eq;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MvcResult;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import edu.ucsb.cs156.happiercows.ControllerTestCase;
+import edu.ucsb.cs156.happiercows.entities.Commons;
+import edu.ucsb.cs156.happiercows.entities.User;
+import edu.ucsb.cs156.happiercows.entities.UserCommons;
+import edu.ucsb.cs156.happiercows.models.CreateCommonsParams;
+import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.UserRepository;
 
 @WebMvcTest(controllers = CommonsController.class)
 public class CommonsControllerTests extends ControllerTestCase {
@@ -53,21 +56,42 @@ public class CommonsControllerTests extends ControllerTestCase {
   @WithMockUser(roles = { "ADMIN" })
   @Test
   public void createCommonsTest() throws Exception {
-    Commons expectedCommons = Commons.builder().name("TestCommons").build();
-    ObjectMapper mapper = new ObjectMapper();
-    String requestBody = mapper.writeValueAsString(expectedCommons);
-    when(commonsRepository.save(any())).thenReturn(expectedCommons);
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+    Commons commons = Commons.builder()
+      .name("Jackson's Commons")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .build();
+
+    CreateCommonsParams parameters = CreateCommonsParams.builder()
+      .name("Jackson's Commons")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .build();
+
+    String requestBody = objectMapper.writeValueAsString(parameters);
+    String expectedResponse = objectMapper.writeValueAsString(commons);
+
+    when(commonsRepository.save(commons))
+      .thenReturn(commons);
 
     MvcResult response = mockMvc
-        .perform(post("/api/commons/new?name=TestCommons").with(csrf()).contentType(MediaType.APPLICATION_JSON)
-            .characterEncoding("utf-8").content(requestBody))
-        .andExpect(status().isOk()).andReturn();
+      .perform(post("/api/commons/new").with(csrf())
+      .contentType(MediaType.APPLICATION_JSON)
+      .characterEncoding("utf-8")
+      .content(requestBody))
+      .andExpect(status().isOk())
+      .andReturn();
 
-    verify(commonsRepository, times(1)).save(expectedCommons);
+    verify(commonsRepository, times(1)).save(commons);
 
-    String responseString = response.getResponse().getContentAsString();
-    Commons actualCommons = objectMapper.readValue(responseString, Commons.class);
-    assertEquals(actualCommons, expectedCommons);
+    String actualResponse = response.getResponse().getContentAsString();
+    assertEquals(expectedResponse, actualResponse);
   }
 
   @WithMockUser(roles = { "USER" })
@@ -130,5 +154,4 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     assertEquals(responseString, cAsJson);
   }
-
 }
