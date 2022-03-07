@@ -10,13 +10,12 @@ import { useBackend, useBackendMutation } from "main/utils/useBackend";
 import { useQueryClient } from "react-query";
 
 export default function HomePage() {
-  const [commons, setCommons] = useState([]);
   const [commonsJoined, setCommonsJoined] = useState([]);
   const { data: currentUser } = useCurrentUser();
 
   const queryClient = useQueryClient();
 
-  const commonsFromBackend =
+  const { data: commons, error: commonError, status: commonStatus } = 
     useBackend(
       // Stryker disable next-line all : don't test internal caching of React Query
       ["/api/commons/all"],
@@ -25,7 +24,7 @@ export default function HomePage() {
         url: "/api/commons/all"
       },
       []
-    ).data;
+    );
 
   const objectToAxiosParams = (newCommonsId) => ({
     url: "/api/commons/join",
@@ -48,14 +47,6 @@ export default function HomePage() {
         setCommonsJoined(currentUser.root.user.commons);
       }
     }, [currentUser]
-  );
-
-  useEffect(
-    () => {
-      if (commonsFromBackend) {
-        setCommons(commonsFromBackend);
-      }
-    }, [commonsFromBackend]
   );
 
   let navigate = useNavigate();

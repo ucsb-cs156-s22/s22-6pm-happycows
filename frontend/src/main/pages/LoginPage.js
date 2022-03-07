@@ -14,16 +14,14 @@ const LoginCard = () => {
             <Card.Text>
             In order to start playing, please login.
             </Card.Text>
-            <Button href="/oauth2/authorization/google" variant="primary">Login</Button>
+            <Button href="/oauth2/authorization/google" variant="primary">Log In</Button>
         </Card.Body>
         </Card>
     )
 }
 
 export default function LoginPage() {
-    var [commons, setCommons] = useState([]);
-
-    const commonsFromBackend =
+    const { data: commons, error: commonError, status: commonStatus } = 
     useBackend(
       // Stryker disable next-line all : don't test internal caching of React Query
       ["/api/commons/all"],
@@ -32,19 +30,12 @@ export default function LoginPage() {
         url: "/api/commons/all"
       },
       []
-    ).data;
-
-    useEffect(
-        () => {
-          if (commonsFromBackend) {
-            setCommons(commonsFromBackend);
-          }
-        }, [commonsFromBackend]
     );
 
+    var listCommons = commons;
     if(commons.length > 5){
-        commons = commons.slice(0, 5);
-        commons.push({id: "...", name: "..."});
+        listCommons = commons.slice(0, 5);
+        listCommons.push({id: "...", name: "..."});
     }
 
     return (
@@ -57,7 +48,7 @@ export default function LoginPage() {
                 }
               <Row style={{ alignItems: "center", justifyContent: "center"}}>
                 <Col sm="auto"><LoginCard/></Col>
-                <Col sm="5"><CommonsList title="Available Commons" commonList={ commons } buttonText={null} buttonLink={null} /></Col>
+                <Col sm="5"><CommonsList title="Available Commons" commonList={ listCommons } buttonText={null} buttonLink={null} /></Col>
               </Row>
             </Container>
           </BasicLayout>
