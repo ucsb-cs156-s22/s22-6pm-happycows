@@ -43,6 +43,17 @@ describe("OurTable tests", () => {
         );
     });
 
+    test("The button appears in the table", async () => {
+        const {getByTestId} = render(
+            <OurTable columns={columns} data={threeRows} />
+        );
+
+        await waitFor(()=> expect(getByTestId("testId-cell-row-0-col-Click-button")).toBeInTheDocument() );
+        const button = getByTestId("testId-cell-row-0-col-Click-button");
+        fireEvent.click(button);
+        await waitFor(()=>expect(clickMeCallback).toBeCalledTimes(1));
+    });
+
     test("default testid is testId", async () => {
         const {getByTestId } = render(
             <OurTable columns={columns} data={threeRows} />
