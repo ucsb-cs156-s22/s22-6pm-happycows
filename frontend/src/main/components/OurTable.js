@@ -57,3 +57,20 @@ export default function OurTable({ columns, data, testid="testid"}) {
     </Table>
   )
 }
+
+export function ButtonColumn(label, variant, callback, testid) {
+  const column = {
+    Header: label,
+    id: label,
+    Cell: ({ cell }) => (
+      <Button
+        variant={variant}
+        onClick={() => callback(cell)}
+        data-testid={`${testid}-cell-row-${cell.row.index}-col-${cell.column.id}-button`}
+      >
+        {label}
+      </Button>
+    )
+  }
+  return column;
+}

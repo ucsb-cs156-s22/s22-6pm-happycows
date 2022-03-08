@@ -4,6 +4,7 @@ import ProfilePage from "main/pages/ProfilePage";
 
 import AdminUsersPage from "main/pages/AdminUsersPage";
 import AdminCreateCommonsPage from "main/pages/AdminCreateCommonsPage";
+import AdminListCommonsPage from "main/pages/AdminListCommonPage";
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 import PlayPage from "main/pages/PlayPage"; 
 
