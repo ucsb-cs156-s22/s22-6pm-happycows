@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AdminListCommonPage from "main/pages/commons/AdminListCommonPage";
+import AdminListCommonPage from "main/pages/AdminListCommonPage";
 
 export default {
     title: 'pages/AdminListCommonPage',
