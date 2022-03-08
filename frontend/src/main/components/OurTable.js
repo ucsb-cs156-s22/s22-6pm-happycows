@@ -1,7 +1,6 @@
 import React from "react";
 import { useTable, useSortBy } from 'react-table'
-import { Table } from "react-bootstrap";
-
+import { Table, Button } from "react-bootstrap";
 export default function OurTable({ columns, data, testid="testid"}) {
 
   const {
