@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,6 +59,38 @@ public class CommonsController extends ApiController {
     return ResponseEntity.ok().body(body);
   }
 
+  @ApiOperation(value = "Update a commons")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PutMapping("/update")
+  public ResponseEntity<String> updateCommons(
+    @ApiParam("commons identifier") @RequestParam long id,
+    @ApiParam("request body") @RequestBody CreateCommonsParams params
+  ) throws JsonProcessingException
+  {
+    Optional<Commons> existing = commonsRepository.findById(id);
+
+    Commons updated;
+    HttpStatus status;
+
+    if (existing.isPresent()) {
+      updated = existing.get();
+      status = HttpStatus.NO_CONTENT;
+    } else {
+      updated = new Commons();
+      status = HttpStatus.CREATED;
+    }
+
+    updated.setName(params.getName());
+    updated.setCowPrice(params.getCowPrice());
+    updated.setMilkPrice(params.getMilkPrice());
+    updated.setStartingBalance(params.getStartingBalance());
+    updated.setStartingDate(params.getStartingDate());
+
+    commonsRepository.save(updated);
+
+    return ResponseEntity.status(status).build();
+  }
+
   @ApiOperation(value = "Get a specific commons")
   @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("")
@@ -76,8 +110,6 @@ public class CommonsController extends ApiController {
     @ApiParam("request body") @RequestBody CreateCommonsParams params
     ) throws JsonProcessingException
   {
-    log.info("name={}", params.getName());
-
     Commons commons = Commons.builder()
       .name(params.getName())
       .cowPrice(params.getCowPrice())
@@ -88,8 +120,6 @@ public class CommonsController extends ApiController {
 
     Commons saved = commonsRepository.save(commons);
     String body = mapper.writeValueAsString(saved);
-
-    log.info("body={}", body);
 
     return ResponseEntity.ok().body(body);
   }
