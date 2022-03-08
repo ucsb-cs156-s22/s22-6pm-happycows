@@ -3,13 +3,10 @@ import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import CommonsTable from 'main/components/Commons/CommonsTable';
 import { useBackend } from 'main/utils/useBackend';
 import { useCurrentUser } from 'main/utils/currentUser'
-import { useBackendMutation } from "main/utils/useBackend";
-
-import axios from "axios";
-import AxiosMockAdapter from "axios-mock-adapter";
 
 
-const AdminListCommonsPage = () => {
+
+export default function AdminListCommonsPage () {
 
 const currentUser = useCurrentUser();
 
@@ -34,4 +31,3 @@ const currentUser = useCurrentUser();
       )
 };
 
-export default AdminListCommonsPage;
