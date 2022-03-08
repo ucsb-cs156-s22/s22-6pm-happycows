@@ -1,5 +1,6 @@
 import { render, waitFor, fireEvent } from "@testing-library/react";
-import OurTable from "main/components/OurTable";
+//import OurTable from "main/components/OurTable";
+import OurTable, {ButtonColumn} from "main/components/OurTable";
 
 describe("OurTable tests", () => {
     const threeRows = [
@@ -16,6 +17,7 @@ describe("OurTable tests", () => {
             col2: 'you want',
         }
     ];
+    const clickMeCallback = jest.fn();
 
     const columns = [
         {
@@ -25,7 +27,8 @@ describe("OurTable tests", () => {
         {
             Header: 'Column 2',
             accessor: 'col2',
-        }
+        },
+        ButtonColumn("Click", "primary", clickMeCallback, "testId"),
     ];
 
     test("renders an empty table without crashing", () => {
