@@ -179,9 +179,12 @@ public class CommonsControllerTests extends ControllerTestCase {
       
       verify(commonsRepository, times(1)).findById(2L);
       verify(commonsRepository, times(1)).deleteById(2L);
+      
       String responseString = response.getResponse().getContentAsString();
       
-      assertEquals("commons with id 2 deleted", responseString);
+      String expectedString = "{\"message\":\"commons with id 2 deleted\"}"; 
+
+      assertEquals(expectedString, responseString);
   }
 
   @WithMockUser(roles = { "ADMIN" })
