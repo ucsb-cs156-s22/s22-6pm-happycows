@@ -28,7 +28,7 @@ const Profits = ({userCommons, profits}) => {
             <Card.Body>
                 {/* change 4am to admin-appointed time? And consider adding milk bottle as decoration */}
                 <Card.Title>You will earn profits from milking your cows everyday at 4am.</Card.Title>
-                <ProfitsTable profits={profitsForTable} />
+                {profitsForTable && <ProfitsTable profits={profitsForTable} />}
             </Card.Body>
         </Card>
     );
