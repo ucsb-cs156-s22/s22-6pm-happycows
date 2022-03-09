@@ -7,8 +7,6 @@ function timestampToDate(timestamp) {
     return moment(timestamp).format('YYYY-MM-DD');
 }
 
-
-// add parameters 
 const Profits = ({userCommons, profits}) => {
     const profitsForTable = profits && profits.map(profit => ({
         date: timestampToDate(profit.timestamp),
