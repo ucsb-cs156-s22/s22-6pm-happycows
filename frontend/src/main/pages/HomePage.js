@@ -15,7 +15,7 @@ export default function HomePage() {
 
   const queryClient = useQueryClient();
 
-  const { data: commons, error: commonError, status: commonStatus } = 
+  const { data: commons, error: commonsError, status: commonsStatus } = 
     useBackend(
       // Stryker disable next-line all : don't test internal caching of React Query
       ["/api/commons/all"],

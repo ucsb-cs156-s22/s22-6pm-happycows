@@ -21,7 +21,7 @@ const LoginCard = () => {
 }
 
 export default function LoginPage() {
-    const { data: commons, error: commonError, status: commonStatus } = 
+    const { data: commons, error: commonsError, status: commonsStatus } = 
     useBackend(
       // Stryker disable next-line all : don't test internal caching of React Query
       ["/api/commons/all"],
@@ -41,11 +41,7 @@ export default function LoginPage() {
     return (
         <div style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }}>
           <BasicLayout>
-            {//<h1 data-testid="loginPage-title" style={{ fontSize: "40px", borderRadius: "7px", backgroundColor: "white", opacity: ".9" }} className="text-center border-0 my-3">Welcome to Happier Cows!</h1>
-            }
             <Container style={{ marginTop: "8%" }}>
-                {//We need these overrides, stylistic stuff.
-                }
               <Row style={{ alignItems: "center", justifyContent: "center"}}>
                 <Col sm="auto"><LoginCard/></Col>
                 <Col sm="5"><CommonsList title="Available Commons" commonList={ listCommons } buttonText={null} buttonLink={null} /></Col>
