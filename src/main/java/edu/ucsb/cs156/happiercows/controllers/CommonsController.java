@@ -127,7 +127,7 @@ public class CommonsController extends ApiController {
 
   @ApiOperation(value = "Delete a Commons")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
-  @DeleteMapping("/{commonsId}")
+  @DeleteMapping("")
   public ResponseEntity<String> deleteCommons(
           @ApiParam("id") @RequestParam Long id) {
       
