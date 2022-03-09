@@ -66,16 +66,15 @@ export default function CommonsTable({ commons, currentUser }) {
     }
 
     // Stryker disable next-line ArrayDeclaration : [columns] is a performance optimization
-    const memoizedColumns = React.useMemo(() => columns, [columns]);
-    const memoizedCommons = React.useMemo(() => commons, [commons]);
+    
 
     for (let readable of commons) {
         readable.startingDate = new Date(readable.startingDate).toLocaleString();
     }
 
     return <OurTable
-        data={memoizedCommons}
-        columns={memoizedColumns}
+        data={commons}
+        columns={columns}
         testid={"CommonsTable"}
     />;
 };
