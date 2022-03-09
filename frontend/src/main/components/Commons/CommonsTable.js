@@ -37,22 +37,22 @@ export default function CommonsTable({ commons, currentUser }) {
             Header:'name',
             accessor: 'name',
         },
-        {
-            Header:'day',
-            accesor:'day',
-        },
+        // {
+        //     Header:'day',
+        //     accesor:'day',
+        // },
         {
             Header:'startDate',
             accesor:'startDate',
         },
-        {
-            Header:'endDate',
-            accesor:'endDate',
-        },
-        {
-            Header:'totalPlayers',
-            accesor:'totalPlayers',
-        },
+        // {
+        //     Header:'endDate',
+        //     accesor:'endDate',
+        // },
+        // {
+        //     Header:'totalPlayers',
+        //     accesor:'totalPlayers',
+        // },
         {
             Header:'cowPrice',
             accesor:'cowPrice',

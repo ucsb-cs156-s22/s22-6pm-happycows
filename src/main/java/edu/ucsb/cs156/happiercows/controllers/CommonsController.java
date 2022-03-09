@@ -56,7 +56,7 @@ public class CommonsController extends ApiController {
     String body = mapper.writeValueAsString(users);
     return ResponseEntity.ok().body(body);
   }
-
+  
   @ApiOperation(value = "Get a specific commons")
   @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("")

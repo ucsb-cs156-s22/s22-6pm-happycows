@@ -22,8 +22,19 @@ export default function CreateCommonsForm(props) {
         <Form.Control.Feedback type="invalid">
           {errors.name?.message}
         </Form.Control.Feedback>
-      </Form.Group>
-      
+       </Form.Group>
+      {/* <Form.Group className="mb-3">
+        <Form.Label htmlFor="day">Day</Form.Label>
+        <Form.Control
+          id="day"
+          type="number"
+          isInvalid={!!errors.day}
+          {...register("day", { required: "Day is required" })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.day?.message}
+        </Form.Control.Feedback>
+      </Form.Group>  */}
 
       <Form.Group className="mb-3">
         <Form.Label htmlFor="startingBalance">Starting Balance</Form.Label>
@@ -42,6 +53,7 @@ export default function CreateCommonsForm(props) {
           {errors.startingBalance?.message}
         </Form.Control.Feedback>
       </Form.Group>
+
 
       <Form.Group className="mb-3">
         <Form.Label htmlFor="cowPrice">Cow Price</Form.Label>
@@ -96,7 +108,26 @@ export default function CreateCommonsForm(props) {
           {errors.startDate?.message}
         </Form.Control.Feedback>
       </Form.Group>
+      {/* <Form.Group className="mb-3">
+        <Form.Label htmlFor="endDate">End Date</Form.Label>
+        <Form.Control
+          id="endDate"
+          type="date"
+          isInvalid={!!errors.startDate}
+          {...register("endDate", {
+            valueAsDate: true,
+            validate: {
+              isPresent: (v) => !isNaN(v) || "End date is required",
+            },
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.endDate?.message}
+        </Form.Control.Feedback>
+      </Form.Group>     */}
+
       <Button type="submit" data-testid="CreateCommonsForm-Create-Button">Create</Button>
     </Form>
+
   );
 }
