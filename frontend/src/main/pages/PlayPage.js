@@ -49,7 +49,7 @@ export default function PlayPage() {
         method: "GET",
         url: "/api/profits/all/commons",
         params: {
-          commonsId: commonsId
+          userCommonsId: commonsId
         }
       }
     );
