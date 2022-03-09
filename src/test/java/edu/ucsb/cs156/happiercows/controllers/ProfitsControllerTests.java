@@ -156,7 +156,7 @@ public class ProfitsControllerTests extends ControllerTestCase {
     Profit expectedProfit = Profit.builder().id(36).profit(100).timestamp(12).userCommons(expectedUserCommons).build();
     when(profitRepository.findById(36L)).thenReturn(Optional.of(expectedProfit));
 
-    MvcResult response = mockMvc.perform(get("/api/profits/admin?id=42")).andExpect(status().isOk()).andReturn();
+    MvcResult response = mockMvc.perform(get("/api/profits/admin?id=36")).andExpect(status().isOk()).andReturn();
 
     verify(profitRepository, times(1)).findById(36L);
 
