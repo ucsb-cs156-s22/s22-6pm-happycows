@@ -65,7 +65,7 @@ public class CommonsController extends ApiController {
   public ResponseEntity<String> updateCommons(
     @ApiParam("commons identifier") @RequestParam long id,
     @ApiParam("request body") @RequestBody CreateCommonsParams params
-  ) throws JsonProcessingException
+  )
   {
     Optional<Commons> existing = commonsRepository.findById(id);
 
