@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -153,5 +154,40 @@ public class CommonsControllerTests extends ControllerTestCase {
     String cAsJson = mapper.writeValueAsString(c);
 
     assertEquals(responseString, cAsJson);
+  }
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void deleteCommons_test_admin() throws Exception {
+      // arrange
+      LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+      Commons c = Commons.builder()
+        .name("Jackson's Commons")
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .build();
+      
+      String requestBody = mapper.writeValueAsString(c);
+      
+      when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));
+      doNothing().when(commonsRepository).deleteById(2L);
+      
+      // act
+      //MvcResult response = mockMvc
+        //.perform(delete("/api/commons/2").with(csrf()).contentType(MediaType.APPLICATION_JSON)
+            //.characterEncoding("utf-8").content(requestBody))
+        //.andExpect(status().is(400)).andReturn();
+      MvcResult response = mockMvc.perform(
+              delete("/api/commons/2")
+                      .with(csrf()))
+              .andExpect(status().is(200)).andReturn();
+      
+      // assert
+      verify(commonsRepository, times(1)).findById(2L);
+      verify(commonsRepository, times(1)).deleteById(2L);
+      String responseString = response.getResponse().getContentAsString();
+      assertEquals("commons with id 2 deleted", responseString);
+
   }
 }
