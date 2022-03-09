@@ -34,33 +34,30 @@ export default function CommonsTable({ commons, currentUser }) {
             
         },
         {
-            Header:'name',
+            Header:'Name',
             accessor: 'name',
         },
         {
-            Header:'day',
-            accesor:'day',
+            Header:'Cow Price',
+            accessor: row => String(row.cowPrice),
+            id: 'cowPrice'
+        }, 
+        {
+            Header:'Milk Price',
+            accessor: row => String(row.milkPrice),
+            id: 'milkPrice'
         },
         {
-            Header:'startDate',
-            accesor:'startDate',
+            Header:'Starting Balance',
+            accessor: row => String(row.startingBalance),
+            id: 'startingBalance'
         },
         {
-            Header:'endDate',
-            accesor:'endDate',
-        },
-        {
-            Header:'totalPlayers',
-            accesor:'totalPlayers',
-        },
-        {
-            Header:'cowPrice',
-            accesor:'cowPrice',
-        },
-        {
-            Header:'milkPrice',
-            accesor:'milkPrice',
-        },
+            Header:'Starting Date',
+            //accessor: row => row.startingDate.toString(),
+            accessor: row => String(row.startingDate),
+            id: 'startingDate'
+        }
     ];
 
     if (hasRole(currentUser, "ROLE_ADMIN")) {
