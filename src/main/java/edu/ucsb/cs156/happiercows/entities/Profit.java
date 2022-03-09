@@ -1,20 +1,16 @@
 package edu.ucsb.cs156.happiercows.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AccessLevel;
-import lombok.Builder;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 @Data
 @AllArgsConstructor
@@ -29,8 +25,8 @@ public class Profit {
 
     @ManyToOne
     @JoinColumn(name = "user_commons_id")
-
+    
+    private UserCommons userCommons;
     private long profit;
     private long timestamp;
-    private UserCommons userCommons;
 }
