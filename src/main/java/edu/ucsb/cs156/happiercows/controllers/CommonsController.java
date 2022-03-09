@@ -125,19 +125,6 @@ public class CommonsController extends ApiController {
     return ResponseEntity.ok().body(body);
   }
 
-  @ApiOperation(value = "Delete a Commons")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  @DeleteMapping("")
-  public ResponseEntity<String> deleteCommons(
-          @ApiParam("id") @RequestParam Long id) {
-      
-      Commons foundCommons = commonsRepository.findById(id).orElseThrow( ()->new EntityNotFoundException(Commons.class, id));
- 
-      commonsRepository.deleteById(id);
-      return ResponseEntity.ok().body(String.format("commons with id %d deleted", id));
-
-  }
-
   @ApiOperation("Delete a user from a commons")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @DeleteMapping("/{commonsId}/users/{userId}")
