@@ -21,7 +21,7 @@ export default function CommonsTable({ commons, currentUser }) {
         { onSuccess: onDeleteSuccess },
         ["/api/commons/all"]
     );
-    // Stryker enable all 
+    // Stryker enable all
 
     // Stryker disable next-line all : TODO try to make a good test for this
     const deleteCallback = async (cell) => { deleteMutation.mutate(cell); }
@@ -31,7 +31,7 @@ export default function CommonsTable({ commons, currentUser }) {
         {
             Header: 'id',
             accessor: 'id', // accessor is the "key" in the data
-            
+
         },
         {
             Header:'Name',
@@ -41,7 +41,7 @@ export default function CommonsTable({ commons, currentUser }) {
             Header:'Cow Price',
             accessor: row => String(row.cowPrice),
             id: 'cowPrice'
-        }, 
+        },
         {
             Header:'Milk Price',
             accessor: row => String(row.milkPrice),
@@ -63,15 +63,18 @@ export default function CommonsTable({ commons, currentUser }) {
     if (hasRole(currentUser, "ROLE_ADMIN")) {
         columns.push(ButtonColumn("Edit", "primary", editCallback, "CommonsTable"));
         columns.push(ButtonColumn("Delete", "danger", deleteCallback, "CommonsTable"));
-    } 
+    }
 
     // Stryker disable next-line ArrayDeclaration : [columns] is a performance optimization
-    const memoizedColumns = React.useMemo(() => columns, [columns]);
-    const memoizedCommons = React.useMemo(() => commons, [commons]);
+    
+
+    for (let readable of commons) {
+        readable.startingDate = new Date(readable.startingDate).toLocaleString();
+    }
 
     return <OurTable
-        data={memoizedCommons}
-        columns={memoizedColumns}
+        data={commons}
+        columns={columns}
         testid={"CommonsTable"}
     />;
 };

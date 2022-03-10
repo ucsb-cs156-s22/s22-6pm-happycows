@@ -22,19 +22,8 @@ export default function CreateCommonsForm(props) {
         <Form.Control.Feedback type="invalid">
           {errors.name?.message}
         </Form.Control.Feedback>
-       </Form.Group>
-      {/* <Form.Group className="mb-3">
-        <Form.Label htmlFor="day">Day</Form.Label>
-        <Form.Control
-          id="day"
-          type="number"
-          isInvalid={!!errors.day}
-          {...register("day", { required: "Day is required" })}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.day?.message}
-        </Form.Control.Feedback>
-      </Form.Group>  */}
+      </Form.Group>
+
 
       <Form.Group className="mb-3">
         <Form.Label htmlFor="startingBalance">Starting Balance</Form.Label>
@@ -92,20 +81,20 @@ export default function CreateCommonsForm(props) {
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="startDate">Start Date</Form.Label>
+        <Form.Label htmlFor="startingDate">Starting Date</Form.Label>
         <Form.Control
-          id="startDate"
+          id="startingDate"
           type="date"
-          isInvalid={!!errors.startDate}
-          {...register("startDate", {
+          isInvalid={!!errors.startingDate}
+          {...register("startingDate", {
             valueAsDate: true,
             validate: {
-              isPresent: (v) => !isNaN(v) || "Start date is required",
+              isPresent: (v) => !isNaN(v) || "Starting date is required",
             },
           })}
         />
         <Form.Control.Feedback type="invalid">
-          {errors.startDate?.message}
+          {errors.startingDate?.message}
         </Form.Control.Feedback>
       </Form.Group>
       {/* <Form.Group className="mb-3">

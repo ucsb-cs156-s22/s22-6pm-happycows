@@ -21,7 +21,6 @@ const currentUser = useCurrentUser();
       
     
 
-    //console.log(commons)
 
     return (
         <BasicLayout>
