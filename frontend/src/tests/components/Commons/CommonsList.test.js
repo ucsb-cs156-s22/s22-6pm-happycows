@@ -6,7 +6,7 @@ describe("CommonsList tests", () => {
 
     test("renders without crashing when button text is set", () => {
         const { getByTestId, getAllByTestId } = render(
-            <CommonsList commonList = {commonsFixtures.threeCommons} buttonText = {"Join"} />
+            <CommonsList commonList = {commonsFixtures.threeCommons} buttonText = {"Join"} title="Join A Commons"/>
         );
 
         const title = getByTestId("commonsList-title");
@@ -58,7 +58,7 @@ describe("CommonsList tests", () => {
         const title = getByTestId("commonsList-title");
         expect(title).toBeInTheDocument();
         expect(typeof(title.textContent)).toBe('string');
-        expect(title.textContent).toEqual(' A Commons');
+        expect(title.textContent).toEqual('');
 
         const subtitle_name = getByTestId("commonsList-subtitle-name");
         expect(subtitle_name).toBeInTheDocument();
