@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 //  queryKey ["/api/users","4"]  for "/api/users?id=4"
 
 // For axiosParameters
-//   
+//
 // {
 //     method: 'post',
 //     url: '/user/12345',
@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 //       lastName: 'Flintstone'
 //     }
 //  }
-// 
+//
 
 // GET Example:
 // useBackend(
@@ -26,14 +26,15 @@ import { toast } from "react-toastify";
 // );
 
 export function useBackend(queryKey, axiosParameters, initialData) {
-
     return useQuery(queryKey, async () => {
         try {
             const response = await axios(axiosParameters);
             return response.data;
         } catch (e) {
             const errorMessage = `Error communicating with backend via ${axiosParameters.method} on ${axiosParameters.url}`;
+
             toast(errorMessage);
+
             console.error(errorMessage, e);
             throw e;
         }
@@ -59,7 +60,6 @@ const wrappedParams = async (params) => {
 
 export function useBackendMutation(objectToAxiosParams, useMutationParams, queryKey = null) {
     const queryClient = useQueryClient();
-
     return useMutation((object) => wrappedParams(objectToAxiosParams(object)), {
         onError: (data) => {
             toast(`${data}`)
