@@ -79,7 +79,7 @@ public class ProfitsController extends ApiController {
         return profits;
     }
 
-    @ApiOperation(value = "Get all profits belonging to a user commons as an admin")
+    @ApiOperation(value = "Get all profits belonging to a user commons as a user")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all/commons")
     public Iterable<Profit> allProfitsByUserCommonsId(

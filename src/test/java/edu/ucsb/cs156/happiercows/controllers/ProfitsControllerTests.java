@@ -462,5 +462,89 @@ public class ProfitsControllerTests extends ControllerTestCase {
     String responseString = response.getResponse().getContentAsString();
     assertEquals(expectedReturn, responseString);
   }
+
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void post_profits_post_not_found() throws Exception {
+    MvcResult response = mockMvc.perform(post("/api/profits/post?profit=100&timestamp=12&userCommonsId=1").with(csrf())).andDo(print()).andExpect(status().isNotFound()).andReturn();
+
+    verify(userCommonsRepository, times(1)).findById(1L);
+
+    Map<String, Object> json = responseToJson(response);
+    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("UserCommons with id 1 not found", json.get("message"));
+  }
+
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void put_profits_admin_not_found() throws Exception {
+    UserCommons expectedUC = UserCommons.builder().id(1).commonsId(2).userId(100).build();
+    Profit profit = Profit.builder().id(42).profit(100).timestamp(12).userCommons(expectedUC).build();
+
+    String requestBody = mapper.writeValueAsString(profit);
+
+    MvcResult response = mockMvc.perform(put("/api/profits/admin?id=42").contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8").content(requestBody).with(csrf())).andExpect(status().isNotFound()).andReturn();
+
+    verify(profitRepository, times(1)).findById(42L);
+    verify(profitRepository, times(0)).save(profit);
+
+    Map<String, Object> json = responseToJson(response);
+    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("Profit with id 42 not found", json.get("message"));
+  }
+
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void put_profits_user_not_found() throws Exception {
+    UserCommons expectedUC = UserCommons.builder().id(1).commonsId(2).userId(100).build();
+    Profit profit = Profit.builder().id(42).profit(100).timestamp(12).userCommons(expectedUC).build();
+
+    String requestBody = mapper.writeValueAsString(profit);
+
+    MvcResult response = mockMvc.perform(put("/api/profits?id=42").contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8").content(requestBody).with(csrf())).andExpect(status().isNotFound()).andReturn();
+
+    verify(profitRepository, times(1)).findById(42L);
+    verify(profitRepository, times(0)).save(profit);
+
+    Map<String, Object> json = responseToJson(response);
+    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("Profit with id 42 not found", json.get("message"));
+  }
+
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void delete_profits_not_found() throws Exception {
+    MvcResult response = mockMvc.perform(delete("/api/profits?id=42").with(csrf())).andExpect(status().isNotFound()).andReturn();
+
+    verify(profitRepository, times(1)).findById(42L);
+
+    Map<String, Object> json = responseToJson(response);
+    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("Profit with id 42 not found", json.get("message"));
+  }
+
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void delete_profits_admin_not_found() throws Exception {
+    MvcResult response = mockMvc.perform(delete("/api/profits/admin?id=42").with(csrf())).andExpect(status().isNotFound()).andReturn();
+
+    verify(profitRepository, times(1)).findById(42L);
+
+    Map<String, Object> json = responseToJson(response);
+    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("Profit with id 42 not found", json.get("message"));
+  }
+
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void post_profits_admin_post_not_found() throws Exception {
+    MvcResult response = mockMvc.perform(post("/api/profits/admin/post?profit=100&timestamp=12&userCommonsId=1").with(csrf())).andDo(print()).andExpect(status().isNotFound()).andReturn();
+
+    verify(userCommonsRepository, times(1)).findById(1L);
+
+    Map<String, Object> json = responseToJson(response);
+    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("UserCommons with id 1 not found", json.get("message"));
+  }
 }
 
