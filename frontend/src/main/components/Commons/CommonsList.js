@@ -5,7 +5,7 @@ import { Card, Container, Row, Col } from "react-bootstrap";
 const CommonsList = (props) => {
     return(
         <Card style={{opacity:".9"}} className="my-3 border-0">
-            <Card.Title data-testid="commonsList-title" style={{fontSize:"35px"}} className="text-center my-3">{props.buttonText} A Commons</Card.Title>
+            <Card.Title data-testid="commonsList-title" style={{fontSize:"35px"}} className="text-center my-3">{props.title}</Card.Title>
             <Card.Subtitle>
                 <Container>
                     <Row>
