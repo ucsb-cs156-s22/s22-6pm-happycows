@@ -50,7 +50,6 @@ public class CommonsController extends ApiController {
 
 
   @ApiOperation(value = "Get a list of all commons")
-  @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("/all")
   public ResponseEntity<String> getCommons() throws JsonProcessingException {
     log.info("getCommons()...");
