@@ -1,10 +1,12 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import ProfitsTable from "main/components/Commons/ProfitsTable"
-import moment from "moment";
+import ProfitsTable from "main/components/Commons/ProfitsTable";
+
 
 function timestampToDate(timestamp) {
-    return moment(timestamp).format('YYYY-MM-DD');
+    function padWithZero(n) { return n < 10 ? '0' + n : n; }
+    var date = new Date(timestamp);
+    return (date.getFullYear() + "-" + (padWithZero(date.getMonth()+1)) + "-" + padWithZero(date.getDate()));
 }
 
 const Profits = ({userCommons, profits}) => {

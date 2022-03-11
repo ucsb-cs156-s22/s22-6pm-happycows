@@ -23,8 +23,7 @@
     "react-scripts": "5.0.0",
     "react-table": "^7.7.0",
     "react-toastify": "^8.2.0",
-    "web-vitals": "^1.1.1",
-    "moment": "^2.29.1"
+    "web-vitals": "^1.1.1"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.2.7",
