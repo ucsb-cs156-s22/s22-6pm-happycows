@@ -135,9 +135,10 @@ public class CommonsController extends ApiController {
       Commons foundCommons = commonsRepository.findById(id).orElseThrow( ()->new EntityNotFoundException(Commons.class, id));
  
       commonsRepository.deleteById(id);
+      userCommonsRepository.deleteAllByCommonsId(id);
 
       String responseString = String.format("commons with id %d deleted", id);
-      
+
       return genericMessage(responseString);
 
   }
