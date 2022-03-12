@@ -19,7 +19,7 @@ const AdminCreateCommonsPage = () => {
     });
 
     const onSuccess = (commons) => {
-        toast(`Commons successfully created! - id: ${commons.id} name: ${commons.name} startDate${commons.startDate} cowPrice ${commons.milkPrice}`);
+        toast(`Commons successfully created! - id: ${commons.id} name: ${commons.name} startDate${commons.startingDate} cowPrice ${commons.milkPrice}`);
         console.log(commons.milkPrice);
     }
    
