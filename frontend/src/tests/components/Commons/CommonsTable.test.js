@@ -84,42 +84,5 @@ describe("UserTable tests", () => {
 
     expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("5");
     expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("4");
-
-    const editButton = getByTestId(`${testId}-cell-row-0-col-Edit-button`);
-    expect(editButton).toBeInTheDocument();
-    expect(editButton).toHaveClass("btn-primary");
-
-    const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
-    expect(deleteButton).toBeInTheDocument();
-    expect(deleteButton).toHaveClass("btn-danger");
   });
-
-  test("Edit button navigates to the edit page for admin user", async () => {
-
-    const currentUser = currentUserFixtures.adminUser;
-
-    const { getByText, getByTestId } = render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <CommonsTable commons={commonsFixtures.threeCommons} currentUser={currentUser} />
-        </MemoryRouter>
-      </QueryClientProvider>
-
-    );
-
-    await waitFor(() => { expect(getByTestId(`CommonsTable-cell-row-0-col-id`)).toHaveTextContent("5"); });
-
-    const editButton = getByTestId(`CommonsTable-cell-row-0-col-Edit-button`);
-    expect(editButton).toBeInTheDocument();
-
-    const deleteButton = getByTestId(`CommonsTable-cell-row-0-col-Delete-button`);
-    expect(deleteButton).toBeInTheDocument();
-
-    fireEvent.click(editButton);
-    fireEvent.click(deleteButton);
-
-    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/commons/edit/5'));
-
-  });
-
 });

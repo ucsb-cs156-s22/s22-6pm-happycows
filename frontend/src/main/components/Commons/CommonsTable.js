@@ -1,11 +1,10 @@
 import React from "react";
-import OurTable, { ButtonColumn } from "main/components/OurTable";
+import OurTable from "main/components/OurTable";
 import { useBackendMutation } from "main/utils/useBackend";
 import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/commonsUtils"
 import { useNavigate } from "react-router-dom";
-import { hasRole } from "main/utils/currentUser";
 
-export default function CommonsTable({ commons, currentUser }) {
+export default function CommonsTable({ commons }) {
 
     const navigate = useNavigate();
 
@@ -56,11 +55,6 @@ export default function CommonsTable({ commons, currentUser }) {
             id: 'startingDate'
         }
     ];
-
-    if (hasRole(currentUser, "ROLE_ADMIN")) {
-        columns.push(ButtonColumn("Edit", "primary", editCallback, "CommonsTable"));
-        columns.push(ButtonColumn("Delete", "danger", deleteCallback, "CommonsTable"));
-    }
 
     return <OurTable
         data={commons}
