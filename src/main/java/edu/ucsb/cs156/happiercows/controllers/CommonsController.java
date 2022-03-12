@@ -34,6 +34,7 @@ import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
 import edu.ucsb.cs156.happiercows.models.CreateCommonsParams;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
+import edu.ucsb.cs156.happiercows.controllers.ApiController;
 
 @Slf4j
 @Api(description = "Commons")
@@ -48,6 +49,7 @@ public class CommonsController extends ApiController {
 
   @Autowired
   ObjectMapper mapper;
+
 
   @ApiOperation(value = "Get a list of all commons")
   @GetMapping("/all")
@@ -152,6 +154,23 @@ public class CommonsController extends ApiController {
     Commons joinedCommons = commonsRepository.findById(commonsId).orElseThrow( ()->new EntityNotFoundException(Commons.class, commonsId));
     String body = mapper.writeValueAsString(joinedCommons);
     return ResponseEntity.ok().body(body);
+  }
+
+  @ApiOperation(value = "Delete a Commons")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @DeleteMapping("")
+  public Object deleteCommons(
+          @ApiParam("id") @RequestParam Long id) {
+      
+      Commons foundCommons = commonsRepository.findById(id).orElseThrow( ()->new EntityNotFoundException(Commons.class, id));
+ 
+      commonsRepository.deleteById(id);
+      userCommonsRepository.deleteAllByCommonsId(id);
+
+      String responseString = String.format("commons with id %d deleted", id);
+
+      return genericMessage(responseString);
+
   }
 
   @ApiOperation("Delete a user from a commons")
