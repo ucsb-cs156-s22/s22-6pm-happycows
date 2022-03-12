@@ -1,6 +1,5 @@
 import React from "react";
 import OurTable, { ButtonColumn } from "main/components/OurTable";
-// import { toast } from "react-toastify";
 import { useBackendMutation } from "main/utils/useBackend";
 import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/commonsUtils"
 import { useNavigate } from "react-router-dom";
@@ -61,10 +60,6 @@ export default function CommonsTable({ commons, currentUser }) {
     if (hasRole(currentUser, "ROLE_ADMIN")) {
         columns.push(ButtonColumn("Edit", "primary", editCallback, "CommonsTable"));
         columns.push(ButtonColumn("Delete", "danger", deleteCallback, "CommonsTable"));
-    }
-
-    for (let readable of commons) {
-        readable.startingDate = new Date(readable.startingDate).toLocaleString();
     }
 
     return <OurTable
