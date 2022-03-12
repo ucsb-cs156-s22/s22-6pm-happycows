@@ -3,15 +3,15 @@ import { Card, _Image, Button, Row, Col} from "react-bootstrap";
 // import cowHead from "../../../CowHead.png"; 
 
 // add parameters 
-const ManageCows = ({userCommons, onBuy, onSell}) =>  {
+const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
     // update cowPrice from fixture
     return (
         <Card>
         <Card.Header as="h5">Manage Cows</Card.Header>
         <Card.Body>
             {/* change $10 to info from fixture */}
-            <Card.Title>Market Cow Price: ${userCommons?.commons?.cowPrice}</Card.Title>
-           
+            <Card.Title>Market Cow Price: ${commons?.cowPrice}</Card.Title>
+            <Card.Title>Number of Cows: {userCommons?.numOfCows}</Card.Title>
                 <Row>
                     <Col>
                         <Card.Text>
