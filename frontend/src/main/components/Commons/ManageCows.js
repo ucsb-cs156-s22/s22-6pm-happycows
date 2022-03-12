@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, _Image, Button, Row, Col} from "react-bootstrap";
-// import cowHead from "../../../CowHead.png"; 
+import cowHead from "./../../../assets/CowHead.png"; 
 
 // add parameters 
 const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
@@ -15,7 +15,7 @@ const ManageCows = ({userCommons,commons, onBuy, onSell}) =>  {
                 <Row>
                     <Col>
                         <Card.Text>
-                            [ADD PIC HERE] 
+                            <img class="icon" src={cowHead}></img>
                         </Card.Text>
                     </Col>
                     <Col>

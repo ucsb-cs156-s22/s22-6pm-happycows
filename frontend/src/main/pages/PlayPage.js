@@ -9,6 +9,7 @@ import ManageCows from "main/components/Commons/ManageCows";
 import FarmStats from "main/components/Commons/FarmStats";
 import Profits from "main/components/Commons/Profits";
 import { useBackend } from "main/utils/useBackend";
+import Background from "../../assets/PlayPageBackground.png";
 
 export default function PlayPage() {
 
@@ -64,20 +65,21 @@ export default function PlayPage() {
   };
 
   return (
-    
-    <BasicLayout >
-      <Container >
-        { !!currentUser &&  <CommonsPlay currentUser={currentUser} /> }
-        { !!commons && <CommonsOverview commons={commons} />}
-        <br />
-        { !!userCommons &&
-          <CardGroup >
-            <ManageCows userCommons={userCommons} commons={commons} onBuy={onBuy} onSell={onSell} />
-            <FarmStats userCommons={userCommons} />
-            <Profits userCommons={userCommons} profits={userCommonsProfits} />
-          </CardGroup>
-        }
-      </Container>
-    </BasicLayout>
+    <div style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }}>
+      <BasicLayout >
+        <Container >
+          { !!currentUser &&  <CommonsPlay currentUser={currentUser} /> }
+          { !!commons && <CommonsOverview commons={commons} />}
+          <br />
+          { !!userCommons &&
+            <CardGroup >
+              <ManageCows userCommons={userCommons} commons={commons} onBuy={onBuy} onSell={onSell} />
+              <FarmStats userCommons={userCommons} />
+              <Profits userCommons={userCommons} profits={userCommonsProfits} />
+            </CardGroup>
+          }
+        </Container>
+      </BasicLayout>
+    </div>
   )
 }
