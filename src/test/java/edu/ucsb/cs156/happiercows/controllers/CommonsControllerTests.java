@@ -62,7 +62,8 @@ public class CommonsControllerTests extends ControllerTestCase {
 
   @WithMockUser(roles = { "ADMIN" })
   @Test
-  public void createCommonsTest() throws Exception {
+  public void createCommonsTest() throws Exception
+  {
     LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
 
     Commons commons = Commons.builder()
@@ -89,9 +90,9 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     MvcResult response = mockMvc
       .perform(post("/api/commons/new").with(csrf())
-      .contentType(MediaType.APPLICATION_JSON)
-      .characterEncoding("utf-8")
-      .content(requestBody))
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("utf-8")
+        .content(requestBody))
       .andExpect(status().isOk())
       .andReturn();
 
@@ -120,6 +121,63 @@ public class CommonsControllerTests extends ControllerTestCase {
     assertEquals(actualCommons, expectedCommons);
   }
 
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void updateCommonsTest() throws Exception
+  {
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+    CreateCommonsParams parameters = CreateCommonsParams.builder()
+      .name("Jackson's Commons")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .build();
+
+    Commons commons = Commons.builder()
+      .name("Jackson's Commons")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .build();
+
+    String requestBody = objectMapper.writeValueAsString(parameters);
+
+    when(commonsRepository.save(commons))
+      .thenReturn(commons);
+
+    mockMvc
+      .perform(put("/api/commons/update?id=0").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("utf-8")
+        .content(requestBody))
+      .andExpect(status().isCreated());
+
+    verify(commonsRepository, times(1)).save(commons);
+
+    parameters.setMilkPrice(parameters.getMilkPrice() + 3.00);
+    commons.setMilkPrice(parameters.getMilkPrice());
+
+    requestBody = objectMapper.writeValueAsString(parameters);
+
+    when(commonsRepository.findById(0L))
+      .thenReturn(Optional.of(commons));
+
+    when(commonsRepository.save(commons))
+      .thenReturn(commons);
+
+    mockMvc
+      .perform(put("/api/commons/update?id=0").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("utf-8")
+        .content(requestBody))
+      .andExpect(status().isNoContent());
+
+    verify(commonsRepository, times(1)).save(commons);
+  }
+
   //This common SHOULD be in the repository
   @WithMockUser(roles = { "USER" })
   @Test
@@ -130,7 +188,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .build();
 
     when(commonsRepository.findById(eq(18L))).thenReturn(Optional.of(Commons1));
-    
+
     MvcResult response = mockMvc.perform(get("/api/commons?id=18"))
         .andExpect(status().isOk()).andReturn();
 
@@ -146,7 +204,7 @@ public class CommonsControllerTests extends ControllerTestCase {
   public void getCommonsByIdTest_invalid() throws Exception {
 
     when(commonsRepository.findById(eq(18L))).thenReturn(Optional.empty());
-    
+
     MvcResult response = mockMvc.perform(get("/api/commons?id=18"))
         .andExpect(status().is(404)).andReturn();
 
@@ -220,7 +278,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     //Instead of returning empty, we instead say that it already exists. We shouldn't create a new entry.
     when(userCommonsRepository.findByCommonsIdAndUserId(2L,1L)).thenReturn(Optional.of(uc));
     when(userCommonsRepository.save(eq(uc))).thenReturn(uc);
-    
+
     when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));
 
     MvcResult response = mockMvc
@@ -250,7 +308,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     //UserCommons exists, but somehow the commons it was linked to has been deleted.
     when(userCommonsRepository.findByCommonsIdAndUserId(2L,1L)).thenReturn(Optional.of(uc));
     when(userCommonsRepository.save(eq(uc))).thenReturn(uc);
-    
+
     when(commonsRepository.findById(eq(2L))).thenReturn(Optional.empty());
 
     MvcResult response = mockMvc
@@ -374,7 +432,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .perform(delete("/api/commons/2/users/1").with(csrf()).contentType(MediaType.APPLICATION_JSON)
             .characterEncoding("utf-8").content(requestBody))
         .andExpect(status().is(204)).andReturn();
-    
+
     verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(2L, 1L);
     verify(userCommonsRepository, times(1)).deleteById(16L);
 
@@ -406,7 +464,7 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     //The way this works is very interesting. The error message is sent as the value of a nested exception.
     }catch(Exception e){
-      assertEquals(e.toString(), 
+      assertEquals(e.toString(),
       "org.springframework.web.util.NestedServletException: Request processing failed; nested exception is java.lang.Exception: UserCommons with commonsId=2 and userId=1 not found.");
     }
   }
