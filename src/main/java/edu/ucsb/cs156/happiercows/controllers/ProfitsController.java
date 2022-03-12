@@ -122,23 +122,17 @@ public class ProfitsController extends ApiController {
         return savedProfit;
     }
 
-    @ApiOperation(value = "Create a new Profit as user")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("/post")
-    public Profit postProfit(
-            @ApiParam("profit") @RequestParam long profit,
-            @ApiParam("timestamp") @RequestParam long timestamp,
-            @ApiParam("userCommonsId") @RequestParam long userCommonsId) {
 
-        Long userId = getCurrentUser().getUser().getId();
-        UserCommons userCommons = userCommonsRepository.findById(userCommonsId).orElseThrow(() -> new EntityNotFoundException(UserCommons.class, userCommonsId));
+    @ApiOperation(value = "Delete other user profit as admin")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/admin")
+    public Object deleteProfit_Admin(
+            @ApiParam("id") @RequestParam Long id) {
+        Profit profit = profitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Profit.class, id));
 
-        Profit createdProfit = new Profit();
-        createdProfit.setProfit(profit);
-        createdProfit.setUserCommons(userCommons);
-        createdProfit.setTimestamp(timestamp);
-        Profit savedProfit = profitRepository.save(createdProfit);
-        return savedProfit;
+        profitRepository.delete(profit);
+
+        return genericMessage("Profit with id %s deleted".formatted(id));
     }
 
     @ApiOperation(value = "Update a single profit as admin")
@@ -155,55 +149,5 @@ public class ProfitsController extends ApiController {
         profitRepository.save(profit);
 
         return profit;
-    }
-
-    @ApiOperation(value = "Update a single profit as user")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @PutMapping("")
-    public Profit putProfitById(
-            @ApiParam("id") @RequestParam Long id,
-            @RequestBody @Valid Profit newProfit) {
-        Long userId = getCurrentUser().getUser().getId();
-
-        Profit profit = profitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Profit.class, id));
-        if (userId != profit.getUserCommons().getUserId())
-            throw new EntityNotFoundException(Profit.class, id);
-
-        profit.setProfit(newProfit.getProfit());
-        profit.setTimestamp(newProfit.getTimestamp());
-
-        profitRepository.save(profit);
-
-        return profit;
-    }
-
-
-    @ApiOperation(value = "Delete other user profit as admin")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/admin")
-    public Object deleteProfit_Admin(
-            @ApiParam("id") @RequestParam Long id) {
-        Profit profit = profitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Profit.class, id));
-
-        profitRepository.delete(profit);
-
-        return genericMessage("Profit with id %s deleted".formatted(id));
-    }
-
-    @ApiOperation(value = "Delete a Profit of the user")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @DeleteMapping("")
-    public Object deleteProfit(
-            @ApiParam("id") @RequestParam Long id) {
-        Long userId = getCurrentUser().getUser().getId();
-
-        Profit profit = profitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Profit.class, id));
-
-        if (userId != profit.getUserCommons().getUserId())
-            throw new EntityNotFoundException(Profit.class, id);
-
-        profitRepository.delete(profit);
-
-        return genericMessage("Profit with id %s deleted".formatted(id));
     }
 }
