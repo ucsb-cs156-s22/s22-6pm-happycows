@@ -53,9 +53,8 @@ describe("AdminCreateCommonsPage tests", () => {
             "id": 5,
             "name": "Seths Common",
             "day": 5,
-            "endDate": "6/11/2021",
-            "totalPlayers": 50,
             "cowPrice": 15,
+            "startingDate": "2022-03-05T00:00:00"
         });
 
         const { getByText, getByLabelText, getByTestId } = render(
@@ -72,7 +71,7 @@ describe("AdminCreateCommonsPage tests", () => {
         const startingBalanceField = getByLabelText("Starting Balance");
         const cowPriceField = getByLabelText("Cow Price");
         const milkPriceField = getByLabelText("Milk Price");
-        const startDateField = getByLabelText("Start Date");
+        const startDateField = getByLabelText("Starting Date");
         const button = getByTestId("CreateCommonsForm-Create-Button");
 
 
@@ -80,17 +79,21 @@ describe("AdminCreateCommonsPage tests", () => {
         fireEvent.change(startingBalanceField, { target: { value: '500' } })
         fireEvent.change(cowPriceField, { target: { value: '10' } })
         fireEvent.change(milkPriceField, { target: { value: '5' } })
-        fireEvent.change(startDateField, { target: { value: '2022-05-12' } })
+        fireEvent.change(startDateField, { target: { value: '2022-03-05' } })
         fireEvent.click(button);
 
         await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
+
+        // The Date object is initialized from the form without time information. I believe React
+        // Query calls toISOString() before stuffing it into the body of the POST request, so the
+        // POST contains the suffix .000Z, which Java's LocalDateTime.parse ignores. [1]
 
         const expectedCommons = {
             name: "My New Commons",
             startingBalance: 500,
             cowPrice: 10,
             milkPrice: 5,
-            startDate: '2022-05-12T00:00:00.000Z'
+            startingDate: '2022-03-05T00:00:00.000Z' // [1]
         };
 
         expect(axiosMock.history.post[0].data).toEqual( JSON.stringify(expectedCommons) );

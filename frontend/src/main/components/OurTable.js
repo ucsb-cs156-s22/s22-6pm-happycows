@@ -1,7 +1,6 @@
 import React from "react";
 import { useTable, useSortBy } from 'react-table'
-import { Table } from "react-bootstrap";
-
+import { Table, Button } from "react-bootstrap";
 export default function OurTable({ columns, data, testid="testid"}) {
 
   const {
@@ -56,4 +55,21 @@ export default function OurTable({ columns, data, testid="testid"}) {
       </tbody>
     </Table>
   )
+}
+
+export function ButtonColumn(label, variant, callback, testid) {
+  const column = {
+    Header: label,
+    id: label,
+    Cell: ({ cell }) => (
+      <Button
+        variant={variant}
+        onClick={() => callback(cell)}
+        data-testid={`${testid}-cell-row-${cell.row.index}-col-${cell.column.id}-button`}
+      >
+        {label}
+      </Button>
+    )
+  }
+  return column;
 }

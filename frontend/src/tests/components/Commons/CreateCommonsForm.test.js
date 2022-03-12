@@ -13,7 +13,7 @@ describe(CreateCommonsForm, () => {
     expect(await screen.findByText(/starting balance is required/i)).toBeInTheDocument();
     expect(await screen.findByText(/cow price is required/i)).toBeInTheDocument();
     expect(await screen.findByText(/milk price is required/i)).toBeInTheDocument();
-    expect(await screen.findByText(/start date is required/i)).toBeInTheDocument();
+    expect(await screen.findByText(/starting date is required/i)).toBeInTheDocument();
 
     expect(onSubmit).not.toBeCalled();
   });
@@ -26,7 +26,7 @@ describe(CreateCommonsForm, () => {
     userEvent.type(screen.getByLabelText(/starting balance/i), "1000.00");
     userEvent.type(screen.getByLabelText(/cow price/i), "99.95");
     userEvent.type(screen.getByLabelText(/milk price/i), "5.99");
-    userEvent.type(screen.getByLabelText(/start date/i), "2021-01-01");
+    userEvent.type(screen.getByLabelText(/starting date/i), "2021-01-01");
     userEvent.click(screen.getByRole("button"));
 
     await waitFor(() => expect(onSubmit).toBeCalledTimes(1));
@@ -35,7 +35,7 @@ describe(CreateCommonsForm, () => {
       startingBalance: 1000.00,
       cowPrice: 99.95,
       milkPrice: 5.99,
-      startDate: new Date("2021-01-01"),
+      startingDate: new Date("2021-01-01"),
     });
   });
 });
