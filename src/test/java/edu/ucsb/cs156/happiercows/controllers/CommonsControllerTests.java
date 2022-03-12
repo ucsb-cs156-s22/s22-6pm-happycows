@@ -16,6 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -359,6 +360,60 @@ public class CommonsControllerTests extends ControllerTestCase {
     assertEquals(responseMap.get("type"), "EntityNotFoundException");
   }
 
+    @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void deleteCommons_test_admin_exists() throws Exception {
+      LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+      Commons c = Commons.builder()
+        .name("Jackson's Commons")
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .build();
+      
+      when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));
+      doNothing().when(commonsRepository).deleteById(2L);
+      
+      MvcResult response = mockMvc.perform(
+              delete("/api/commons?id=2")
+                      .with(csrf()))
+              .andExpect(status().is(200)).andReturn();
+      
+      verify(commonsRepository, times(1)).findById(2L);
+      verify(commonsRepository, times(1)).deleteById(2L);
+      
+      String responseString = response.getResponse().getContentAsString();
+      
+      String expectedString = "{\"message\":\"commons with id 2 deleted\"}"; 
+
+      assertEquals(expectedString, responseString);
+  }
+
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void deleteCommons_test_admin_nonexists() throws Exception {
+      
+      when(commonsRepository.findById(eq(2L))).thenReturn(Optional.empty());
+      
+      MvcResult response = mockMvc.perform(
+              delete("/api/commons?id=2")
+                      .with(csrf()))
+              .andExpect(status().is(404)).andReturn();
+      
+      verify(commonsRepository, times(1)).findById(2L);
+      
+
+      String responseString = response.getResponse().getContentAsString();
+      
+      String expectedString = "{\"message\":\"Commons with id 2 not found\",\"type\":\"EntityNotFoundException\"}";
+      
+      Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
+      Map<String, Object> jsonResponse = responseToJson(response);
+      assertEquals(expectedJson, jsonResponse);
+  }
+  
+  
   @WithMockUser(roles = {"ADMIN"})
   @Test
   public void deleteUserFromCommonsTest() throws Exception {
