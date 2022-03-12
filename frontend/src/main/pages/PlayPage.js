@@ -52,6 +52,7 @@ export default function PlayPage() {
   };
 
   return (
+
     <div style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }}>
       <BasicLayout >
         <Container >
@@ -68,5 +69,6 @@ export default function PlayPage() {
         </Container>
       </BasicLayout>
     </div>
+
   )
 }
