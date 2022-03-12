@@ -15,7 +15,7 @@ import lombok.AccessLevel;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Builder
 @Entity(name = "commons")
 public class Commons
