@@ -15,7 +15,6 @@ export default function CommonsTable({ commons, currentUser }) {
     }
 
     // Stryker disable all : hard to test for query caching
-
     const deleteMutation = useBackendMutation(
         cellToAxiosParamsDelete,
         { onSuccess: onDeleteSuccess },
@@ -25,7 +24,6 @@ export default function CommonsTable({ commons, currentUser }) {
 
     // Stryker disable next-line all : TODO try to make a good test for this
     const deleteCallback = async (cell) => { deleteMutation.mutate(cell); }
-
 
     const columns = [
         {
@@ -64,9 +62,6 @@ export default function CommonsTable({ commons, currentUser }) {
         columns.push(ButtonColumn("Edit", "primary", editCallback, "CommonsTable"));
         columns.push(ButtonColumn("Delete", "danger", deleteCallback, "CommonsTable"));
     }
-
-    // Stryker disable next-line ArrayDeclaration : [columns] is a performance optimization
-    
 
     for (let readable of commons) {
         readable.startingDate = new Date(readable.startingDate).toLocaleString();

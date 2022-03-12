@@ -1,5 +1,4 @@
 import { render, waitFor, fireEvent } from "@testing-library/react";
-//import OurTable from "main/components/OurTable";
 import OurTable, {ButtonColumn} from "main/components/OurTable";
 
 describe("OurTable tests", () => {
@@ -80,9 +79,5 @@ describe("OurTable tests", () => {
 
         fireEvent.click(col1Header);
         await waitFor( ()=> expect(getByText("🔽")).toBeInTheDocument() );
-
-        
-
     });
-
 });
