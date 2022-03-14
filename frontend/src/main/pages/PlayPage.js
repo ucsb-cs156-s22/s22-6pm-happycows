@@ -10,6 +10,7 @@ import FarmStats from "main/components/Commons/FarmStats";
 import Profits from "main/components/Commons/Profits";
 import { useBackend } from "main/utils/useBackend";
 import Background from "../../assets/PlayPageBackground.png";
+import { toast } from "react-toastify"
 
 export default function PlayPage() {
 
@@ -57,10 +58,12 @@ export default function PlayPage() {
 
  
   const onBuy = (userCommons) => { 
+    toast(`Cow bought!`);
     console.log("onBuy called:", userCommons); 
   };
   
   const onSell = (userCommons) => { 
+    toast(`Cow sold!`);
     console.log("onSell called:", userCommons);
   };
 
