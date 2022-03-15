@@ -26,7 +26,7 @@ public class UserCommons {
   @Column(name="user_id")
   private long userId;  
 
-  private double totalWealth;
+  private int totalWealth;
 
   private int numOfCows;
 }
