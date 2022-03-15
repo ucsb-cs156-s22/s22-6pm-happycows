@@ -146,7 +146,7 @@ public class CommonsController extends ApiController {
     UserCommons uc = UserCommons.builder()
         .commonsId(commonsId)
         .userId(userId)
-        .totalWealth(100)
+        .totalWealth(0)
         .build();
 
     userCommonsRepository.save(uc);
