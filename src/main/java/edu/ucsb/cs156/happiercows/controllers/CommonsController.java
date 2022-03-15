@@ -134,11 +134,11 @@ public class CommonsController extends ApiController {
     User u = getCurrentUser().getUser();
     Long userId = u.getId();
 
+    Commons joinedCommons = commonsRepository.findById(commonsId).orElseThrow( ()->new EntityNotFoundException(Commons.class, commonsId));
     Optional<UserCommons> userCommonsLookup = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId);
 
     if (userCommonsLookup.isPresent()) {
       // user is already a member of this commons
-      Commons joinedCommons = commonsRepository.findById(commonsId).orElseThrow( ()->new EntityNotFoundException(Commons.class, commonsId));
       String body = mapper.writeValueAsString(joinedCommons);
       return ResponseEntity.ok().body(body);
     }
@@ -146,12 +146,11 @@ public class CommonsController extends ApiController {
     UserCommons uc = UserCommons.builder()
         .commonsId(commonsId)
         .userId(userId)
-        .totalWealth(0)
+        .totalWealth(joinedCommons.getStartingBalance())
         .build();
 
     userCommonsRepository.save(uc);
 
-    Commons joinedCommons = commonsRepository.findById(commonsId).orElseThrow( ()->new EntityNotFoundException(Commons.class, commonsId));
     String body = mapper.writeValueAsString(joinedCommons);
     return ResponseEntity.ok().body(body);
   }
