@@ -9,8 +9,9 @@ import ManageCows from "main/components/Commons/ManageCows";
 import FarmStats from "main/components/Commons/FarmStats";
 import Profits from "main/components/Commons/Profits";
 import { useBackend } from "main/utils/useBackend";
-import Background from "../../assets/PlayPageBackground.png";
+import { useBackendMutation } from "main/utils/useBackend";
 import { toast } from "react-toastify"
+import Background from "../../assets/PlayPageBackground.png";
 
 export default function PlayPage() {
 
@@ -56,15 +57,55 @@ export default function PlayPage() {
       }
     );
 
+  const onSuccessBuy = (commons) => {
+      toast(`Cow bought!`);
+  }
+
+  const objectToAxiosParamsBuy = (newUserCommons) => ({
+    url: "/api/usercommons/buy",
+    method: "PUT",
+    data: newUserCommons,
+    params: {
+      commonsId: commonsId
+    }
+  });
+  
+  const mutationbuy = useBackendMutation(
+    objectToAxiosParamsBuy,
+    { onSuccess: onSuccessBuy },
+    // Stryker disable next-line all : hard to set up test for caching
+    [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
+  );
  
   const onBuy = (userCommons) => { 
-    toast(`Cow bought!`);
+    mutationbuy.mutate(userCommons)
     console.log("onBuy called:", userCommons); 
   };
+
   
-  const onSell = (userCommons) => { 
+  const onSuccessSell = (commons) => {
     toast(`Cow sold!`);
-    console.log("onSell called:", userCommons);
+  }
+
+  const objectToAxiosParamsSell = (newUserCommons) => ({
+    url: "/api/usercommons/sell",
+    method: "PUT",
+    data: newUserCommons,
+    params: {
+      commonsId: commonsId
+    }
+  });
+
+  const mutationsell = useBackendMutation(
+    objectToAxiosParamsSell,
+    { onSuccess: onSuccessSell },
+    // Stryker disable next-line all : hard to set up test for caching
+    [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
+  );
+
+  const onSell = (userCommons) => { 
+    mutationsell.mutate(userCommons)
+    console.log("onSell called:", userCommons); 
   };
 
   return (
