@@ -58,7 +58,7 @@ export default function PlayPage() {
     );
 
   const onSuccessBuy = (commons) => {
-      toast(`Cow bought! - id: ${commons.id} name: ${commons.name}`);
+      toast(`Cow bought!`);
   }
 
   const objectToAxiosParamsBuy = (newUserCommons) => ({
@@ -84,7 +84,7 @@ export default function PlayPage() {
 
   
   const onSuccessSell = (commons) => {
-    toast(`Cow sold! - id: ${commons.id} name: ${commons.name}`);
+    toast(`Cow sold!`);
   }
 
   const objectToAxiosParamsSell = (newUserCommons) => ({
