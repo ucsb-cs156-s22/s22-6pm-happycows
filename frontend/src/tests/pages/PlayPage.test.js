@@ -22,16 +22,17 @@ describe("PlayPage tests", () => {
     const queryClient = new QueryClient();
 
     beforeEach(() => {
-        axiosMock.reset();
-        axiosMock.resetHistory();
-        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
-        axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
-        axiosMock.onGet("/api/usercommons/forcurrentuser", { params: { commonsId: 1 } }).reply(200, {
+        const userCommons = {
             commonsId: 1,
             id: 1,
             totalWealth: 0,
             userId: 1
-        });
+        };
+        axiosMock.reset();
+        axiosMock.resetHistory();
+        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
+        axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
+        axiosMock.onGet("/api/usercommons/forcurrentuser", { params: { commonsId: 1 } }).reply(200, userCommons);
         axiosMock.onGet("/api/commons", { params: { id: 1 } }).reply(200, {
             id: 1,
             name: "Sample Commons"
@@ -42,6 +43,9 @@ describe("PlayPage tests", () => {
                 name: "Sample Commons"
             }
         ]);
+        axiosMock.onGet("/api/profits/all/commons").reply(200, []);
+        axiosMock.onPut("/api/usercommons/sell").reply(200, userCommons);
+        axiosMock.onPut("/api/usercommons/buy").reply(200, userCommons);
     });
 
     test("renders without crashing", () => {
@@ -72,7 +76,7 @@ describe("PlayPage tests", () => {
 
         const sellCowButton = getByTestId("sell-cow-button");
         fireEvent.click(sellCowButton);
-        
+
         await waitFor(() => expect(axiosMock.history.put.length).toBe(2));
     });
 
@@ -91,5 +95,4 @@ describe("PlayPage tests", () => {
     });
 
 });
-
 
