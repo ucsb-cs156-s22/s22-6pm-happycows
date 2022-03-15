@@ -130,6 +130,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
     Map<String, Object> jsonResponse = responseToJson(response);
     assertEquals(expectedJson, jsonResponse);
   }
+
   @WithMockUser(roles = { "USER" })
   @Test
   public void test_BuyCow_commons_exists() throws Exception {

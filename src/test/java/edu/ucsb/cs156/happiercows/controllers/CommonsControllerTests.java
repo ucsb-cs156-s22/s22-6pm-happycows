@@ -304,11 +304,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .build();
 
     String requestBody = mapper.writeValueAsString(uc);
-
-    //UserCommons exists, but somehow the commons it was linked to has been deleted.
-    when(userCommonsRepository.findByCommonsIdAndUserId(2L,1L)).thenReturn(Optional.of(uc));
-    when(userCommonsRepository.save(eq(uc))).thenReturn(uc);
-
+    
     when(commonsRepository.findById(eq(2L))).thenReturn(Optional.empty());
 
     MvcResult response = mockMvc
@@ -316,7 +312,8 @@ public class CommonsControllerTests extends ControllerTestCase {
             .characterEncoding("utf-8").content(requestBody))
         .andExpect(status().is(404)).andReturn();
 
-    verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(2L, 1L);
+    verify(commonsRepository, times(1)).findById(eq(2L));
+
 
     Map<String, Object> responseMap = responseToJson(response);
 
@@ -342,8 +339,6 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     String requestBody = mapper.writeValueAsString(uc);
 
-    when(userCommonsRepository.findByCommonsIdAndUserId(2L,1L)).thenReturn(Optional.empty());
-    when(userCommonsRepository.save(eq(uc))).thenReturn(ucSaved);
     when(commonsRepository.findById(eq(2L))).thenReturn(Optional.empty());
 
     MvcResult response = mockMvc
@@ -351,8 +346,7 @@ public class CommonsControllerTests extends ControllerTestCase {
             .characterEncoding("utf-8").content(requestBody))
         .andExpect(status().is(404)).andReturn();
 
-    verify(userCommonsRepository, times(1)).findByCommonsIdAndUserId(2L, 1L);
-    verify(userCommonsRepository, times(1)).save(uc);
+    verify(commonsRepository, times(1)).findById(eq(2L));
 
     Map<String, Object> responseMap = responseToJson(response);
 
