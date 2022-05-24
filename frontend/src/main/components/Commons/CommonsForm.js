@@ -1,19 +1,46 @@
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 
-export default function CreateCommonsForm(props) {
-  const { onSubmit } = props;
+function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
+
+  // Stryker disable all
   const {
     register,
-    handleSubmit,
     formState: { errors },
-  } = useForm();
+    handleSubmit,
+  } = useForm(
+    { defaultValues: initialCommons || {} }
+  );
+  // Stryker enable all
+
+  const navigate = useNavigate();
+
+  const testid = "CommonsForm"
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+
+    <Form onSubmit={handleSubmit(submitAction)}>
+
+      {initialCommons && (
+        <Form.Group className="mb-3" >
+          <Form.Label htmlFor="id">Id</Form.Label>
+          <Form.Control
+            data-testid={`${testid}-id`}
+            id="id"
+            type="text"
+            {...register("id")}
+            value={initialCommons.id}
+            disabled
+          />
+        </Form.Group>
+      )}
+
+
       <Form.Group className="mb-3">
         <Form.Label htmlFor="name">Commons Name</Form.Label>
         <Form.Control
+          data-testid={`${testid}-name`}
           id="name"
           type="text"
           isInvalid={!!errors.name}
@@ -28,6 +55,7 @@ export default function CreateCommonsForm(props) {
         <Form.Label htmlFor="startingBalance">Starting Balance</Form.Label>
         <Form.Control
           id="startingBalance"
+          data-testid={`${testid}-startingBalance`}
           type="number"
           step="0.01"
           isInvalid={!!errors.startingBalance}
@@ -45,6 +73,7 @@ export default function CreateCommonsForm(props) {
       <Form.Group className="mb-3">
         <Form.Label htmlFor="cowPrice">Cow Price</Form.Label>
         <Form.Control
+          data-testid={`${testid}-cowPrice`}
           id="cowPrice"
           type="number"
           step="0.01"
@@ -63,6 +92,7 @@ export default function CreateCommonsForm(props) {
       <Form.Group className="mb-3">
         <Form.Label htmlFor="milkPrice">Milk Price</Form.Label>
         <Form.Control
+          data-testid={`${testid}-milkPrice`}
           id="milkPrice"
           type="number"
           step="0.01"
@@ -81,6 +111,7 @@ export default function CreateCommonsForm(props) {
       <Form.Group className="mb-3">
         <Form.Label htmlFor="startingDate">Starting Date</Form.Label>
         <Form.Control
+          data-testid={`${testid}-startingDate`}
           id="startingDate"
           type="date"
           isInvalid={!!errors.startingDate}
@@ -95,7 +126,9 @@ export default function CreateCommonsForm(props) {
           {errors.startingDate?.message}
         </Form.Control.Feedback>
       </Form.Group>
-      <Button type="submit" data-testid="CreateCommonsForm-Create-Button">Create</Button>
+      <Button type="submit" data-testid="CommonsForm-Submit-Button">{ buttonLabel }</Button>
     </Form>
   );
 }
+
+export default CommonsForm;

@@ -18,11 +18,11 @@ export default function PlayPage() {
   const { commonsId } = useParams();
   const { data: currentUser } = useCurrentUser();
 
+  // Stryker disable all 
   const { data: userCommons, error: userCommonsError, status: userCommonsStatus } =
     useBackend(
-      // Stryker disable next-line all : don't test internal caching of React Query
       [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`],
-      {  // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
+      {
         method: "GET",
         url: "/api/usercommons/forcurrentuser",
         params: {
@@ -30,12 +30,14 @@ export default function PlayPage() {
         }
       }
     );
+  // Stryker enable all 
 
+
+  // Stryker disable all 
   const { data: commons, error: commonsError, status: commonsStatus } =
     useBackend(
-      // Stryker disable next-line all : don't test internal caching of React Query
       [`/api/commons?commons_id=${commonsId}`],
-      {  // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
+      {
         method: "GET",
         url: "/api/commons",
         params: {
@@ -43,12 +45,13 @@ export default function PlayPage() {
         }
       }
     );
+  // Stryker enable all 
 
+  // Stryker disable all 
   const { data: userCommonsProfits, error: userCommonsProfitsError, status: userCommonsProfitsStatus } =
     useBackend(
-      // Stryker disable next-line all : don't test internal caching of React Query
       [`/api/profits/all/commons?userCommonsId=${commonsId}`],
-      {  // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
+      {
         method: "GET",
         url: "/api/profits/all/commons",
         params: {
@@ -56,9 +59,11 @@ export default function PlayPage() {
         }
       }
     );
+  // Stryker enable all 
+
 
   const onSuccessBuy = (commons) => {
-      toast(`Cow bought!`);
+    toast(`Cow bought!`);
   }
 
   const objectToAxiosParamsBuy = (newUserCommons) => ({
@@ -69,24 +74,28 @@ export default function PlayPage() {
       commonsId: commonsId
     }
   });
-  
+
+
+  // Stryker disable all 
   const mutationbuy = useBackendMutation(
     objectToAxiosParamsBuy,
     { onSuccess: onSuccessBuy },
     // Stryker disable next-line all : hard to set up test for caching
     [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
   );
- 
-  const onBuy = (userCommons) => { 
+  // Stryker enable all 
+
+
+  const onBuy = (userCommons) => {
     mutationbuy.mutate(userCommons)
-    console.log("onBuy called:", userCommons); 
   };
 
-  
+
   const onSuccessSell = (commons) => {
     toast(`Cow sold!`);
   }
 
+  // Stryker disable all 
   const objectToAxiosParamsSell = (newUserCommons) => ({
     url: "/api/usercommons/sell",
     method: "PUT",
@@ -95,27 +104,30 @@ export default function PlayPage() {
       commonsId: commonsId
     }
   });
+  // Stryker enable all 
 
+
+  // Stryker disable all 
   const mutationsell = useBackendMutation(
     objectToAxiosParamsSell,
     { onSuccess: onSuccessSell },
-    // Stryker disable next-line all : hard to set up test for caching
     [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
   );
+  // Stryker enable all 
 
-  const onSell = (userCommons) => { 
+
+  const onSell = (userCommons) => {
     mutationsell.mutate(userCommons)
-    console.log("onSell called:", userCommons); 
   };
 
   return (
     <div style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }}>
       <BasicLayout >
         <Container >
-          { !!currentUser &&  <CommonsPlay currentUser={currentUser} /> }
-          { !!commons && <CommonsOverview commons={commons} />}
+          {!!currentUser && <CommonsPlay currentUser={currentUser} />}
+          {!!commons && <CommonsOverview commons={commons} />}
           <br />
-          { !!userCommons &&
+          {!!userCommons &&
             <CardGroup >
               <ManageCows userCommons={userCommons} commons={commons} onBuy={onBuy} onSell={onSell} />
               <FarmStats userCommons={userCommons} />

@@ -36,7 +36,8 @@ describe("ProfilePage tests", () => {
         expect(getByText("pconrad.cis@gmail.com")).toBeInTheDocument();
     });
 
-    test("renders correctly for admin user", async () => {
+    test("renders correctly for admin user from UCSB", async () => {
+        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.adminUser);
 
         const { getByText, getByTestId } = render(
             <QueryClientProvider client={queryClient}>
@@ -47,8 +48,11 @@ describe("ProfilePage tests", () => {
         );
 
         await waitFor( () => expect(getByText("Phillip Conrad")).toBeInTheDocument() );
-        expect(getByText("pconrad.cis@gmail.com")).toBeInTheDocument();
+        expect(getByText("phtcon@ucsb.edu")).toBeInTheDocument();
         expect(getByTestId("role-badge-user")).toBeInTheDocument();
+        expect(getByTestId("role-badge-member")).toBeInTheDocument();
+        expect(getByTestId("role-badge-admin")).toBeInTheDocument();
+
     });
 });
 

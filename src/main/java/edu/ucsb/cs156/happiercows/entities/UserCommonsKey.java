@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import lombok.Data;
+
+@Data
 @Embeddable
 class UserCommonsKey implements Serializable {
 
@@ -13,7 +16,4 @@ class UserCommonsKey implements Serializable {
 
     @Column(name = "user_id")
     Long userId;
-
-    // standard constructors, getters, and setters
-    // hashcode and equals implementation
 }

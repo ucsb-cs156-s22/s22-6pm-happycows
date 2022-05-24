@@ -10,21 +10,21 @@ import { useBackend, useBackendMutation } from "main/utils/useBackend";
 import { useQueryClient } from "react-query";
 
 export default function HomePage() {
+  // Stryker disable next-line all
   const [commonsJoined, setCommonsJoined] = useState([]);
   const { data: currentUser } = useCurrentUser();
 
   const queryClient = useQueryClient();
 
-  const { data: commons, error: commonsError, status: commonsStatus } = 
+  // Stryker disable all 
+
+  const { data: commons, error: commonsError, status: commonsStatus } =
     useBackend(
-      // Stryker disable next-line all : don't test internal caching of React Query
       ["/api/commons/all"],
-      {  // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
-        method: "GET",
-        url: "/api/commons/all"
-      },
+      { url: "/api/commons/all" },
       []
     );
+  // Stryker enable all 
 
   const objectToAxiosParams = (newCommonsId) => ({
     url: "/api/commons/join",
@@ -36,7 +36,7 @@ export default function HomePage() {
 
   const mutation = useBackendMutation(
     objectToAxiosParams,
-    {  },
+    {},
     // Stryker disable next-line all : hard to set up test for caching
     ["/api/currentUser"]
   );

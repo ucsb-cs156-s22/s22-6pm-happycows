@@ -6,15 +6,16 @@ import { useCurrentUser } from "main/utils/currentUser";
 
 export default function AdminListCommonsPage()
 {
-  const currentUser = useCurrentUser();
+  const { data: currentUser } = useCurrentUser();
 
+  // Stryker disable  all 
   const { data: commons, error: _error, status: _status } =
     useBackend(
-      // Stryker disable next-line all : don't test internal caching of React Query
       ["/api/commons/all"],
       { method: "GET", url: "/api/commons/all" },
       []
     );
+  // Stryker enable  all 
 
   return (
     <BasicLayout>

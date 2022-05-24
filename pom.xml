@@ -118,12 +118,12 @@
                 <version>0.8.7</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/edu/ucsb/cs156/example/aop/LoggingAspect.*</exclude>
-                        <exclude>**/edu/ucsb/cs156/example/config/*</exclude>
-                        <exclude>**/edu/ucsb/cs156/example/controllers/FrontendController.*</exclude>
-                        <exclude>**/edu/ucsb/cs156/example/controllers/FrontendProxyController.*</exclude>
-                        <exclude>**/edu/ucsb/cs156/example/services/CurrentUserServiceImpl.*</exclude>
-                        <exclude>**/edu/ucsb/cs156/example/ExampleApplication.*</exclude>
+                        <exclude>**/edu/ucsb/cs156/happiercows/aop/LoggingAspect.*</exclude>
+                        <exclude>**/edu/ucsb/cs156/happiercows/config/*</exclude>
+                        <exclude>**/edu/ucsb/cs156/happiercows/controllers/FrontendController.*</exclude>
+                        <exclude>**/edu/ucsb/cs156/happiercows/controllers/FrontendProxyController.*</exclude>
+                        <exclude>**/edu/ucsb/cs156/happiercows/services/CurrentUserServiceImpl.*</exclude>
+                        <exclude>**/edu/ucsb/cs156/happiercows/HappierCowsApplication.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
