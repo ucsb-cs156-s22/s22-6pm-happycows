@@ -16,6 +16,9 @@ jobs:
       matrix:
         node-version: [17.x]
     steps:
+      - uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "America/Los_Angeles"
       - uses: actions/checkout@v2
         with: 
           fetch-depth: 2
