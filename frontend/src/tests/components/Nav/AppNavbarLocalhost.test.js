@@ -1,14 +1,12 @@
-import { render, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import AppNavbarLocalhost from "main/components/Nav/AppNavbarLocalhost";
 
 describe("AppNavbarLocalhost tests", () => {
-
-    test("renders correctly ", async () => {
-        const { getByText } = render(
+    test("renders correctly", async () => {
+        render(
             <AppNavbarLocalhost />
         );
 
-        await waitFor(() => expect(getByText(/Running on /)).toBeInTheDocument());
+        expect(await screen.findByText(/Running on /)).toBeInTheDocument();
     });
-
 });

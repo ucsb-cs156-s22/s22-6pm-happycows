@@ -1,16 +1,14 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import mockConsole from "jest-mock-console";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import AdminListCommonPage from "main/pages/AdminListCommonPage";
-
-
-import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
-import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import commonsFixtures from "fixtures/commonsFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
-import mockConsole from "jest-mock-console";
 
+import AdminListCommonPage from "main/pages/AdminListCommonPage";
+import commonsFixtures from "fixtures/commonsFixtures";
+import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
+import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
 const mockToast = jest.fn();
 jest.mock('react-toastify', () => {
@@ -30,7 +28,6 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe("AdminListCommonPage tests", () => {
-
     const axiosMock = new AxiosMockAdapter(axios);
 
     const testId = "CommonsTable";
@@ -61,8 +58,6 @@ describe("AdminListCommonPage tests", () => {
                 </MemoryRouter>
             </QueryClientProvider>
         );
-
-
     });
 
     test("renders without crashing for admin user", () => {
@@ -77,18 +72,14 @@ describe("AdminListCommonPage tests", () => {
                 </MemoryRouter>
             </QueryClientProvider>
         );
-
-
     });
-
-
 
     test("renders three commons without crashing for admin user", async () => {
         setupAdminUser();
         const queryClient = new QueryClient();
         axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.threeCommons);
 
-        const { getByTestId } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AdminListCommonPage />
@@ -96,11 +87,9 @@ describe("AdminListCommonPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("5"); });
-        expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("4");
-        expect(getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent("1");
-
-
+        expect(await screen.findByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("5");
+        expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("4");
+        expect(screen.getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent("1");
     });
 
     test("renders empty table when backend unavailable, user only", async () => {
@@ -111,7 +100,7 @@ describe("AdminListCommonPage tests", () => {
 
         const restoreConsole = mockConsole();
 
-        const { queryByTestId } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AdminListCommonPage />
@@ -122,18 +111,17 @@ describe("AdminListCommonPage tests", () => {
         await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
         restoreConsole();
 
-        expect(queryByTestId(`${testId}-cell-row-0-col-id`)).not.toBeInTheDocument();
+        expect(screen.queryByTestId(`${testId}-cell-row-0-col-id`)).not.toBeInTheDocument();
     });
 
-    test("test what happens when you click delete, admin", async () => {
+    test("what happens when you click delete, admin", async () => {
         setupAdminUser();
 
         const queryClient = new QueryClient();
         axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.threeCommons);
         axiosMock.onDelete("/api/commons", {params: {id: 5}}).reply(200, "Commons with id 5 was deleted");
 
-
-        const { getByTestId } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AdminListCommonPage />
@@ -141,27 +129,24 @@ describe("AdminListCommonPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toBeInTheDocument(); });
+        expect(await screen.findByTestId(`${testId}-cell-row-0-col-id`)).toBeInTheDocument();
+        expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("5"); 
 
-       expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("5"); 
-
-        const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
+        const deleteButton = screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`);
         expect(deleteButton).toBeInTheDocument();
        
         fireEvent.click(deleteButton);
 
         await waitFor(() => { expect(mockToast).toBeCalledWith("Commons with id 5 was deleted") });
-
     });
 
-
-    test("test what happens when you click edit as an admin", async () => {
+    test("what happens when you click edit as an admin", async () => {
         setupAdminUser();
 
         const queryClient = new QueryClient();
         axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.threeCommons);
 
-        const { getByTestId } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AdminListCommonPage />
@@ -169,16 +154,13 @@ describe("AdminListCommonPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("5"); });
+        expect(await screen.findByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("5");
       
-        const editButton = getByTestId(`${testId}-cell-row-0-col-Edit-button`);
+        const editButton = screen.getByTestId(`${testId}-cell-row-0-col-Edit-button`);
         expect(editButton).toBeInTheDocument();
 
         fireEvent.click(editButton);
 
         await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/admin/editcommons/5'));
-
     });
-
-
 });

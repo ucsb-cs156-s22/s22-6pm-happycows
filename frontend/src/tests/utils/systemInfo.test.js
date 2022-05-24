@@ -1,10 +1,10 @@
-import { QueryClient, QueryClientProvider } from "react-query";
-import { useSystemInfo } from "main/utils/systemInfo";
-import { renderHook } from '@testing-library/react-hooks'
-import mockConsole from "jest-mock-console";
-
+import { renderHook } from '@testing-library/react-hooks';
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
+import mockConsole from "jest-mock-console";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+import { useSystemInfo } from "main/utils/systemInfo";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
 jest.mock('react-router-dom');
@@ -12,7 +12,7 @@ const { _MemoryRouter } = jest.requireActual('react-router-dom');
 
 describe("utils/systemInfo tests", () => {
     describe("useSystemInfo tests", () => {
-        test("test useSystemInfo retrieves initial data ", async () => {
+        test("useSystemInfo retrieves initial data", async () => {
             const queryClient = new QueryClient();
             const wrapper = ({ children }) => (
                 <QueryClientProvider client={queryClient}>
@@ -46,8 +46,7 @@ describe("utils/systemInfo tests", () => {
             restoreConsole();
         });
 
-        test("test useSystemInfo retrieves data from API ", async () => {
-
+        test("useSystemInfo retrieves data from API", async () => {
             const queryClient = new QueryClient();
             const wrapper = ({ children }) => (
                 <QueryClientProvider client={queryClient}>
@@ -61,15 +60,12 @@ describe("utils/systemInfo tests", () => {
             const { result, waitFor } = renderHook(() => useSystemInfo(), { wrapper });
 
             await waitFor(() => result.current.isFetched);
-           
 
             expect(result.current.data).toEqual(systemInfoFixtures.showingBoth);
             queryClient.clear();
-
         });
 
-        test("test systemInfo when API unreachable ", async () => {
-
+        test("systemInfo when API unreachable", async () => {
             const queryClient = new QueryClient();
             const wrapper = ({ children }) => (
                 <QueryClientProvider client={queryClient}>
@@ -95,7 +91,5 @@ describe("utils/systemInfo tests", () => {
             });
             queryClient.clear();
         });
-
-
     });
 });

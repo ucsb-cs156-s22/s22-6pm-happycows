@@ -1,21 +1,21 @@
-import { QueryClient, QueryClientProvider } from "react-query";
-import { useCurrentUser, useLogout, hasRole } from "main/utils/currentUser";
-import { renderHook } from '@testing-library/react-hooks'
-import { apiCurrentUserFixtures, currentUserFixtures } from "fixtures/currentUserFixtures";
-import mockConsole from "jest-mock-console";
-import { act } from 'react-dom/test-utils';
-import { useNavigate } from "react-router-dom"
-import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-
+import { renderHook } from '@testing-library/react-hooks';
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
+import mockConsole from "jest-mock-console";
+import { act } from 'react-dom/test-utils';
+import { QueryClient, QueryClientProvider } from "react-query";
+import { useNavigate } from "react-router-dom";
+
+import { useCurrentUser, useLogout, hasRole } from "main/utils/currentUser";
+import { apiCurrentUserFixtures, currentUserFixtures } from "fixtures/currentUserFixtures";
+import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
 jest.mock('react-router-dom');
 const { MemoryRouter } = jest.requireActual('react-router-dom');
 
 describe("utils/currentUser tests", () => {
     describe("useCurrentUser tests", () => {
-        test("test useCurrentUser retrieves initial data ", async () => {
+        test("useCurrentUser retrieves initial data", async () => {
             const queryClient = new QueryClient();
             const wrapper = ({ children }) => (
                 <QueryClientProvider client={queryClient}>
@@ -45,8 +45,7 @@ describe("utils/currentUser tests", () => {
             restoreConsole();
         });
 
-        test("test useCurrentUser retrieves data from API ", async () => {
-
+        test("useCurrentUser retrieves data from API", async () => {
             const queryClient = new QueryClient();
             const wrapper = ({ children }) => (
                 <QueryClientProvider client={queryClient}>
@@ -62,14 +61,11 @@ describe("utils/currentUser tests", () => {
 
             await waitFor(() => result.current.isFetched);
            
-
             expect(result.current.data).toEqual(currentUserFixtures.userOnly);
             queryClient.clear();
-
         });
 
-        test("test useCurrentUser when API unreachable ", async () => {
-
+        test("useCurrentUser when API unreachable", async () => {
             const queryClient = new QueryClient();
             const wrapper = ({ children }) => (
                 <QueryClientProvider client={queryClient}>
@@ -93,8 +89,7 @@ describe("utils/currentUser tests", () => {
             queryClient.clear();
         });
 
-        test("test useCurrentUser handles missing roles correctly ", async () => {
-
+        test("useCurrentUser handles missing roles correctly", async () => {
             const queryClient = new QueryClient();
             const wrapper = ({ children }) => (
                 <QueryClientProvider client={queryClient}>
@@ -119,10 +114,10 @@ describe("utils/currentUser tests", () => {
             expect(result.current.data).toEqual(expectedResult);
             queryClient.clear();
         });
-
     });
+
     describe("useLogout tests", () => {
-        test("useLogout  ", async () => {
+        test("useLogout", async () => {
             const queryClient = new QueryClient();
             const wrapper = ({ children }) => (
                 <QueryClientProvider client={queryClient}>
@@ -169,6 +164,5 @@ describe("utils/currentUser tests", () => {
             expect(hasRole({ loggedIn: true, root: { rolesList: ["ROLE_USER"] } }, "ROLE_ADMIN")).toBeFalsy();
             expect(hasRole({ loggedIn: true, root: { rolesList: ["ROLE_USER", "ROLE_ADMIN"] } }, "ROLE_ADMIN")).toBeTruthy();
         });
-
     });
 });

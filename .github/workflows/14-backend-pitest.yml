@@ -1,18 +1,16 @@
 # This workflow will build a Java project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: 03 Check Production Build (if this fails, deploying to Heroku will fail)
+name: "14-backend-pitest: Java Mutation Testing (Pitest)"
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
   pull_request:
+  push:
     branches: [ main ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -26,7 +24,11 @@ jobs:
     - name: Build with Maven
       env:
         TEST_PROPERTIES: ${{ secrets.TEST_PROPERTIES }}
-        PRODUCTION: true
-      run: mvn -DskipTests clean dependency:list install
-
-  
+      run: mvn -B test 
+    - name: Pitest
+      run: mvn test org.pitest:pitest-maven:mutationCoverage
+    - name: Upload Pitest to Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: pitest-mutation-testing
+        path: target/pit-reports/* 

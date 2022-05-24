@@ -1,5 +1,5 @@
 
-name: 00 Publish 99 Clean up docs-qa
+name: "99-publish-clean-up-docs-qa: Run this to clean out old branches on QA Docs site"
 on: 
   workflow_dispatch:
 jobs:

@@ -1,4 +1,4 @@
-import { onDeleteSuccess, cellToAxiosParamsDelete, editCallback } from "main/utils/commonsUtils";
+import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/commonsUtils";
 import mockConsole from "jest-mock-console";
 
 const mockToast = jest.fn();
@@ -12,9 +12,7 @@ jest.mock('react-toastify', () => {
 });
 
 describe("CommonsUtils", () => {
-
     describe("onDeleteSuccess", () => {
-
         test("It puts the message on console.log and in a toast", () => {
             // arrange
             const restoreConsole = mockConsole();
@@ -33,7 +31,6 @@ describe("CommonsUtils", () => {
 
     });
     describe("cellToAxiosParamsDelete", () => {
-
         test("It returns the correct params", () => {
             // arrange
             const cell = { row: { values: { id: 17 } } };
@@ -48,7 +45,5 @@ describe("CommonsUtils", () => {
                 params: { id: 17 }
             });
         });
-
     });
 });
-

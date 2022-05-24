@@ -1,9 +1,7 @@
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
 
 function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
-
   // Stryker disable all
   const {
     register,
@@ -14,14 +12,10 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
   );
   // Stryker enable all
 
-  const navigate = useNavigate();
-
-  const testid = "CommonsForm"
+  const testid = "CommonsForm";
 
   return (
-
     <Form onSubmit={handleSubmit(submitAction)}>
-
       {initialCommons && (
         <Form.Group className="mb-3" >
           <Form.Label htmlFor="id">Id</Form.Label>
@@ -35,7 +29,6 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
           />
         </Form.Group>
       )}
-
 
       <Form.Group className="mb-3">
         <Form.Label htmlFor="name">Commons Name</Form.Label>

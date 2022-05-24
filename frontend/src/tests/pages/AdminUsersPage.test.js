@@ -1,12 +1,13 @@
-import { render, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import AdminUsersPage from "main/pages/AdminUsersPage";
-import usersFixtures from "fixtures/usersFixtures";
-import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
+
+import AdminUsersPage from "main/pages/AdminUsersPage";
+import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
+import usersFixtures from "fixtures/usersFixtures";
 
 describe("AdminUsersPage tests",  () => {
     const queryClient = new QueryClient();
@@ -23,18 +24,13 @@ describe("AdminUsersPage tests",  () => {
     });
 
     test("renders without crashing on two users", async () => {
-
-        const { getByText } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AdminUsersPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
-        await waitFor(() => expect(getByText("Users")).toBeInTheDocument());
-
+        expect(await screen.findByText("Users")).toBeInTheDocument();
     });
-
 });
-
-

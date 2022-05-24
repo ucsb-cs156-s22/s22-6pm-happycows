@@ -1,4 +1,4 @@
-name: 02 Frontend 03 Mutation Testing (JavaScript/Stryker, testing the test suite)
+name: "34-frontend-mutation-testing: Stryker JS Mutation Testing (JavaScript/Jest)"
 
 on:
   workflow_dispatch:
@@ -10,11 +10,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
 
     strategy:
       matrix:
-        node-version: [17.x]
+        node-version: [16.x]
     steps:
       - uses: szenius/set-timezone@v1.0
         with:

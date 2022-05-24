@@ -1,13 +1,12 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import AdminCreateCommonsPage from "main/pages/AdminCreateCommonsPage";
 import { MemoryRouter } from "react-router-dom";
-import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
-import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
+import AdminCreateCommonsPage from "main/pages/AdminCreateCommonsPage";
+import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
+import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
 const mockedNavigate = jest.fn();
 jest.mock('react-router-dom', () => {
@@ -29,12 +28,9 @@ jest.mock('react-toastify', () => {
     };
 });
 
-
 describe("AdminCreateCommonsPage tests", () => {
-
     const axiosMock = new AxiosMockAdapter(axios);
     const queryClient = new QueryClient();
-
 
     beforeEach(() => {
         axiosMock.reset();
@@ -44,8 +40,7 @@ describe("AdminCreateCommonsPage tests", () => {
     });
 
     test("renders without crashing", async () => {
-
-        const { getByText } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AdminCreateCommonsPage />
@@ -53,11 +48,10 @@ describe("AdminCreateCommonsPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => expect(getByText("Create Commons")).toBeInTheDocument());
+        expect(await screen.findByText("Create Commons")).toBeInTheDocument();
     });
 
     test("When you fill in form and click submit, the right things happens", async () => {
-
         axiosMock.onPost("/api/commons/new").reply(200, {
             "id": 5,
             "name": "My New Commons",
@@ -67,7 +61,7 @@ describe("AdminCreateCommonsPage tests", () => {
             "startingDate": "2022-03-05T00:00:00"
         });
 
-        const { getByText, getByLabelText, getByTestId } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <AdminCreateCommonsPage />
@@ -75,15 +69,14 @@ describe("AdminCreateCommonsPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => expect(getByText("Create Commons")).toBeInTheDocument());
+        expect(await screen.findByText("Create Commons")).toBeInTheDocument();
 
-        const commonsNameField = getByLabelText("Commons Name");
-        const startingBalanceField = getByLabelText("Starting Balance");
-        const cowPriceField = getByLabelText("Cow Price");
-        const milkPriceField = getByLabelText("Milk Price");
-        const startDateField = getByLabelText("Starting Date");
-        const button = getByTestId("CommonsForm-Submit-Button");
-
+        const commonsNameField = screen.getByLabelText("Commons Name");
+        const startingBalanceField = screen.getByLabelText("Starting Balance");
+        const cowPriceField = screen.getByLabelText("Cow Price");
+        const milkPriceField = screen.getByLabelText("Milk Price");
+        const startDateField = screen.getByLabelText("Starting Date");
+        const button = screen.getByTestId("CommonsForm-Submit-Button");
 
         fireEvent.change(commonsNameField, { target: { value: 'My New Commons' } })
         fireEvent.change(startingBalanceField, { target: { value: '500' } })
@@ -110,9 +103,5 @@ describe("AdminCreateCommonsPage tests", () => {
 
         expect(mockToast).toBeCalledWith("Commons successfully created! - id: 5 name: My New Commons startDate: 2022-03-05T00:00:00 cowPrice: 10");
         // expect(mockNavigate).toBeCalledWith({ "to": "/admin/listcommons" });
-
     });
-
-    
-
 });

@@ -1,16 +1,16 @@
-import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import React from "react";
-import { useCurrentUser } from "main/utils/currentUser";
-import CommonsPlay from "main/components/Commons/CommonsPlay";
-import { useParams } from "react-router-dom";
-import CommonsOverview from "main/components/Commons/CommonsOverview";
 import { Container, CardGroup } from "react-bootstrap";
-import ManageCows from "main/components/Commons/ManageCows";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+
+import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
+import CommonsOverview from "main/components/Commons/CommonsOverview";
+import CommonsPlay from "main/components/Commons/CommonsPlay";
 import FarmStats from "main/components/Commons/FarmStats";
+import ManageCows from "main/components/Commons/ManageCows";
 import Profits from "main/components/Commons/Profits";
-import { useBackend } from "main/utils/useBackend";
-import { useBackendMutation } from "main/utils/useBackend";
-import { toast } from "react-toastify"
+import { useBackend, useBackendMutation } from "main/utils/useBackend";
+import { useCurrentUser } from "main/utils/currentUser";
 import Background from "../../assets/PlayPageBackground.png";
 
 export default function PlayPage() {
@@ -19,7 +19,7 @@ export default function PlayPage() {
   const { data: currentUser } = useCurrentUser();
 
   // Stryker disable all 
-  const { data: userCommons, error: userCommonsError, status: userCommonsStatus } =
+  const { data: userCommons } =
     useBackend(
       [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`],
       {
@@ -34,7 +34,7 @@ export default function PlayPage() {
 
 
   // Stryker disable all 
-  const { data: commons, error: commonsError, status: commonsStatus } =
+  const { data: commons } =
     useBackend(
       [`/api/commons?commons_id=${commonsId}`],
       {
@@ -48,7 +48,7 @@ export default function PlayPage() {
   // Stryker enable all 
 
   // Stryker disable all 
-  const { data: userCommonsProfits, error: userCommonsProfitsError, status: userCommonsProfitsStatus } =
+  const { data: userCommonsProfits } =
     useBackend(
       [`/api/profits/all/commons?userCommonsId=${commonsId}`],
       {
@@ -62,7 +62,7 @@ export default function PlayPage() {
   // Stryker enable all 
 
 
-  const onSuccessBuy = (commons) => {
+  const onSuccessBuy = () => {
     toast(`Cow bought!`);
   }
 
@@ -91,7 +91,7 @@ export default function PlayPage() {
   };
 
 
-  const onSuccessSell = (commons) => {
+  const onSuccessSell = () => {
     toast(`Cow sold!`);
   }
 

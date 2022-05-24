@@ -1,14 +1,12 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import AdminEditCommonsPage from "main/pages/AdminEditCommonsPage";
-import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
-import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
-import _mockConsole from "jest-mock-console";
-import { getAllByTestId } from "@testing-library/dom";
+import AdminEditCommonsPage from "main/pages/AdminEditCommonsPage";
+import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
+import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
 const mockToast = jest.fn();
 jest.mock('react-toastify', () => {
@@ -34,9 +32,7 @@ jest.mock('react-router-dom', () => {
 });
 
 describe("AdminEditCommonsPage tests", () => {
-
     describe("tests where backend is working normally", () => {
-
         const axiosMock = new AxiosMockAdapter(axios);
 
         beforeEach(() => {
@@ -74,8 +70,7 @@ describe("AdminEditCommonsPage tests", () => {
         });
 
         test("Is populated with the data provided", async () => {
-
-            const { getByLabelText } = render(
+            render(
                 <QueryClientProvider client={queryClient}>
                     <MemoryRouter>
                         <AdminEditCommonsPage />
@@ -83,13 +78,13 @@ describe("AdminEditCommonsPage tests", () => {
                 </QueryClientProvider>
             );
 
-            await waitFor(() => expect(getByLabelText(/Commons Name/)).toBeInTheDocument());
+            expect(await screen.findByLabelText(/Commons Name/)).toBeInTheDocument();
 
-            const nameField = getByLabelText(/Commons Name/);
-            const startingBalanceField = getByLabelText(/Starting Balance/);
-            const cowPriceField = getByLabelText(/Cow Price/);
-            const milkPriceField = getByLabelText(/Milk Price/);
-            const startingDateField = getByLabelText(/Starting Date/);
+            const nameField = screen.getByLabelText(/Commons Name/);
+            const startingBalanceField = screen.getByLabelText(/Starting Balance/);
+            const cowPriceField = screen.getByLabelText(/Cow Price/);
+            const milkPriceField = screen.getByLabelText(/Milk Price/);
+            const startingDateField = screen.getByLabelText(/Starting Date/);
 
             expect(nameField).toHaveValue("Seths Common");
             expect(startingDateField).toHaveValue("2022-03-05");
@@ -99,8 +94,7 @@ describe("AdminEditCommonsPage tests", () => {
         });
 
         test("Changes when you click Update", async () => {
-
-            const { getByLabelText, getByText } = render(
+            render(
                 <QueryClientProvider client={queryClient}>
                     <MemoryRouter>
                         <AdminEditCommonsPage />
@@ -108,13 +102,13 @@ describe("AdminEditCommonsPage tests", () => {
                 </QueryClientProvider>
             );
 
-            await waitFor(() => expect(getByLabelText(/Commons Name/)).toBeInTheDocument());
+            expect(await screen.findByLabelText(/Commons Name/)).toBeInTheDocument();
 
-            const nameField = getByLabelText(/Commons Name/);
-            const startingBalanceField = getByLabelText(/Starting Balance/);
-            const cowPriceField = getByLabelText(/Cow Price/);
-            const milkPriceField = getByLabelText(/Milk Price/);
-            const startingDateField = getByLabelText(/Starting Date/);
+            const nameField = screen.getByLabelText(/Commons Name/);
+            const startingBalanceField = screen.getByLabelText(/Starting Balance/);
+            const cowPriceField = screen.getByLabelText(/Cow Price/);
+            const milkPriceField = screen.getByLabelText(/Milk Price/);
+            const startingDateField = screen.getByLabelText(/Starting Date/);
 
             expect(nameField).toHaveValue("Seths Common");
             expect(startingDateField).toHaveValue("2022-03-05");
@@ -122,7 +116,7 @@ describe("AdminEditCommonsPage tests", () => {
             expect(cowPriceField).toHaveValue(15);
             expect(milkPriceField).toHaveValue(10);
 
-            const submitButton = getByText("Update");
+            const submitButton = screen.getByText("Update");
 
             expect(submitButton).toBeInTheDocument();
 
@@ -134,7 +128,7 @@ describe("AdminEditCommonsPage tests", () => {
 
             fireEvent.click(submitButton);
 
-            await waitFor(() => expect(mockToast).toBeCalled);
+            await waitFor(() => expect(mockToast).toHaveBeenCalled());
             expect(mockToast).toBeCalledWith("Commons Updated - id: 5 name: Phill's Commons");
             expect(mockNavigate).toBeCalledWith({ "to": "/admin/listcommons" });
 
@@ -147,11 +141,6 @@ describe("AdminEditCommonsPage tests", () => {
                 "milkPrice": 5,
                 "startingDate": "2022-03-07T00:00:00.000Z"
             })); // posted object
-
         });
-
-
     });
 });
-
-

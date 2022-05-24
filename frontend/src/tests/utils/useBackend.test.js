@@ -1,23 +1,19 @@
-import { QueryClient, QueryClientProvider } from "react-query";
-import { renderHook, act } from '@testing-library/react-hooks'
-import { toast } from "react-toastify";
-
+import { renderHook, act } from '@testing-library/react-hooks';
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
-import { useBackend, useBackendMutation } from "main/utils/useBackend";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { toast } from "react-toastify";
 
+import { useBackend, useBackendMutation } from "main/utils/useBackend";
 
 jest.mock('react-router-dom');
 
 const mockToast = jest.spyOn(toast, 'error').mockImplementation();
 
-
 describe("utils/useBackend tests", () => {
     describe("utils/useBackend useBackend tests", () => {
-
-        test("test useBackend handles 404 error correctly", async () => {
-
-            jest.spyOn(console, 'error')
+        test("useBackend handles 404 error correctly", async () => {
+            jest.spyOn(console, 'error');
             console.error.mockImplementation(() => null);
 
             // See: https://react-query.tanstack.com/guides/testing#turn-off-retries
@@ -28,7 +24,8 @@ describe("utils/useBackend tests", () => {
                         retry: false,
                     },
                 },
-            })
+            });
+
             const wrapper = ({ children }) => (
                 <QueryClientProvider client={queryClient}>
                     {children}
@@ -54,8 +51,7 @@ describe("utils/useBackend tests", () => {
             console.error.mockRestore()
         });
 
-        test("test useBackend handles 404 error with no message", async () => {
-
+        test("useBackend handles 404 error with no message", async () => {
             jest.spyOn(console, 'error')
             console.error.mockImplementation(() => null);
 
@@ -90,13 +86,12 @@ describe("utils/useBackend tests", () => {
             await waitFor(() => expect(mockToast).toHaveBeenCalledTimes(1));
             expect(mockToast).toHaveBeenCalledWith("Error communicating with backend via GET on /api/admin/users");
 
-            console.error.mockRestore()
+            console.error.mockRestore();
         });
 
     });
     describe("utils/useBackend useBackendMutation tests", () => {
-        test("test useBackendMutation handles success correctly", async () => {
-
+        test("useBackendMutation handles success correctly", async () => {
             // See: https://react-query.tanstack.com/guides/testing#turn-off-retries
             const queryClient = new QueryClient({
                 defaultOptions: {
@@ -154,8 +149,7 @@ describe("utils/useBackend tests", () => {
 
         });
 
-        test("test useBackendMutation handles error correctly with response message", async () => {
-            
+        test("useBackendMutation handles error correctly with response message", async () => {
             jest.spyOn(console, 'error')
             console.error.mockImplementation(() => null);
             
@@ -206,11 +200,10 @@ describe("utils/useBackend tests", () => {
             await waitFor(() => expect(mockToast).toHaveBeenCalledTimes(1));
             expect(mockToast).toHaveBeenCalledWith("Error: Request failed with status code 404");
 
-            console.error.mockRestore()
-
+            console.error.mockRestore();
         });
-        test("test useBackendMutation handles error correctly with no response message", async () => {
 
+        test("useBackendMutation handles error correctly with no response message", async () => {
             jest.spyOn(console, 'error')
             console.error.mockImplementation(() => null);
 
@@ -262,8 +255,7 @@ describe("utils/useBackend tests", () => {
             await waitFor(() => expect(mockToast).toHaveBeenCalledTimes(1));
             expect(mockToast).toHaveBeenCalledWith("Error communicating with backend via post on /api/ucsbdates/post");
             
-            console.error.mockRestore()
-
+            console.error.mockRestore();
         });
     });
 });
