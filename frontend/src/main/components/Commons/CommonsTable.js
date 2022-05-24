@@ -1,15 +1,16 @@
 import React from "react";
-import OurTable from "main/components/OurTable";
+import OurTable, {ButtonColumn} from "main/components/OurTable";
 import { useBackendMutation } from "main/utils/useBackend";
 import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/commonsUtils"
 import { useNavigate } from "react-router-dom";
+import { hasRole } from "main/utils/currentUser";
 
-export default function CommonsTable({ commons }) {
+export default function CommonsTable({ commons, currentUser }) {
 
     const navigate = useNavigate();
 
     const editCallback = (cell) => {
-        navigate(`/commons/edit/${cell.row.values.id}`)
+        navigate(`/admin/editcommons/${cell.row.values.id}`)
     }
 
     // Stryker disable all : hard to test for query caching
@@ -56,9 +57,19 @@ export default function CommonsTable({ commons }) {
         }
     ];
 
+    const testid = "CommonsTable";
+
+    const columnsIfAdmin = [
+        ...columns,
+        ButtonColumn("Edit", "primary", editCallback, testid),
+        ButtonColumn("Delete", "danger", deleteCallback, testid)
+    ];
+
+    const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
+    
     return <OurTable
         data={commons}
-        columns={columns}
-        testid={"CommonsTable"}
+        columns={columnsToDisplay}
+        testid={testid}
     />;
 };

@@ -51,7 +51,7 @@ describe("CommonsList tests", () => {
     });
 
     test("renders no button when button text is null", () => {
-        const { getAllByTestId, getByTestId } = render(
+        const { getAllByTestId, getByTestId} = render(
             <CommonsList commonList = {commonsFixtures.threeCommons} buttonText = {null} />
         );
 
@@ -70,7 +70,7 @@ describe("CommonsList tests", () => {
         expect(typeof(subtitle_id.textContent)).toBe('string');
         expect(subtitle_id.textContent).toEqual('ID#');
 
-        expect(() => getAllByTestId("commonsCard-button")).toThrow('Unable to find an element');
+        expect(() => getAllByTestId(/commonsCard-button/)).toThrow('Unable to find an element');
 
         let i = 0;
         const names = getAllByTestId("commonsCard-name");

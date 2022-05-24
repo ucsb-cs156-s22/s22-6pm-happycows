@@ -1,14 +1,10 @@
 import React from "react";
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-import CreateCommonsForm from "main/components/Commons/CreateCommonsForm";
+import CommonsForm from "main/components/Commons/CommonsForm";
 import { Navigate } from 'react-router-dom'
 import { toast } from "react-toastify"
 
 import { useBackendMutation } from "main/utils/useBackend";
-
-import axios from "axios";
-import AxiosMockAdapter from "axios-mock-adapter";
-
 
 const AdminCreateCommonsPage = () => {
 
@@ -19,18 +15,19 @@ const AdminCreateCommonsPage = () => {
     });
 
     const onSuccess = (commons) => {
-        toast(`Commons successfully created! - id: ${commons.id} name: ${commons.name} startDate: ${commons.startingDate} cowPrice ${commons.milkPrice}`);
-        console.log(commons.milkPrice);
+        toast(`Commons successfully created! - id: ${commons.id} name: ${commons.name} startDate: ${commons.startingDate} cowPrice: ${commons.cowPrice}`);
     }
    
+    // Stryker disable all
     const mutation = useBackendMutation(
         objectToAxiosParams,
         { onSuccess },
         // Stryker disable next-line all : hard to set up test for caching
         ["/api/commons/all"]
     );
+    // Stryker enable all
 
-    const onSubmit = async (data) => {
+    const submitAction = async (data) => {
         mutation.mutate(data);
     }
 
@@ -42,8 +39,8 @@ const AdminCreateCommonsPage = () => {
     return (
         <BasicLayout>
             <h2>Create Commons</h2>
-            <CreateCommonsForm
-                onSubmit={onSubmit}
+            <CommonsForm
+                submitAction={submitAction}
             />
         </BasicLayout>
     );

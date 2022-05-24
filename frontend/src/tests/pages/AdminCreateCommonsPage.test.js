@@ -19,6 +19,16 @@ jest.mock('react-router-dom', () => {
     };
 });
 
+const mockToast = jest.fn();
+jest.mock('react-toastify', () => {
+    const originalModule = jest.requireActual('react-toastify');
+    return {
+        __esModule: true,
+        ...originalModule,
+        toast: (x) => mockToast(x)
+    };
+});
+
 
 describe("AdminCreateCommonsPage tests", () => {
 
@@ -44,16 +54,16 @@ describe("AdminCreateCommonsPage tests", () => {
         );
 
         await waitFor(() => expect(getByText("Create Commons")).toBeInTheDocument());
-
     });
 
     test("When you fill in form and click submit, the right things happens", async () => {
 
         axiosMock.onPost("/api/commons/new").reply(200, {
             "id": 5,
-            "name": "Seths Common",
-            "day": 5,
-            "cowPrice": 15,
+            "name": "My New Commons",
+            "cowPrice": 10,
+            "milkPrice": 5,
+            "startingBalance": 500,
             "startingDate": "2022-03-05T00:00:00"
         });
 
@@ -72,7 +82,7 @@ describe("AdminCreateCommonsPage tests", () => {
         const cowPriceField = getByLabelText("Cow Price");
         const milkPriceField = getByLabelText("Milk Price");
         const startDateField = getByLabelText("Starting Date");
-        const button = getByTestId("CreateCommonsForm-Create-Button");
+        const button = getByTestId("CommonsForm-Submit-Button");
 
 
         fireEvent.change(commonsNameField, { target: { value: 'My New Commons' } })
@@ -97,6 +107,12 @@ describe("AdminCreateCommonsPage tests", () => {
         };
 
         expect(axiosMock.history.post[0].data).toEqual( JSON.stringify(expectedCommons) );
+
+        expect(mockToast).toBeCalledWith("Commons successfully created! - id: 5 name: My New Commons startDate: 2022-03-05T00:00:00 cowPrice: 10");
+        // expect(mockNavigate).toBeCalledWith({ "to": "/admin/listcommons" });
+
     });
+
+    
 
 });

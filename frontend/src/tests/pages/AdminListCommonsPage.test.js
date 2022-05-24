@@ -6,7 +6,7 @@ import AdminListCommonPage from "main/pages/AdminListCommonPage";
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import commonsFixtures from "fixtures/commonsFixtures"; 
+import commonsFixtures from "fixtures/commonsFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import mockConsole from "jest-mock-console";
@@ -22,9 +22,16 @@ jest.mock('react-toastify', () => {
     };
 });
 
+const mockedNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: () => mockedNavigate
+}));
+
 describe("AdminListCommonPage tests", () => {
 
-    const axiosMock =new AxiosMockAdapter(axios);
+    const axiosMock = new AxiosMockAdapter(axios);
 
     const testId = "CommonsTable";
 
@@ -92,7 +99,7 @@ describe("AdminListCommonPage tests", () => {
         await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("5"); });
         expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("4");
         expect(getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent("1");
-        
+
 
     });
 
@@ -113,14 +120,65 @@ describe("AdminListCommonPage tests", () => {
         );
 
         await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
-
-        const errorMessage = console.error.mock.calls[0][0];
-        expect(errorMessage).toMatch("Error communicating with backend via GET on /api/commons/all");
         restoreConsole();
 
         expect(queryByTestId(`${testId}-cell-row-0-col-id`)).not.toBeInTheDocument();
     });
 
- 
+    test("test what happens when you click delete, admin", async () => {
+        setupAdminUser();
+
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.threeCommons);
+        axiosMock.onDelete("/api/commons", {params: {id: 5}}).reply(200, "Commons with id 5 was deleted");
+
+
+        const { getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <AdminListCommonPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toBeInTheDocument(); });
+
+       expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("5"); 
+
+        const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
+        expect(deleteButton).toBeInTheDocument();
+       
+        fireEvent.click(deleteButton);
+
+        await waitFor(() => { expect(mockToast).toBeCalledWith("Commons with id 5 was deleted") });
+
+    });
+
+
+    test("test what happens when you click edit as an admin", async () => {
+        setupAdminUser();
+
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.threeCommons);
+
+        const { getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <AdminListCommonPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("5"); });
+      
+        const editButton = getByTestId(`${testId}-cell-row-0-col-Edit-button`);
+        expect(editButton).toBeInTheDocument();
+
+        fireEvent.click(editButton);
+
+        await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/admin/editcommons/5'));
+
+    });
+
 
 });
