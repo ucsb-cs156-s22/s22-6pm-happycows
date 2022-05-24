@@ -1,5 +1,5 @@
 
-name: 00 Publish 02 docs (Storybook) to GitHub Pages
+name: "04-publish-docs-to-github-pages-prod: Publish production Storybook to GitHub Pages"
 on: 
   workflow_dispatch:
   push:
@@ -10,11 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
+    strategy:
+      matrix:
+        node-version: [16.x]
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
         with:
           persist-credentials: false
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
       - name: Append name of site to _config.yml
         working-directory: ./frontend/docs-index
         run: | 

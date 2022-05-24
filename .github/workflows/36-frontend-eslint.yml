@@ -1,4 +1,4 @@
-name: 02 Frontend 01 Tests (JavaScript/Jest)
+name: "36-frontend-eslint: JavaScript style checking"
 
 on:
   workflow_dispatch:
@@ -8,26 +8,20 @@ on:
       - main
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     strategy:
       matrix:
-        node-version: [17.x]
+        node-version: [16.x]
     steps:
-      - uses: szenius/set-timezone@v1.0
-        with:
-          timezoneLinux: "America/Los_Angeles"
       - uses: actions/checkout@v2
-        with: 
-          fetch-depth: 2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
         working-directory: ./frontend
-      - run: npm test
+      - run: npx eslint --max-warnings 0 .
         working-directory: ./frontend
-    

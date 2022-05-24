@@ -1,5 +1,5 @@
 
-name: Publish 00 docs create repos
+name: "00-publish-docs-to-github-pages-setup: set up -docs and -docs-qa repos (run once, manually)"
 on: 
   workflow_dispatch:
 jobs:
