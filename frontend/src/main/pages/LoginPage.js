@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React from "react";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
+
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import CommonsList from "main/components/Commons/CommonsList";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import Background from './../../assets/HomePageBackground.jpg';
-
 import { useBackend } from "main/utils/useBackend";
+import Background from './../../assets/HomePageBackground.jpg';
 
 const LoginCard = () => {
   return (
@@ -25,7 +25,7 @@ const LoginCard = () => {
 
 export default function LoginPage() {
   // Stryker disable all
-  const { data: commons, error: commonsError, status: commonsStatus } =
+  const { data: commons } =
     useBackend(
       ["/api/commons/all"],
       {

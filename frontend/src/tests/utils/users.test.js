@@ -1,19 +1,17 @@
-import { QueryClient, QueryClientProvider } from "react-query";
-import { useUsers } from "main/utils/users";
-import { renderHook } from '@testing-library/react-hooks'
-// import nock from "nock";
-import mockConsole from "jest-mock-console";
-import usersFixtures from "fixtures/usersFixtures";
-
+import { renderHook } from '@testing-library/react-hooks';
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
+import mockConsole from "jest-mock-console";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+import { useUsers } from "main/utils/users";
+import usersFixtures from "fixtures/usersFixtures";
 
 jest.mock('react-router-dom');
 
 describe("utils/users tests", () => {
     describe("useUsers tests", () => {
-        test("test useUsers initially retrieves initial data on timeout", async () => {
-
+        test("useUsers initially retrieves initial data on timeout", async () => {
             const queryClient = new QueryClient();
             const wrapper = ({ children }) => (
                 <QueryClientProvider client={queryClient}>
@@ -38,13 +36,9 @@ describe("utils/users tests", () => {
             const errorMessage = console.error.mock.calls[0][0];
             expect(errorMessage).toMatch("Error getting data from /api/admin/users:");
             restoreConsole();
-
         });
-    });
 
-    describe("useUsers tests", () => {
-        test("test useUsers hits error logic on 404", async () => {
-
+        test("useUsers hits error logic on 404", async () => {
             const queryClient = new QueryClient();
             const wrapper = ({ children }) => (
                 <QueryClientProvider client={queryClient}>
@@ -63,13 +57,9 @@ describe("utils/users tests", () => {
             restoreConsole();
 
             expect(result.current.data).toEqual([]);
-
         });
-    });
 
-    describe("useUsers tests", () => {
-        test("test useUsers returns correct data when api is mocked", async () => {
-
+        test("useUsers returns correct data when api is mocked", async () => {
             const queryClient = new QueryClient();
             const wrapper = ({ children }) => (
                 <QueryClientProvider client={queryClient}>
@@ -82,8 +72,6 @@ describe("utils/users tests", () => {
             const { result, waitFor } = renderHook(() => useUsers(), { wrapper });
             await waitFor(() => result.current.isFetched);
             expect(result.current.data).toEqual(usersFixtures.threeUsers);
-
         });
     });
-
 });

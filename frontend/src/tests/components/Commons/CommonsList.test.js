@@ -1,30 +1,29 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import CommonsList from "main/components/Commons/CommonsList"; 
 import commonsFixtures from "fixtures/commonsFixtures"; 
 
 describe("CommonsList tests", () => {
-
     test("renders without crashing when button text is set", () => {
-        const { getByTestId, getAllByTestId } = render(
+        render(
             <CommonsList commonList = {commonsFixtures.threeCommons} buttonText = {"Join"} title="Join A Commons"/>
         );
 
-        const title = getByTestId("commonsList-title");
+        const title = screen.getByTestId("commonsList-title");
         expect(title).toBeInTheDocument();
         expect(typeof(title.textContent)).toBe('string');
         expect(title.textContent).toEqual('Join A Commons');
 
-        const subtitle_name = getByTestId("commonsList-subtitle-name");
+        const subtitle_name = screen.getByTestId("commonsList-subtitle-name");
         expect(subtitle_name).toBeInTheDocument();
         expect(typeof(subtitle_name.textContent)).toBe('string');
         expect(subtitle_name.textContent).toEqual("Common's Name");
 
-        const subtitle_id = getByTestId("commonsList-subtitle-id");
+        const subtitle_id = screen.getByTestId("commonsList-subtitle-id");
         expect(subtitle_id).toBeInTheDocument();
         expect(typeof(subtitle_id.textContent)).toBe('string');
         expect(subtitle_id.textContent).toEqual('ID#');
 
-        const buttons = getAllByTestId(/commonsCard-button/);
+        const buttons = screen.getAllByTestId(/commonsCard-button/);
         buttons.forEach((b) => {
             expect(b).toBeInTheDocument();
             expect(typeof(b.textContent)).toBe('string');
@@ -32,7 +31,7 @@ describe("CommonsList tests", () => {
         });
 
         let i = 0;
-        const names = getAllByTestId("commonsCard-name");
+        const names = screen.getAllByTestId("commonsCard-name");
         names.forEach((n) => {
             expect(n).toBeInTheDocument();
             expect(typeof(n.textContent)).toBe('string');
@@ -41,7 +40,7 @@ describe("CommonsList tests", () => {
         })
 
         i = 0;
-        const ids = getAllByTestId("commonsCard-id");
+        const ids = screen.getAllByTestId("commonsCard-id");
         ids.forEach((id) => {
             expect(id).toBeInTheDocument();
             expect(typeof(id.textContent)).toBe('string');
@@ -51,29 +50,29 @@ describe("CommonsList tests", () => {
     });
 
     test("renders no button when button text is null", () => {
-        const { getAllByTestId, getByTestId} = render(
+        render(
             <CommonsList commonList = {commonsFixtures.threeCommons} buttonText = {null} />
         );
 
-        const title = getByTestId("commonsList-title");
+        const title = screen.getByTestId("commonsList-title");
         expect(title).toBeInTheDocument();
         expect(typeof(title.textContent)).toBe('string');
         expect(title.textContent).toEqual('');
 
-        const subtitle_name = getByTestId("commonsList-subtitle-name");
+        const subtitle_name = screen.getByTestId("commonsList-subtitle-name");
         expect(subtitle_name).toBeInTheDocument();
         expect(typeof(subtitle_name.textContent)).toBe('string');
         expect(subtitle_name.textContent).toEqual("Common's Name");
 
-        const subtitle_id = getByTestId("commonsList-subtitle-id");
+        const subtitle_id = screen.getByTestId("commonsList-subtitle-id");
         expect(subtitle_id).toBeInTheDocument();
         expect(typeof(subtitle_id.textContent)).toBe('string');
         expect(subtitle_id.textContent).toEqual('ID#');
 
-        expect(() => getAllByTestId(/commonsCard-button/)).toThrow('Unable to find an element');
+        expect(() => screen.getAllByTestId(/commonsCard-button/)).toThrow('Unable to find an element');
 
         let i = 0;
-        const names = getAllByTestId("commonsCard-name");
+        const names = screen.getAllByTestId("commonsCard-name");
         names.forEach((n) => {
             expect(n).toBeInTheDocument();
             expect(typeof(n.textContent)).toBe('string');
@@ -82,7 +81,7 @@ describe("CommonsList tests", () => {
         })
 
         i = 0;
-        const ids = getAllByTestId("commonsCard-id");
+        const ids = screen.getAllByTestId("commonsCard-id");
         ids.forEach((id) => {
             expect(id).toBeInTheDocument();
             expect(typeof(id.textContent)).toBe('string');

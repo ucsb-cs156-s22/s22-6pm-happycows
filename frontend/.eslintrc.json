@@ -32,7 +32,6 @@
                 "argsIgnorePattern": "^_",
                 "ignoreRestSiblings": true
             }
-        ],
-        "testing-library/no-node-access": ["off"]
+        ]
     }
 }

@@ -1,10 +1,9 @@
-import { render, waitFor } from "@testing-library/react";
-import {currentUserFixtures} from "fixtures/currentUserFixtures";
+import { render, screen, waitFor } from "@testing-library/react";
 import CommonsPlay from "main/components/Commons/CommonsPlay"; 
 import commonsFixtures from "fixtures/commonsFixtures"; 
+import { currentUserFixtures } from "fixtures/currentUserFixtures";
 
 describe("CommonsPlay tests", () => {
-
     test("renders without crashing when user is userOnly", () => {
         render(
             <CommonsPlay currentUser={currentUserFixtures.userOnly } commons={commonsFixtures.oneCommons[0]} />
@@ -18,12 +17,12 @@ describe("CommonsPlay tests", () => {
     });
 
     test("renders without crashing when currentUser.root is undefined", async () => {
-        const {getByText} = render(
+        render(
             <CommonsPlay currentUser={currentUserFixtures.noRoot } commons={commonsFixtures.oneCommons[0]} />
         );
 
         await waitFor(()=>{
-            expect(getByText("Welcome Farmer")).toBeInTheDocument();
+            expect(screen.getByText("Welcome Farmer")).toBeInTheDocument();
         });
 
     });

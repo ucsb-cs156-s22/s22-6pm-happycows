@@ -1,24 +1,20 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
+import { Container, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import CommonsList from "main/components/Commons/CommonsList";
-import { Container, Row, Col } from "react-bootstrap";
-import { useCurrentUser } from "main/utils/currentUser";
-import { useNavigate } from "react-router-dom";
-import Background from './../../assets/HomePageBackground.jpg';
-
 import { useBackend, useBackendMutation } from "main/utils/useBackend";
-import { useQueryClient } from "react-query";
+import { useCurrentUser } from "main/utils/currentUser";
+import Background from './../../assets/HomePageBackground.jpg';
 
 export default function HomePage() {
   // Stryker disable next-line all
   const [commonsJoined, setCommonsJoined] = useState([]);
   const { data: currentUser } = useCurrentUser();
-
-  const queryClient = useQueryClient();
-
   // Stryker disable all 
 
-  const { data: commons, error: commonsError, status: commonsStatus } =
+  const { data: commons } =
     useBackend(
       ["/api/commons/all"],
       { url: "/api/commons/all" },

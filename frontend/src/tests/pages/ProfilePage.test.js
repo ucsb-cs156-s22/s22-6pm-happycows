@@ -1,16 +1,15 @@
-import { render, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
-import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
+
 import ProfilePage from "main/pages/ProfilePage";
+import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
+import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
 describe("ProfilePage tests", () => {
-
     const queryClient = new QueryClient();
-
     const axiosMock = new AxiosMockAdapter(axios);
 
     beforeEach(()=>{
@@ -18,13 +17,10 @@ describe("ProfilePage tests", () => {
         axiosMock.resetHistory();
         axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
-
     });
 
     test("renders correctly for regular logged in user", async () => {
-
-
-        const { getByText } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <ProfilePage />
@@ -32,14 +28,14 @@ describe("ProfilePage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor( () => expect(getByText("Phillip Conrad")).toBeInTheDocument() );
-        expect(getByText("pconrad.cis@gmail.com")).toBeInTheDocument();
+        expect(await screen.findByText("Phillip Conrad")).toBeInTheDocument();
+        expect(screen.getByText("pconrad.cis@gmail.com")).toBeInTheDocument();
     });
 
     test("renders correctly for admin user from UCSB", async () => {
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.adminUser);
 
-        const { getByText, getByTestId } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <ProfilePage />
@@ -47,13 +43,10 @@ describe("ProfilePage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor( () => expect(getByText("Phillip Conrad")).toBeInTheDocument() );
-        expect(getByText("phtcon@ucsb.edu")).toBeInTheDocument();
-        expect(getByTestId("role-badge-user")).toBeInTheDocument();
-        expect(getByTestId("role-badge-member")).toBeInTheDocument();
-        expect(getByTestId("role-badge-admin")).toBeInTheDocument();
-
+        expect(await screen.findByText("Phillip Conrad")).toBeInTheDocument();
+        expect(screen.getByText("phtcon@ucsb.edu")).toBeInTheDocument();
+        expect(screen.getByTestId("role-badge-user")).toBeInTheDocument();
+        expect(screen.getByTestId("role-badge-member")).toBeInTheDocument();
+        expect(screen.getByTestId("role-badge-admin")).toBeInTheDocument();
     });
 });
-
-

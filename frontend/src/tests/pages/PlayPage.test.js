@@ -1,13 +1,12 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
-import PlayPage from "main/pages/PlayPage";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
-import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
+import PlayPage from "main/pages/PlayPage";
+import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
+import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
 jest.mock("react-router-dom", () => ({
     ...jest.requireActual("react-router-dom"),
@@ -17,7 +16,6 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("PlayPage tests", () => {
-
     const axiosMock = new AxiosMockAdapter(axios);
     const queryClient = new QueryClient();
 
@@ -59,8 +57,7 @@ describe("PlayPage tests", () => {
     });
 
     test("click buy and sell buttons", async () => {
-
-        const { getByTestId } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <PlayPage />
@@ -68,21 +65,20 @@ describe("PlayPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => expect(getByTestId("buy-cow-button")).toBeInTheDocument());
-        const buyCowButton = getByTestId("buy-cow-button");
+        expect(await screen.findByTestId("buy-cow-button")).toBeInTheDocument();
+        const buyCowButton = screen.getByTestId("buy-cow-button");
         fireEvent.click(buyCowButton);
 
         await waitFor(() => expect(axiosMock.history.put.length).toBe(1));
 
-        const sellCowButton = getByTestId("sell-cow-button");
+        const sellCowButton = screen.getByTestId("sell-cow-button");
         fireEvent.click(sellCowButton);
 
         await waitFor(() => expect(axiosMock.history.put.length).toBe(2));
     });
 
     test("Make sure that both the Announcements and Welcome Farmer components show up", async () => {
-
-        const { getByText } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <PlayPage />
@@ -90,9 +86,7 @@ describe("PlayPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor( ()=>expect(getByText(/Announcements/)).toBeInTheDocument());
-        await waitFor( ()=>expect(getByText(/Welcome Farmer/)).toBeInTheDocument());
+        expect(await screen.findByText(/Announcements/)).toBeInTheDocument();
+        expect(await screen.findByText(/Welcome Farmer/)).toBeInTheDocument();
     });
-
 });
-

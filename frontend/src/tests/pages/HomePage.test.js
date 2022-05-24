@@ -1,14 +1,13 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
-import HomePage from "main/pages/HomePage";
-import axios from "axios";
-import AxiosMockAdapter from "axios-mock-adapter";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import commonsFixtures from "fixtures/commonsFixtures";
+import axios from "axios";
+import AxiosMockAdapter from "axios-mock-adapter";
 
+import HomePage from "main/pages/HomePage";
+import commonsFixtures from "fixtures/commonsFixtures";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-
 
 describe("HomePage tests", () => {
     const queryClient = new QueryClient();
@@ -23,7 +22,7 @@ describe("HomePage tests", () => {
     test("renders without crashing when lists return empty list", () => {
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/commons/all").reply(200, []);
-        const { getByTestId } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <HomePage />
@@ -31,7 +30,7 @@ describe("HomePage tests", () => {
             </QueryClientProvider>
         );
 
-        const title = getByTestId("homePage-title");
+        const title = screen.getByTestId("homePage-title");
         expect(title).toBeInTheDocument();
         expect(typeof (title.textContent)).toBe('string');
         expect(title.textContent).toEqual('Howdy Farmer');
@@ -41,7 +40,7 @@ describe("HomePage tests", () => {
         apiCurrentUserFixtures.userOnly.user.commons = commonsFixtures.oneCommons;
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.threeCommons);
-        const { getByTestId } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <HomePage />
@@ -49,7 +48,7 @@ describe("HomePage tests", () => {
             </QueryClientProvider>
         );
 
-        const title = getByTestId("homePage-title");
+        const title = screen.getByTestId("homePage-title");
         expect(title).toBeInTheDocument();
         expect(typeof (title.textContent)).toBe('string');
         expect(title.textContent).toEqual('Howdy Farmer');
@@ -59,7 +58,7 @@ describe("HomePage tests", () => {
         apiCurrentUserFixtures.userOnly.user.commons = commonsFixtures.oneCommons;
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.threeCommons);
-        const { getByTestId } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <HomePage />
@@ -67,8 +66,8 @@ describe("HomePage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => expect(getByTestId("commonsCard-button-Visit-1")).toBeInTheDocument());
-        const visitButton = getByTestId("commonsCard-button-Visit-1");
+        expect(await screen.findByTestId("commonsCard-button-Visit-1")).toBeInTheDocument();
+        const visitButton = screen.getByTestId("commonsCard-button-Visit-1");
         fireEvent.click(visitButton);
     });
 
@@ -78,7 +77,7 @@ describe("HomePage tests", () => {
         axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.threeCommons);
         axiosMock.onPost("/api/commons/join").reply(200, commonsFixtures.threeCommons[0]);
 
-        const { getByTestId } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <HomePage />
@@ -86,9 +85,8 @@ describe("HomePage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => expect(getByTestId("commonsCard-button-Join-1")).toBeInTheDocument());
-        const joinButton = getByTestId("commonsCard-button-Join-1");
+        expect(await screen.findByTestId("commonsCard-button-Join-1")).toBeInTheDocument();
+        const joinButton = screen.getByTestId("commonsCard-button-Join-1");
         fireEvent.click(joinButton);
     });
-
 });

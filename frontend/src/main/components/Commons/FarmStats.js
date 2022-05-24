@@ -1,11 +1,9 @@
-import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import React from "react";
 import { Card } from "react-bootstrap";
 import Health from "./../../../assets/Health.png";
 import Cash from "./../../../assets/Cash.png";
 
 const FarmStats = ({userCommons}) => {
-   
     return (
         <Card>
         <Card.Header as="h5">Your Farm Stats</Card.Header>

@@ -1,14 +1,13 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
-import LoginPage from "main/pages/LoginPage";
-import axios from "axios";
-import AxiosMockAdapter from "axios-mock-adapter";
+import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import commonsFixtures from "fixtures/commonsFixtures";
+import axios from "axios";
+import AxiosMockAdapter from "axios-mock-adapter";
 
+import LoginPage from "main/pages/LoginPage";
+import commonsFixtures from "fixtures/commonsFixtures";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import { getAllByTestId } from "@testing-library/dom";
 
 describe("LoginPage tests", () => {
     const queryClient = new QueryClient();
@@ -23,7 +22,7 @@ describe("LoginPage tests", () => {
     test("renders without crashing when lists return empty list", () => {
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/commons/all").reply(200, []);
-        const { getByTestId } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <LoginPage />
@@ -31,7 +30,7 @@ describe("LoginPage tests", () => {
             </QueryClientProvider>
         );
 
-        const title = getByTestId("loginPage-cardTitle");
+        const title = screen.getByTestId("loginPage-cardTitle");
         expect(title).toBeInTheDocument();
         expect(typeof (title.textContent)).toBe('string');
         expect(title.textContent).toEqual('Welcome to Happier Cows!');
@@ -41,7 +40,7 @@ describe("LoginPage tests", () => {
         apiCurrentUserFixtures.userOnly.user.commons = commonsFixtures.sevenCommons;
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.sevenCommons);
-        const { findAllByTestId, getAllByTestId } = render(
+        render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <LoginPage />
@@ -49,9 +48,9 @@ describe("LoginPage tests", () => {
             </QueryClientProvider>
         );
 
-        await findAllByTestId("commonsCard-id");
+        await screen.findAllByTestId("commonsCard-id");
 
-        const cards = getAllByTestId("commonsCard-name");
+        const cards = screen.getAllByTestId("commonsCard-name");
 
         expect(cards.length).toEqual(6);
     });
