@@ -120,6 +120,7 @@
                         <exclude>**/edu/ucsb/cs156/happiercows/controllers/FrontendProxyController.*</exclude>
                         <exclude>**/edu/ucsb/cs156/happiercows/services/CurrentUserServiceImpl.*</exclude>
                         <exclude>**/edu/ucsb/cs156/happiercows/HappierCowsApplication.*</exclude>
+                        <exclude>**/edu/ucsb/cs156/happiercows/services/jobs/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -158,14 +159,15 @@
                         <param>edu.ucsb.cs156.*</param>
                     </targetTests>
                     <excludedClasses>
-                        <param>edu.ucsb.cs156.example.aop.LoggingAspect</param>
-                        <param>edu.ucsb.cs156.example.controllers.FrontendController</param>
-                        <param>edu.ucsb.cs156.example.controllers.FrontendProxyController</param>
-                        <param>edu.ucsb.cs156.example.services.CurrentUserServiceImpl</param>
-                        <param>edu.ucsb.cs156.example.ExampleApplication</param>
-                        <param>edu.ucsb.cs156.example.config.SecurityConfig</param>
-                        <param>edu.ucsb.cs156.example.config.SecurityConfig.MyCsrfRequestMatcher</param>
-                        <param>edu.ucsb.cs156.example.config.SpringFoxConfig</param>
+                        <param>edu.ucsb.cs156.happiercows.aop.LoggingAspect</param>
+                        <param>edu.ucsb.cs156.happiercows.controllers.FrontendController</param>
+                        <param>edu.ucsb.cs156.happiercows.controllers.FrontendProxyController</param>
+                        <param>edu.ucsb.cs156.happiercows.services.CurrentUserServiceImpl</param>
+                        <param>edu.ucsb.cs156.happiercows.ExampleApplication</param>
+                        <param>edu.ucsb.cs156.happiercows.config.SecurityConfig</param>
+                        <param>edu.ucsb.cs156.happiercows.config.SecurityConfig.MyCsrfRequestMatcher</param>
+                        <param>edu.ucsb.cs156.happiercows.config.SpringFoxConfig</param>
+                        <param>edu.ucsb.cs156.happiercows.services.jobs.JobContext</param>
                     </excludedClasses>
                     <excludedTestClasses></excludedTestClasses>
                     <outputFormats>
