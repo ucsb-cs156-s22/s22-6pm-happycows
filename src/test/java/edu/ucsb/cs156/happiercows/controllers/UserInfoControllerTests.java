@@ -13,6 +13,7 @@ import edu.ucsb.cs156.happiercows.repositories.UserRepository;
 import edu.ucsb.cs156.happiercows.testconfig.TestConfig;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -35,6 +36,7 @@ public class UserInfoControllerTests extends ControllerTestCase {
   @Test
   public void currentUser__logged_in() throws Exception {
 
+    
     // arrange
 
     CurrentUser currentUser = currentUserService.getCurrentUser();

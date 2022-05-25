@@ -49,6 +49,7 @@ public class UsersControllerTests extends ControllerTestCase {
   @Test
   public void users__admin_logged_in() throws Exception {
 
+    
     // arrange
 
     User u1 = User.builder().id(1L).build();

@@ -44,6 +44,7 @@ public class SystemInfoControllerTests extends ControllerTestCase {
   @Test
   public void systemInfo__admin_logged_in() throws Exception {
 
+
     // arrange
 
     SystemInfo systemInfo = SystemInfo
