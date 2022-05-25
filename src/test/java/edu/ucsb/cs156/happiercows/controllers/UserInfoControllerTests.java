@@ -11,6 +11,7 @@ import edu.ucsb.cs156.happiercows.ControllerTestCase;
 import edu.ucsb.cs156.happiercows.models.CurrentUser;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
 import edu.ucsb.cs156.happiercows.testconfig.TestConfig;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -18,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = UserInfoController.class)
 @Import(TestConfig.class)
+@AutoConfigureDataJpa
 public class UserInfoControllerTests extends ControllerTestCase {
 
   @MockBean

@@ -5,6 +5,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 
 import edu.ucsb.cs156.happiercows.ControllerTestCase;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
@@ -16,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("development")
 @WebMvcTest(controllers = CSRFController.class)
 @Import(TestConfig.class)
+@AutoConfigureDataJpa
 public class CSRFControllerTests extends ControllerTestCase {
 
   @MockBean
