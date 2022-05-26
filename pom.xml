@@ -127,7 +127,6 @@
                         <exclude>**/edu/ucsb/cs156/happiercows/controllers/FrontendProxyController.*</exclude>
                         <exclude>**/edu/ucsb/cs156/happiercows/services/CurrentUserServiceImpl.*</exclude>
                         <exclude>**/edu/ucsb/cs156/happiercows/HappierCowsApplication.*</exclude>
-                        <!-- <exclude>**/edu/ucsb/cs156/happiercows/services/jobs/*</exclude> -->
                     </excludes>
                 </configuration>
                 <executions>
@@ -174,7 +173,6 @@
                         <param>edu.ucsb.cs156.happiercows.config.SecurityConfig</param>
                         <param>edu.ucsb.cs156.happiercows.config.SecurityConfig.MyCsrfRequestMatcher</param>
                         <param>edu.ucsb.cs156.happiercows.config.SpringFoxConfig</param>
-                        <param>edu.ucsb.cs156.happiercows.services.jobs.JobContext</param>
                     </excludedClasses>
                     <excludedTestClasses></excludedTestClasses>
                     <outputFormats>
@@ -187,6 +185,8 @@
                         <avoidCallsTo>org.apache.log4j</avoidCallsTo>
                         <avoidCallsTo>org.slf4j</avoidCallsTo>
                         <avoidCallsTo>org.apache.commons.logging</avoidCallsTo>
+                        <avoidCallsTo>java.lang.Exception</avoidCallsTo>
+                        <avoidCallsTo>import org.springframework.security.core.context.SecurityContextHolder</avoidCallsTo>
                     </avoidCallsTo>
                     <timestampedReports>false</timestampedReports>
                 </configuration>

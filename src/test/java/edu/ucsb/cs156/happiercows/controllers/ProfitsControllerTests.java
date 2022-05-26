@@ -328,17 +328,18 @@ public class ProfitsControllerTests extends ControllerTestCase {
   @Test
   public void put_profits_admin() throws Exception {
     UserCommons expectedUserCommons = UserCommons.builder().id(1).commonsId(2).userId(1).build();
-    Profit p = Profit.builder().id(42).profit(100).timestamp(12).userCommons(expectedUserCommons).build();
+    Profit before = Profit.builder().id(42).profit(100).timestamp(12).userCommons(expectedUserCommons).build();
+    Profit after = Profit.builder().id(42).profit(200).timestamp(14).userCommons(expectedUserCommons).build();
 
-    String requestBody = mapper.writeValueAsString(p);
-    String expectedReturn = mapper.writeValueAsString(p);
+    String requestBody = mapper.writeValueAsString(after);
+    String expectedReturn = mapper.writeValueAsString(after);
 
-    when(profitRepository.findById(42L)).thenReturn(Optional.of(p));
+    when(profitRepository.findById(42L)).thenReturn(Optional.of(before));
 
     MvcResult response = mockMvc.perform(put("/api/profits/admin?id=42").contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8").content(requestBody).with(csrf())).andExpect(status().isOk()).andReturn();
 
     verify(profitRepository, times(1)).findById(42L);
-    verify(profitRepository, times(1)).save(p);
+    verify(profitRepository, times(1)).save(after);
     String responseString = response.getResponse().getContentAsString();
     assertEquals(expectedReturn, responseString);
   }
