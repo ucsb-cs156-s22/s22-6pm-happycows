@@ -98,6 +98,13 @@
             <version>2.0.1.Final</version>
         </dependency>
 
+        <!-- To help with testing async jobs; see http://www.awaitility.org/ https://stackoverflow.com/a/46227996 -->
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>4.2.0</version>
+          </dependency>
+
     </dependencies>
 
     <build>
@@ -162,6 +169,7 @@
                         <param>edu.ucsb.cs156.happiercows.controllers.FrontendController</param>
                         <param>edu.ucsb.cs156.happiercows.controllers.FrontendProxyController</param>
                         <param>edu.ucsb.cs156.happiercows.services.CurrentUserServiceImpl</param>
+                        <param>edu.ucsb.cs156.happiercows.ExampleApplication</param>
                         <param>edu.ucsb.cs156.happiercows.HappierCowsApplication</param>
                         <param>edu.ucsb.cs156.happiercows.config.SecurityConfig</param>
                         <param>edu.ucsb.cs156.happiercows.config.SecurityConfig.MyCsrfRequestMatcher</param>
@@ -178,6 +186,8 @@
                         <avoidCallsTo>org.apache.log4j</avoidCallsTo>
                         <avoidCallsTo>org.slf4j</avoidCallsTo>
                         <avoidCallsTo>org.apache.commons.logging</avoidCallsTo>
+                        <avoidCallsTo>java.lang.Exception</avoidCallsTo>
+                        <avoidCallsTo>import org.springframework.security.core.context.SecurityContextHolder</avoidCallsTo>
                     </avoidCallsTo>
                     <timestampedReports>false</timestampedReports>
                 </configuration>
