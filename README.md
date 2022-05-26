@@ -16,6 +16,9 @@
 6pm-4:
 * [QA](https://team04-w22-6pm-4-qa.herokuapp.com/)
 
+# Heroku Dashboard
+https://dashboard.heroku.com/apps/s22-6pm-happycows
+
 # Description
 
 This is a full rewrite of the application HappyCows, a project sponsored by [Mattanjah de Vries, Distingished Professor of Chemistry at UC Santa Barbara](https://www.chem.ucsb.edu/people/mattanjah-s-de-vries).
