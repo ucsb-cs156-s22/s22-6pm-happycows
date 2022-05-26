@@ -19,6 +19,8 @@ import edu.ucsb.cs156.happiercows.entities.jobs.Job;
 import edu.ucsb.cs156.happiercows.repositories.jobs.JobsRepository;
 import edu.ucsb.cs156.happiercows.services.jobs.JobService;
 
+
+
 @Slf4j
 @Api(description = "Jobs")
 @RequestMapping("/api/jobs")
