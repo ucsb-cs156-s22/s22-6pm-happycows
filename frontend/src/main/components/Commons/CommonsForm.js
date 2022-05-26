@@ -119,6 +119,25 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
           {errors.startingDate?.message}
         </Form.Control.Feedback>
       </Form.Group>
+      
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="degradationRate">Starting Date</Form.Label>
+        <Form.Control
+          data-testid={`${testid}-degradationRate`}
+          id="degradationRate"
+          type="number"
+          isInvalid={!!errors.degradationRate}
+          {...register("degradationRate", {
+            valueAsDate: true,
+            validate: {
+              isPresent: (v) => !isNaN(v) || "Degradation rate is required",
+            },
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.degradationRate?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
       <Button type="submit" data-testid="CommonsForm-Submit-Button">{ buttonLabel }</Button>
     </Form>
   );
