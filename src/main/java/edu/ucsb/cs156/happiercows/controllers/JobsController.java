@@ -47,14 +47,17 @@ public class JobsController extends ApiController {
     @ApiOperation(value = "Launch Test Job (click fail if you want to test exception handling)")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/launch/testjob")
-    public Job launchTestJob(@ApiParam("fail") @RequestParam Boolean fail) {
+    public Job launchTestJob(
+        @ApiParam("fail") @RequestParam Boolean fail,
+        @ApiParam("sleepMs") @RequestParam Integer sleepMs
+    ) {
 
         return jobService.runAsJob(ctx -> {
             ctx.log("Hello World! from test job!");
+            Thread.sleep(sleepMs);
             if (fail) {
                 throw new Exception("Fail!");
             }
-            Thread.sleep(2000);
             ctx.log("Goodbye from test job!");
           });
     }

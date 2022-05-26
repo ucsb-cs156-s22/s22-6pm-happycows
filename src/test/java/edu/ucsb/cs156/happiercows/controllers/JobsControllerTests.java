@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 
 import static org.awaitility.Awaitility.await;
 
@@ -87,8 +88,6 @@ public class JobsControllerTests extends ControllerTestCase {
 
     // arrange
 
-    // User user = User.builder().id(1L).email("user@example.org").build();
-
     User user = currentUserService.getUser();
 
     Job jobStarted = Job.builder()
@@ -112,7 +111,7 @@ public class JobsControllerTests extends ControllerTestCase {
     when(jobsRepository.save(any(Job.class))).thenReturn(jobStarted).thenReturn(jobCompleted);
 
     // act
-    MvcResult response = mockMvc.perform(get("/api/jobs/launch/testjob?fail=false"))
+    MvcResult response = mockMvc.perform(get("/api/jobs/launch/testjob?fail=false&sleepMs=2000"))
         .andExpect(status().isOk()).andReturn();
 
     // assert
@@ -121,34 +120,53 @@ public class JobsControllerTests extends ControllerTestCase {
 
     assertEquals("running", jobReturned.getStatus());
 
-    await().atMost(5, SECONDS)
-        .untilAsserted(() -> verify(jobsRepository, times(2)).save(any(Job.class)));
+    await().atMost(1, SECONDS)
+        .untilAsserted(() -> verify(jobsRepository, times(2)).save(eq(jobStarted)));
+    await().atMost(10, SECONDS)
+        .untilAsserted(() -> verify(jobsRepository, times(4)).save(eq(jobCompleted)));
   }
 
-  // @WithMockUser(roles = { "ADMIN" })
-  // @Test
-  // public void admin_can_launch_test_job_that_fails() throws Exception {
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void admin_can_launch_test_job_that_fails() throws Exception {
 
-  //   // arrange
+    // arrange
 
-  //   Job expectedJob = Job.builder()
-  //       .id(0L)
-  //       .createdAt(null)
-  //       .updatedAt(null)
-  //       .status("error")
-  //       .log("Hello World! from test job!")
-  //       .build();
+    User user = currentUserService.getUser();
 
-  //   String expectedJSON = mapper.writeValueAsString(expectedJob);
+    Job jobStarted = Job.builder()
+        .id(0L)
+        .createdBy(user)
+        .createdAt(null)
+        .updatedAt(null)
+        .status("running")
+        .log("Hello World! from test job!")
+        .build();
 
-  //   // act
-  //   MvcResult response = mockMvc.perform(get("/api/jobs/launch/testjob?fail=true"))
-  //       .andExpect(status().isOk()).andReturn();
+    Job jobFailed = Job.builder()
+        .id(0L)
+        .createdBy(user)
+        .createdAt(null)
+        .updatedAt(null)
+        .status("error")
+        .log("Hello World! from test job!\nFail!")
+        .build();
 
-  //   // // assert
-  //   String responseString = response.getResponse().getContentAsString();
-  //   log.info("responseString={}", responseString);
-  //   assertEquals(expectedJSON, responseString);
+    when(jobsRepository.save(any(Job.class))).thenReturn(jobStarted).thenReturn(jobFailed);
 
-  // }
+    // act
+    MvcResult response = mockMvc.perform(get("/api/jobs/launch/testjob?fail=true&sleepMs=4000"))
+        .andExpect(status().isOk()).andReturn();
+
+    String responseString = response.getResponse().getContentAsString();
+    Job jobReturned = objectMapper.readValue(responseString, Job.class);
+
+    assertEquals("running", jobReturned.getStatus());
+
+    await().atMost(1, SECONDS)
+        .untilAsserted(() -> verify(jobsRepository, times(2)).save(eq(jobStarted)));
+
+    await().atMost(10, SECONDS)
+        .untilAsserted(() -> verify(jobsRepository, times(3)).save(eq(jobFailed)));
+  }
 }
