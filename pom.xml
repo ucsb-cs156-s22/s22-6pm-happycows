@@ -169,7 +169,6 @@
                         <param>edu.ucsb.cs156.happiercows.controllers.FrontendController</param>
                         <param>edu.ucsb.cs156.happiercows.controllers.FrontendProxyController</param>
                         <param>edu.ucsb.cs156.happiercows.services.CurrentUserServiceImpl</param>
-                        <param>edu.ucsb.cs156.happiercows.ExampleApplication</param>
                         <param>edu.ucsb.cs156.happiercows.HappierCowsApplication</param>
                         <param>edu.ucsb.cs156.happiercows.config.SecurityConfig</param>
                         <param>edu.ucsb.cs156.happiercows.config.SecurityConfig.MyCsrfRequestMatcher</param>
