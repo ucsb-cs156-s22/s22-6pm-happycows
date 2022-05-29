@@ -24,7 +24,7 @@ const userCommonsFixtures = {
             "numOfCows": 5
         }
     ],
-    threeUserCommons:
+    threeUserCommons: 
     [
         {
             "id":1,
