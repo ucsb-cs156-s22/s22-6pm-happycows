@@ -60,10 +60,10 @@ extraLinks_bothH2AndSwagger.args = {
     systemInfo: systemInfoFixtures.showingBoth
 };
 
+
 export const localhost_3000 = Template.bind({});
 localhost_3000.args = {
-    currentUser: currentUserFixtures.userOnly,
-    systemInfo: systemInfoFixtures.showingBoth
+    currentUrl: "http://localhost:3000"
 };
 
 export const localhost_127_0_0_1__3000 = Template.bind({});
