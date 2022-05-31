@@ -10,8 +10,8 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
 
     const columns = [
         {
-            Header: 'User Id',
-            accessor: 'user.id', 
+            Header: 'Full Name',
+            accessor: 'user.fullName', 
         },
         {
             Header: 'Total Wealth',
