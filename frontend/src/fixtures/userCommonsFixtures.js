@@ -4,7 +4,10 @@ const userCommonsFixtures = {
         {
             "id":1,
             "user": {
-                "id": 1
+                "id": 1,
+                "fullName": "George Washington",
+                "givenName": "George",
+                "familyName": "Washington",
             },
             "commons":  {
                 "id":1,
@@ -26,7 +29,10 @@ const userCommonsFixtures = {
         {
             "id":1,
             "user": {
-                "id": 1
+                "id": 1,
+                "fullName": "George Washington",
+                "givenName": "George",
+                "familyName": "Washington",
             },
             "commons":  {
                 "id":1,
@@ -45,7 +51,10 @@ const userCommonsFixtures = {
         {
             "id":2,
             "user": {
-                "id": 2
+                "id": 2,
+                "fullName": "John Adams",
+                "givenName": "John",
+                "familyName": "Adams",
             },
             "commons":  {
                 "id":1,
@@ -64,7 +73,10 @@ const userCommonsFixtures = {
         {
             "id":3,
             "user": {
-                "id": 3
+                "id": 3,
+                "fullName": "Thomas Jefferson",
+                "givenName": "Thomas",
+                "familyName": "Jefferson",
             },
             "commons":  {
                 "id":1,
@@ -86,7 +98,10 @@ const userCommonsFixtures = {
         {
             "id":1,
             "user": {
-                "id": 1
+                "id": 1,
+                "fullName": "George Washington",
+                "givenName": "George",
+                "familyName": "Washington",
             },
             "commons":  {
                 "id":1,
@@ -105,7 +120,10 @@ const userCommonsFixtures = {
         {
             "id":2,
             "user": {
-                "id": 2
+                "id": 2,
+                "fullName": "John Adams",
+                "givenName": "John",
+                "familyName": "Adams",
             },
             "commons":  {
                 "id":1,
@@ -124,7 +142,10 @@ const userCommonsFixtures = {
         {
             "id":3,
             "user": {
-                "id": 3
+                "id": 3,
+                "fullName": "John Adams",
+                "givenName": "John",
+                "familyName": "Adams",
             },
             "commons":  {
                 "id":1,
@@ -143,7 +164,10 @@ const userCommonsFixtures = {
         {
             "id":4,
             "user": {
-                "id": 3
+                "id": 3,
+                "fullName": "James Madison",
+                "givenName": "James",
+                "familyName": "Madison",
             },
             "commons":  {
                 "id":1,
@@ -162,7 +186,10 @@ const userCommonsFixtures = {
         {
             "id":5,
             "user": {
-                "id": 5
+                "id": 5,
+                "fullName": "James Monroe",
+                "givenName": "James",
+                "familyName": "Monroe",
             },
             "commons":  {
                 "id":1,
@@ -184,7 +211,10 @@ const userCommonsFixtures = {
         {
             "id":1,
             "user": {
-                "id": 1
+                "id": 1,
+                "fullName": "George Washington",
+                "givenName": "George",
+                "familyName": "Washington",
             },
             "commons":  {
                 "id":1,
@@ -203,7 +233,10 @@ const userCommonsFixtures = {
         {
             "id":2,
             "user": {
-                "id": 2
+                "id": 2,
+                "fullName": "John Adams",
+                "givenName": "John",
+                "familyName": "Adams",
             },
             "commons":  {
                 "id":1,
@@ -222,7 +255,10 @@ const userCommonsFixtures = {
         {
             "id":3,
             "user": {
-                "id": 3
+                "id": 3,
+                "fullName": "Thomas Jefferson",
+                "givenName": "Thomas",
+                "familyName": "Jefferson",
             },
             "commons":  {
                 "id":1,
@@ -241,7 +277,10 @@ const userCommonsFixtures = {
         {
             "id":4,
             "user": {
-                "id": 3
+                "id": 3,
+                "fullName": "James Madison",
+                "givenName": "James",
+                "familyName": "Madison",
             },
             "commons":  {
                 "id":1,
@@ -260,7 +299,10 @@ const userCommonsFixtures = {
         {
             "id":5,
             "user": {
-                "id": 5
+                "id": 5,
+                "fullName": "James Monroe",
+                "givenName": "James",
+                "familyName": "Monroe",
             },
             "commons":  {
                 "id":1,
@@ -279,7 +321,10 @@ const userCommonsFixtures = {
         {
             "id":6,
             "user": {
-                "id": 6
+                "id": 6,
+                "fullName": "Ancient McDonald",
+                "givenName": "Ancient",
+                "familyName": "McDonald",
             },
             "commons":  {
                 "id":1,
@@ -298,7 +343,10 @@ const userCommonsFixtures = {
         {
             "id":7,
             "user": {
-                "id": 7
+                "id": 7,
+                "fullName": "Old McDonald",
+                "givenName": "Old",
+                "familyName": "McDonald",
             },
             "commons":  {
                 "id":1,
@@ -317,7 +365,10 @@ const userCommonsFixtures = {
         {
             "id":8,
             "user": {
-                "id": 8
+                "id": 8,
+                "fullName": "Middle Aged McDonald",
+                "givenName": "Middle Aged",
+                "familyName": "McDonald",
             },
             "commons":  {
                 "id":1,
@@ -336,7 +387,10 @@ const userCommonsFixtures = {
         {
             "id":9,
             "user": {
-                "id": 9
+                "id": 9,
+                "fullName": "Young McDonald",
+                "givenName": "Young",
+                "familyName": "McDonald",
             },
             "commons":  {
                 "id":1,
@@ -355,7 +409,10 @@ const userCommonsFixtures = {
         {
             "id":10,
             "user": {
-                "id": 10
+                "id": 10,
+                "fullName": "Child McDonald",
+                "givenName": "Child",
+                "familyName": "McDonald",
             },
             "commons":  {
                 "id":1,
