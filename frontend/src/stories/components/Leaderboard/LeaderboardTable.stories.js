@@ -1,29 +1,47 @@
 import React from 'react';
 
 import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable";
-//import { reviewsFixtures } from 'fixtures/reviewsFixtures';
+import userCommonsFixtures from 'fixtures/userCommonsFixtures';
 
 export default {
-    title: 'components/Reviews/ReviewsTable',
-    component: ReviewsTable
+    title: 'components/Leaderboard/LeaderboardTable',
+    component: LeaderboardTable
 };
 
 const Template = (args) => {
     return (
-        <ReviewsTable {...args} />
+        <LeaderboardTable {...args} />
     )
 };
 
 export const Empty = Template.bind({});
 
 Empty.args = {
-    reviews: []
+    leaderboardUsers: []
 };
 
-export const ThreeReviews = Template.bind({});
+export const OneUserCommons = Template.bind({});
 
-ThreeReviews.args = {
-    reviews: reviewsFixtures.threeReviews
+OneUserCommons.args = {
+    leaderboardUsers: userCommonsFixtures.oneUserCommons
+};
+
+export const ThreeUserCommons = Template.bind({});
+
+ThreeUserCommons.args = {
+    leaderboardUsers: userCommonsFixtures.threeUserCommons
+};
+
+export const FiveUserCommons = Template.bind({});
+
+FiveUserCommons.args = {
+    leaderboardUsers: userCommonsFixtures.fiveUserCommons
+};
+
+export const TenUserCommons = Template.bind({});
+
+TenUserCommons.args = {
+    leaderboardUsers: userCommonsFixtures.tenUserCommons
 };
 
 
