@@ -25,7 +25,7 @@ function App() {
           !(hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_USER")) && <Route path="/" element={<LoginPage />} />
         }
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/admin/leaderboard/:commonsId" element={<Leaderboard />}/>
+        <Route path="/leaderboard/:commonsId" element={<LeaderboardPage />}/>
         {
           hasRole(currentUser, "ROLE_ADMIN") && <Route path="/admin/users" element={<AdminUsersPage />} />
         }
