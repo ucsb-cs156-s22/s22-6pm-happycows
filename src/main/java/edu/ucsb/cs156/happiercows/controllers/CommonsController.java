@@ -81,17 +81,16 @@ public class CommonsController extends ApiController {
       status = HttpStatus.CREATED;
     }
 
+    if(params.getDegradationRate() < 0) {
+      throw new IllegalArgumentException("degradation rate must be greater than 0");
+    }
+
     updated.setName(params.getName());
     updated.setCowPrice(params.getCowPrice());
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
-    if (params.getDegradationRate()) {
-      updated.setDegradationRate(0);
-    }
-    else {
-      updated.setDegradationRate(params.getDegradationRate());
-    }
+    updated.setDegradationRate(params.getDegradationRate());
 
     commonsRepository.save(updated);
 
@@ -117,18 +116,17 @@ public class CommonsController extends ApiController {
     @ApiParam("request body") @RequestBody CreateCommonsParams params
     ) throws JsonProcessingException
   {
+    if(params.getDegradationRate() < 0) {
+      throw new IllegalArgumentException("degradation rate must be greater than 0");
+    }
+    
     Commons commons = Commons.builder()
       .name(params.getName())
       .cowPrice(params.getCowPrice())
       .milkPrice(params.getMilkPrice())
       .startingBalance(params.getStartingBalance())
       .startingDate(params.getStartingDate())
-      if (params.getDegradationRate() < 0) {
-        .degradationRate(0)
-      }
-      else {
-        .degradationRate(params.getDegradationRate())
-      }
+      .degradationRate(params.getDegradationRate())
       .build();
 
     Commons saved = commonsRepository.save(commons);
