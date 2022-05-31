@@ -5,17 +5,19 @@
 
 # Storybook
 
-* [Production](https://ucsb-cs156-w22.github.io/team04-w22-6pm-HappyCows-docs/)
-* [QA](https://ucsb-cs156-w22.github.io/team04-w22-6pm-HappyCows-docs-qa/)
+* [QA](https://ucsb-cs156-s22.github.io/s22-6pm-happycows-docs-qa/)
+* [Docs](https://ucsb-cs156-s22.github.io/s22-6pm-happycows-docs/)
 
 # Heroku
 * [Production](https://s22-6pm-happycows.herokuapp.com/)
 
 6pm-3:
-* [QA](https://team04-w22-6pm-3-qa.herokuapp.com/)
+* [QA](https://s22-6pm-3-happycows-qa.herokuapp.com/)
+* [QA Dashboard](https://dashboard.heroku.com/apps/s22-6pm-3-happycows-qa)
 
 6pm-4:
-* [QA](https://team04-w22-6pm-4-qa.herokuapp.com/)
+* [QA](https://s22-6pm-4-happycows-qa.herokuapp.com/)
+* [QA-Dashboard](https://dashboard.heroku.com/apps/s22-6pm-4-happycows-qa)
 
 # Heroku Dashboard
 https://dashboard.heroku.com/apps/s22-6pm-happycows
@@ -52,7 +54,7 @@ A description of how the game is played and what scheduled actions are run are g
 Before running the application for the first time,
 you need to do the steps documented in [`docs/oauth.md`](docs/oauth.md).
 
-Otherwise, when you try to login for the first time, you 
+Otherwise, when you try to login for the first time, you
 will likely see an error such as:
 
 <img src="https://user-images.githubusercontent.com/1119017/149858436-c9baa238-a4f7-4c52-b995-0ed8bee97487.png" alt="Authorization Error; Error 401: invalid_client; The OAuth client was not found." width="400"/>
@@ -61,7 +63,7 @@ will likely see an error such as:
 
 * Open *two separate terminal windows*  
 * In the first window, start up the backend with:
-  ``` 
+  ```
   mvn spring-boot:run
   ```
 * In the second window:
@@ -120,11 +122,11 @@ To access the swagger API endpoints, use:
 
 * On localhost only: <http://localhost:8080/h2-console>  See also: [docs/h2-console.md](docs/h2-console.md)
 * On Heroku, with CLI:
-  - Use: `heroku psql --app app-name-here` 
+  - Use: `heroku psql --app app-name-here`
   - Note that this requires that you have the psql CLI tool installed on your system.  
   - This does work on CSIL, but you may need `heroku login -i` in order to login on CSIL
   - Example:
-   
+
     ```
     [pconrad@csilvm-03 ~]$ heroku psql --app demo-spring-react-example
     ›   Warning: heroku update available from 7.59.1 to 7.59.2.
@@ -133,13 +135,13 @@ To access the swagger API endpoints, use:
     SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
     Type "help" for help.
 
-    demo-spring-react-example::DATABASE=> 
+    demo-spring-react-example::DATABASE=>
     ```
-* On Heroku, without CLI: 
+* On Heroku, without CLI:
   - Upper right of dashboard, select "More" then "Run Console"
-    
+
     <img alt="Heroku Dashboard; More; Run Console" src="https://user-images.githubusercontent.com/1119017/150204550-a1027ab8-6ce7-4770-b566-a43928f5c3a0.png" width="300" />
   - Enter `psql $DATABASE_URL` and click `Run`
-   
+
     <img alt="Enter psql $DATABASE_URL and click Run" src="https://user-images.githubusercontent.com/1119017/150206174-43193825-1afd-49f4-aeaf-cfadf0c0c6f3.png" width="400" />
 * Cheatsheet of `psql` commands: <https://www.geeksforgeeks.org/postgresql-psql-commands/>
