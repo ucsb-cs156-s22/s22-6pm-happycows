@@ -131,7 +131,7 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
           {...register("degradationRate", {
             valueAsNumber: true,
             required: "Degradation rate is required",
-            min: { value: 0.01, message: "Degradation rate must be positive" },
+            min: { value: 0.00, message: "Degradation rate must be positive" },
             max: { value: 1.00, message: "Degradation rate must be at most 1" },
           })}
         />

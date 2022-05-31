@@ -24,6 +24,7 @@ describe("CommonsForm tests", () => {
       /Cow Price/,
       /Milk Price/,
       /Starting Date/,
+      /Degradation Rate/,
 
     ].forEach(
       (pattern) => {
@@ -54,6 +55,7 @@ describe("CommonsForm tests", () => {
     expect(screen.getByText(/cow price is required/i)).toBeInTheDocument();
     expect(screen.getByText(/milk price is required/i)).toBeInTheDocument();
     expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
 
     expect(submitAction).not.toBeCalled();
   });
