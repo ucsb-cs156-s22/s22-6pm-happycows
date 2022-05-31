@@ -12,6 +12,8 @@ import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
 import edu.ucsb.cs156.happiercows.testconfig.TestConfig;
 
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -24,6 +26,7 @@ import java.util.Arrays;
 
 @WebMvcTest(controllers = UsersController.class)
 @Import(TestConfig.class)
+@AutoConfigureDataJpa
 public class UsersControllerTests extends ControllerTestCase {
 
   @MockBean
@@ -46,6 +49,7 @@ public class UsersControllerTests extends ControllerTestCase {
   @Test
   public void users__admin_logged_in() throws Exception {
 
+    
     // arrange
 
     User u1 = User.builder().id(1L).build();
@@ -57,7 +61,7 @@ public class UsersControllerTests extends ControllerTestCase {
 
     when(userRepository.findAll()).thenReturn(expectedUsers);
     String expectedJson = mapper.writeValueAsString(expectedUsers);
-    
+
     // act
 
     MvcResult response = mockMvc.perform(get("/api/admin/users"))
