@@ -46,8 +46,46 @@ describe("leaderboardSortingUtils tests", () => {
   });
 
   //-----------------------------//
+  //      Num Cows Tests
+  //----------------------------//
+
+  test("sortByNumCows", () => {
+    const sortedUserCommons = sortByNumCows(fiveUserCommons);
+    const expectedNumCows = [1000, 100, 60, 8, 5];
+    for (i in expectedNumCows){
+      expect(sortedUserCommons[i].numOfCows).toBe(expectedNumCows[i]);
+    }
+  });
+
+  test("sortByNumCowsReturnOne", () => {
+    const sortedUserCommons = sortByNumCows(tenUserCommons, 1);
+    expect(sortedUserCommons.length).toBe(1);
+    expect(sortedUserCommons[0].numOfCows).toBe(1000);
+  });
+
+  test("sortByNumCowsReturnThree", () => {
+    const sortedUserCommons = sortByNumCows(tenUserCommons, 3);
+    expect(sortedUserCommons.length).toBe(3);
+    const expectedNumCows = [1000, 1000, 100];
+    for (i in expectedNumCows){
+      expect(sortedUserCommons[i].numOfCows).toBe(expectedNumCows[i]);
+    }
+  });
+
+  // Expected behavior here is to just return the full sorted array of userCommons
+  test("sortByNumCowsExpectTooMany", () => {
+    const sortedUserCommons = sortByNumCows(tenUserCommons, 25);
+    expect(sortedUserCommons.length).toBe(tenUserCommons.length);
+    const expectedNumCows = [1000, 1000, 100, 100, 60, 60, 8, 8, 5, 5];
+    for (i in expectedNumCows){
+      expect(sortedUserCommons[i].numOfCows).toBe(expectedNumCows[i]);
+    }
+  });
+
+  //-----------------------------//
   //      Cow Health Tests
   //----------------------------//
+  // if tests fail due to floating point error, try using .toBeCloseTo(number, numDigits?) instead of .toBe()
 
   test("sortByCowHealth", () => {
     const sortedUserCommons = sortByCowHealth(fiveUserCommons);
@@ -60,13 +98,13 @@ describe("leaderboardSortingUtils tests", () => {
   test("sortByCowHealthReturnOne", () => {
     const sortedUserCommons = sortByCowHealth(tenUserCommons, 1);
     expect(sortedUserCommons.length).toBe(1);
-    expect(sortedUserCommons[0].cowHealth).toBe(100000);
+    expect(sortedUserCommons[0].cowHealth).toBe(98.0);
   });
 
   test("sortByCowHealthReturnThree", () => {
     const sortedUserCommons = sortByCowHealth(tenUserCommons, 3);
     expect(sortedUserCommons.length).toBe(3);
-    const expectedCowHealths = [100000, 100000, 1000];
+    const expectedCowHealths = [98.0, 98.0, 93.0];
     for (i in expectedCowHealths){
       expect(sortedUserCommons[i].cowHealth).toBe(expectedCowHealths[i]);
     }
@@ -76,7 +114,7 @@ describe("leaderboardSortingUtils tests", () => {
   test("sortByCowHealthExpectTooMany", () => {
     const sortedUserCommons = sortByCowHealth(tenUserCommons, 25);
     expect(sortedUserCommons.length).toBe(tenUserCommons.length);
-    const expectedCowHealths = [100000, 100000, 1000, 1000, 1000, 1000, 800, 800, 50, 50];
+    const expectedCowHealths = [98.0, 98.0, 93.0, 93.0, 84.0, 84.0, 72.0, 72.0, 2.0, 2.0, ];
     for (i in expectedCowHealths){
       expect(sortedUserCommons[i].cowHealth).toBe(expectedCowHealths[i]);
     }
