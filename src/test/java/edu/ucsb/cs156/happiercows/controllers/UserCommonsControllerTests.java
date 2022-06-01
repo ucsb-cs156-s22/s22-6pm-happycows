@@ -723,7 +723,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       expectedUserCommons.add(testexpectedUserCommons);
       when(userCommonsRepository.findByCommonsId(eq(1L))).thenReturn(expectedUserCommons);
   
-      MvcResult response = mockMvc.perform(get("/api/usercommons//commons/all?commonsId=1"))
+      MvcResult response = mockMvc.perform(get("/api/usercommons/commons/all?commonsId=1"))
           .andExpect(status().isOk()).andReturn();
   
       verify(userCommonsRepository, times(1)).findByCommonsId(eq(1L));
