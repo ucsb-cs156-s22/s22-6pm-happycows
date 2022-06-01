@@ -246,7 +246,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
-      .degradationRate(-3.14) //PI!
+      .degradationRate(-1.0)
       .showLeaderboard(false)
       .build();
 
@@ -256,7 +256,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
-      .degradationRate(-3.14)
+      .degradationRate(-1.0)
       .showLeaderboard(false)
       .build();
 
