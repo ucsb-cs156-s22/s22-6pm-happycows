@@ -29,6 +29,7 @@ public class Commons
   private double milkPrice;
   private double startingBalance;
   private LocalDateTime startingDate;
+  private double degradationRate;
   private boolean showLeaderboard;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
