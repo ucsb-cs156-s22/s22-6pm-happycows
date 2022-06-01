@@ -15,7 +15,7 @@ describe("leaderboardSortingUtils tests", () => {
   test("sortByWealth", () => {
     const sortedUserCommons = sortByWealth(fiveUserCommons);
     const expectedWealths = [100000, 1000, 1000, 800, 50];
-    for (i in expectedWealths){
+    for (let i in expectedWealths){
       expect(sortedUserCommons[i].totalWealth).toBe(expectedWealths[i]);
     }
   });
@@ -30,7 +30,7 @@ describe("leaderboardSortingUtils tests", () => {
     const sortedUserCommons = sortByWealth(tenUserCommons, 3);
     expect(sortedUserCommons.length).toBe(3);
     const expectedWealths = [100000, 100000, 1000];
-    for (i in expectedWealths){
+    for (let i in expectedWealths){
       expect(sortedUserCommons[i].totalWealth).toBe(expectedWealths[i]);
     }
   });
@@ -40,7 +40,7 @@ describe("leaderboardSortingUtils tests", () => {
     const sortedUserCommons = sortByWealth(tenUserCommons, 25);
     expect(sortedUserCommons.length).toBe(tenUserCommons.length);
     const expectedWealths = [100000, 100000, 1000, 1000, 1000, 1000, 800, 800, 50, 50];
-    for (i in expectedWealths){
+    for (let i in expectedWealths){
       expect(sortedUserCommons[i].totalWealth).toBe(expectedWealths[i]);
     }
   });
@@ -52,7 +52,7 @@ describe("leaderboardSortingUtils tests", () => {
   test("sortByNumCows", () => {
     const sortedUserCommons = sortByNumCows(fiveUserCommons);
     const expectedNumCows = [1000, 100, 60, 8, 5];
-    for (i in expectedNumCows){
+    for (let i in expectedNumCows){
       expect(sortedUserCommons[i].numOfCows).toBe(expectedNumCows[i]);
     }
   });
@@ -67,7 +67,7 @@ describe("leaderboardSortingUtils tests", () => {
     const sortedUserCommons = sortByNumCows(tenUserCommons, 3);
     expect(sortedUserCommons.length).toBe(3);
     const expectedNumCows = [1000, 1000, 100];
-    for (i in expectedNumCows){
+    for (let i in expectedNumCows){
       expect(sortedUserCommons[i].numOfCows).toBe(expectedNumCows[i]);
     }
   });
@@ -77,7 +77,7 @@ describe("leaderboardSortingUtils tests", () => {
     const sortedUserCommons = sortByNumCows(tenUserCommons, 25);
     expect(sortedUserCommons.length).toBe(tenUserCommons.length);
     const expectedNumCows = [1000, 1000, 100, 100, 60, 60, 8, 8, 5, 5];
-    for (i in expectedNumCows){
+    for (let i in expectedNumCows){
       expect(sortedUserCommons[i].numOfCows).toBe(expectedNumCows[i]);
     }
   });
@@ -90,7 +90,7 @@ describe("leaderboardSortingUtils tests", () => {
   test("sortByCowHealth", () => {
     const sortedUserCommons = sortByCowHealth(fiveUserCommons);
     const expectedCowHealths = [98.0, 93.0, 84.0, 72.0, 2.0];
-    for (i in expectedCowHealths){
+    for (let i in expectedCowHealths){
       expect(sortedUserCommons[i].cowHealth).toBe(expectedCowHealths[i]);
     }
   });
@@ -105,7 +105,7 @@ describe("leaderboardSortingUtils tests", () => {
     const sortedUserCommons = sortByCowHealth(tenUserCommons, 3);
     expect(sortedUserCommons.length).toBe(3);
     const expectedCowHealths = [98.0, 98.0, 93.0];
-    for (i in expectedCowHealths){
+    for (let i in expectedCowHealths){
       expect(sortedUserCommons[i].cowHealth).toBe(expectedCowHealths[i]);
     }
   });
@@ -115,7 +115,7 @@ describe("leaderboardSortingUtils tests", () => {
     const sortedUserCommons = sortByCowHealth(tenUserCommons, 25);
     expect(sortedUserCommons.length).toBe(tenUserCommons.length);
     const expectedCowHealths = [98.0, 98.0, 93.0, 93.0, 84.0, 84.0, 72.0, 72.0, 2.0, 2.0, ];
-    for (i in expectedCowHealths){
+    for (let i in expectedCowHealths){
       expect(sortedUserCommons[i].cowHealth).toBe(expectedCowHealths[i]);
     }
   });
