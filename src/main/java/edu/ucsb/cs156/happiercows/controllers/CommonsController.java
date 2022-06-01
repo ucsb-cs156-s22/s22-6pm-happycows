@@ -89,6 +89,8 @@ public class CommonsController extends ApiController {
     updated.setDegradationRate(params.getDegradationRate());
     updated.setShowLeaderboard(params.getShowLeaderboard());
 
+    
+
     commonsRepository.save(updated);
 
     return ResponseEntity.status(status).build();
@@ -125,6 +127,7 @@ public class CommonsController extends ApiController {
     if(params.getDegradationRate() < 0) {
         throw new IllegalArgumentException("degradation rate must be greater than 0");
       }
+    
     Commons saved = commonsRepository.save(commons);
     String body = mapper.writeValueAsString(saved);
 
