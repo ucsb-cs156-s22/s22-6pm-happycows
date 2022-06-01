@@ -119,17 +119,6 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
           {errors.startingDate?.message}
         </Form.Control.Feedback>
       </Form.Group>
-
-      <Form.Group className="mb-3">
-        <Form.Label htmlFor="showLeaderboard">Show Leaderboard?</Form.Label>
-        <Form.Check 
-          data-testid={`${testid}-showLeaderboard`}
-          type="checkbox"
-          id="showLeaderboard"
-          {...register("showLeaderboard")}
-        />
-      </Form.Group>
-
       <Button type="submit" data-testid="CommonsForm-Submit-Button">{ buttonLabel }</Button>
     </Form>
   );
