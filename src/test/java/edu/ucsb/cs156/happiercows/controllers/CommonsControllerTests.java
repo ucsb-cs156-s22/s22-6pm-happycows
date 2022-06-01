@@ -107,7 +107,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     String actualResponse = response.getResponse().getContentAsString();
     assertEquals(expectedResponse, actualResponse);
   }
-  
+
   @WithMockUser(roles = { "ADMIN" })
   @Test
   public void createCommonsTest_invalid() throws Exception
@@ -152,25 +152,6 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     String actualResponse = response.getResponse().getContentAsString();
     assertEquals(expectedResponse, actualResponse);
-  }
-
-  @WithMockUser(roles = { "USER" })
-  @Test
-  public void getCommonsTest() throws Exception {
-    List<Commons> expectedCommons = new ArrayList<Commons>();
-    Commons Commons1 = Commons.builder().name("TestCommons1").build();
-
-    expectedCommons.add(Commons1);
-    when(commonsRepository.findAll()).thenReturn(expectedCommons);
-    MvcResult response = mockMvc.perform(get("/api/commons/all").contentType("application/json"))
-        .andExpect(status().isOk()).andReturn();
-
-    verify(commonsRepository, times(1)).findAll();
-
-    String responseString = response.getResponse().getContentAsString();
-    List<Commons> actualCommons = objectMapper.readValue(responseString, new TypeReference<List<Commons>>() {
-    });
-    assertEquals(actualCommons, expectedCommons);
   }
 
   @WithMockUser(roles = { "USER" })
