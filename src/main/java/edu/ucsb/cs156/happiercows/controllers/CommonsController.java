@@ -50,7 +50,6 @@ public class CommonsController extends ApiController {
   @Autowired
   ObjectMapper mapper;
 
-
   @ApiOperation(value = "Get a list of all commons")
   @GetMapping("/all")
   public ResponseEntity<String> getCommons() throws JsonProcessingException {
@@ -64,10 +63,8 @@ public class CommonsController extends ApiController {
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PutMapping("/update")
   public ResponseEntity<String> updateCommons(
-    @ApiParam("commons identifier") @RequestParam long id,
-    @ApiParam("request body") @RequestBody CreateCommonsParams params
-  )
-  {
+      @ApiParam("commons identifier") @RequestParam long id,
+      @ApiParam("request body") @RequestBody CreateCommonsParams params) {
     Optional<Commons> existing = commonsRepository.findById(id);
 
     Commons updated;
@@ -80,6 +77,9 @@ public class CommonsController extends ApiController {
       updated = new Commons();
       status = HttpStatus.CREATED;
     }
+    if(params.getDegradationRate() < 0) {
+      throw new IllegalArgumentException("degradation rate must be greater than 0");
+    }
 
     updated.setName(params.getName());
     updated.setCowPrice(params.getCowPrice());
@@ -87,6 +87,7 @@ public class CommonsController extends ApiController {
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
     updated.setDegradationRate(params.getDegradationRate());
+    updated.setShowLeaderboard(params.getShowLeaderboard());
 
     commonsRepository.save(updated);
 
@@ -109,9 +110,8 @@ public class CommonsController extends ApiController {
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping(value = "/new", produces = "application/json")
   public ResponseEntity<String> createCommons(
-    @ApiParam("request body") @RequestBody CreateCommonsParams params
-    ) throws JsonProcessingException
-  {
+  
+      @ApiParam("request body") @RequestBody CreateCommonsParams params) throws JsonProcessingException {
     Commons commons = Commons.builder()
       .name(params.getName())
       .cowPrice(params.getCowPrice())
@@ -119,8 +119,12 @@ public class CommonsController extends ApiController {
       .startingBalance(params.getStartingBalance())
       .startingDate(params.getStartingDate())
       .degradationRate(params.getDegradationRate())
+      .showLeaderboard(params.getShowLeaderboard())
       .build();
-
+   
+    if(params.getDegradationRate() < 0) {
+        throw new IllegalArgumentException("degradation rate must be greater than 0");
+      }
     Commons saved = commonsRepository.save(commons);
     String body = mapper.writeValueAsString(saved);
 
@@ -136,7 +140,8 @@ public class CommonsController extends ApiController {
     User u = getCurrentUser().getUser();
     Long userId = u.getId();
 
-    Commons joinedCommons = commonsRepository.findById(commonsId).orElseThrow( ()->new EntityNotFoundException(Commons.class, commonsId));
+    Commons joinedCommons = commonsRepository.findById(commonsId)
+        .orElseThrow(() -> new EntityNotFoundException(Commons.class, commonsId));
     Optional<UserCommons> userCommonsLookup = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId);
 
     if (userCommonsLookup.isPresent()) {
@@ -162,16 +167,17 @@ public class CommonsController extends ApiController {
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @DeleteMapping("")
   public Object deleteCommons(
-          @ApiParam("id") @RequestParam Long id) {
-      
-      Commons foundCommons = commonsRepository.findById(id).orElseThrow( ()->new EntityNotFoundException(Commons.class, id));
- 
-      commonsRepository.deleteById(id);
-      userCommonsRepository.deleteAllByCommonsId(id);
+      @ApiParam("id") @RequestParam Long id) {
 
-      String responseString = String.format("commons with id %d deleted", id);
+    Commons foundCommons = commonsRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException(Commons.class, id));
 
-      return genericMessage(responseString);
+    commonsRepository.deleteById(id);
+    userCommonsRepository.deleteAllByCommonsId(id);
+
+    String responseString = String.format("commons with id %d deleted", id);
+
+    return genericMessage(responseString);
 
   }
 
