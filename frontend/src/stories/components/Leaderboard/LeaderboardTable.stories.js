@@ -2,6 +2,7 @@ import React from 'react';
 
 import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable";
 import userCommonsFixtures from 'fixtures/userCommonsFixtures';
+import { currentUserFixtures } from 'fixtures/currentUserFixtures';
 
 export default {
     title: 'components/Leaderboard/LeaderboardTable',
@@ -30,12 +31,30 @@ export const ThreeUserCommons = Template.bind({});
 
 ThreeUserCommons.args = {
     leaderboardUsers: userCommonsFixtures.threeUserCommons
+
+};
+
+export const ThreeUserCommonsAdmin = Template.bind({});
+
+ThreeUserCommonsAdmin.args = {
+    leaderboardUsers: userCommonsFixtures.threeUserCommons,
+    currentUser: currentUserFixtures.adminUser
+
 };
 
 export const FiveUserCommons = Template.bind({});
 
 FiveUserCommons.args = {
     leaderboardUsers: userCommonsFixtures.fiveUserCommons
+};
+
+
+export const FiveUserCommonsAdmin = Template.bind({});
+
+FiveUserCommonsAdmin.args = {
+    leaderboardUsers: userCommonsFixtures.fiveUserCommons,
+    currentUser: currentUserFixtures.adminUser
+
 };
 
 export const TenUserCommons = Template.bind({});
