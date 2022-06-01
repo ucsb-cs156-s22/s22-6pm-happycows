@@ -78,7 +78,7 @@ public class CommonsController extends ApiController {
       status = HttpStatus.CREATED;
     }
      if(params.getDegradationRate() < 0) { //disallowing negative values for degradation rate
-      commons.setDegradationRate(-1*params.getDegradationRate());
+      updated.setDegradationRate(-1*params.getDegradationRate());
      }
 
     updated.setName(params.getName());
