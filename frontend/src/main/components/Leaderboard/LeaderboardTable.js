@@ -29,13 +29,21 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
 
     const testid = "LeaderboardTable";
 
-    const columnsIfAdmin = [
-        ...columns,
-        // ButtonColumn("Edit", "primary", editCallback, testid),
-        // ButtonColumn("Delete", "danger", deleteCallback, testid)
-    ];
+    /* Bring back 34-38 once admin has unique leaderboard page */
 
-    const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
+    // const columnsIfAdmin = [
+    //     ...columns,
+    //     // ButtonColumn("Edit", "primary", editCallback, testid),
+    //     // ButtonColumn("Delete", "danger", deleteCallback, testid)
+    // ];
+
+
+    // *this line below is ommited sice currently admin and user view the same table and will make mutation testing difficult*
+    // *once admin and user differ, then uncomment this line
+
+    //  const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
+    
+    const columnsToDisplay = columns;
 
     return <OurTable
         data={leaderboardUsers}

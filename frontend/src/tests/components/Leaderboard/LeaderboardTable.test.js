@@ -68,7 +68,6 @@ describe("LeaderboardTable tests", () => {
 
     );
 
-
     const expectedHeaders = ['Full Name',  'Total Wealth', 'Cows Owned','Cow Health'];
     const expectedFields = ['user.fullName', 'totalWealth','numOfCows', 'cowHealth'];
     const testId = "LeaderboardTable";
