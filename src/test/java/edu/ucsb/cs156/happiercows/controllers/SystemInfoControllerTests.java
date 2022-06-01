@@ -5,6 +5,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 
 import edu.ucsb.cs156.happiercows.ControllerTestCase;
 import edu.ucsb.cs156.happiercows.models.SystemInfo;
@@ -17,6 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = SystemInfoController.class)
+@AutoConfigureDataJpa
 public class SystemInfoControllerTests extends ControllerTestCase {
 
   @MockBean
@@ -42,8 +44,8 @@ public class SystemInfoControllerTests extends ControllerTestCase {
   @Test
   public void systemInfo__admin_logged_in() throws Exception {
 
-    // arrange
 
+    // arrange
 
     SystemInfo systemInfo = SystemInfo
         .builder()
