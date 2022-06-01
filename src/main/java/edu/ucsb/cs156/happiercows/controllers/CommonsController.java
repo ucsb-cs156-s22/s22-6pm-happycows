@@ -77,9 +77,9 @@ public class CommonsController extends ApiController {
       updated = new Commons();
       status = HttpStatus.CREATED;
     }
-    if(params.getDegradationRate() < 0) {
-      throw new IllegalArgumentException("degradation rate must be greater than 0");
-    }
+     if(params.getDegradationRate() < 0) { //disallowing negative values for degradation rate
+      commons.setDegradationRate(-1*params.getDegradationRate());
+     }
 
     updated.setName(params.getName());
     updated.setCowPrice(params.getCowPrice());
@@ -124,9 +124,9 @@ public class CommonsController extends ApiController {
       .showLeaderboard(params.getShowLeaderboard())
       .build();
    
-    if(params.getDegradationRate() < 0) {
-        throw new IllegalArgumentException("degradation rate must be greater than 0");
-      }
+    if(params.getDegradationRate() < 0) { //disallowing negative values for degradation rate
+      commons.setDegradationRate(-1*params.getDegradationRate());
+    }
     
     Commons saved = commonsRepository.save(commons);
     String body = mapper.writeValueAsString(saved);
