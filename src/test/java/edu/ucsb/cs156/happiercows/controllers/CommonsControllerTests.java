@@ -108,6 +108,52 @@ public class CommonsControllerTests extends ControllerTestCase {
     assertEquals(expectedResponse, actualResponse);
   }
 
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void createCommonsTest_invalid() throws Exception
+  {
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+    Commons commons = Commons.builder()
+      .name("Jackson's Commons")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .degradationRate(1.0)
+      .showLeaderboard(false)
+      .build();
+
+    CreateCommonsParams parameters = CreateCommonsParams.builder()
+      .name("Jackson's Commons")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .degradationRate(-1.0)
+      .showLeaderboard(false)
+      .build();
+
+    String requestBody = objectMapper.writeValueAsString(parameters);
+    String expectedResponse = objectMapper.writeValueAsString(commons);
+
+    when(commonsRepository.save(commons))
+      .thenReturn(commons);
+
+    MvcResult response = mockMvc
+      .perform(post("/api/commons/new").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .characterEncoding("utf-8")
+        .content(requestBody))
+      .andExpect(status().isOk())
+      .andReturn();
+
+    verify(commonsRepository, times(1)).save(commons);
+
+    String actualResponse = response.getResponse().getContentAsString();
+    assertEquals(expectedResponse, actualResponse);
+  }
+
   @WithMockUser(roles = { "USER" })
   @Test
   public void getCommonsTest() throws Exception {
