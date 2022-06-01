@@ -712,4 +712,25 @@ public class UserCommonsControllerTests extends ControllerTestCase {
       String responseString = response.getResponse().getContentAsString();
       assertEquals(expectedReturn, responseString);
     }
+
+
+
+    @WithMockUser(roles = { "ADMIN" })
+    @Test
+    public void test_getAllUserCommonsById_exists() throws Exception {
+        List<UserCommons> expectedUserCommons = new ArrayList<UserCommons>();
+      UserCommons testexpectedUserCommons = dummyUserCommons(1);
+      expectedUserCommons.add(testexpectedUserCommons);
+      when(userCommonsRepository.findByCommonsId(eq(1L))).thenReturn(expectedUserCommons);
+  
+      MvcResult response = mockMvc.perform(get("/api/usercommons//commons/all?commonsId=1"))
+          .andExpect(status().isOk()).andReturn();
+  
+      verify(userCommonsRepository, times(1)).findByCommonsId(eq(1L));
+  
+      String expectedJson = mapper.writeValueAsString(expectedUserCommons);
+      String responseString = response.getResponse().getContentAsString();
+  
+      assertEquals(expectedJson, responseString);
+    }
 }

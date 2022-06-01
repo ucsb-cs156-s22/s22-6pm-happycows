@@ -188,15 +188,5 @@ public class CommonsController extends ApiController {
   }
 
   
-  @ApiOperation(value = "Get all users for a specific commons")
-  @PreAuthorize("hasRole('ROLE_USER')")
-  @GetMapping("/{commonsId}/users/all")
-  public  ResponseEntity<String> getUsersbyCommonsById(
-      @ApiParam("id") @RequestParam Long id) throws JsonProcessingException {
-      Commons commons = commonsRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException(Commons.class, id));
-  Iterable<User> users = commons.getUsers();
-  String body = mapper.writeValueAsString(users);
-  return ResponseEntity.ok().body(body);
-}
+ 
 }
