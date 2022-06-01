@@ -79,10 +79,10 @@ describe("LeaderboardTable tests", () => {
       expect(header).toBeInTheDocument();
     });
 
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-user.id`)).toHaveTextContent("1");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-user.fullName`)).toHaveTextContent("George Washington");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-totalWealth`)).toHaveTextContent("1000");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-user.id`)).toHaveTextContent("2");
+    expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("2");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-user.fullName`)).toHaveTextContent("John Adams");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-totalWealth`)).toHaveTextContent("1000");
 
