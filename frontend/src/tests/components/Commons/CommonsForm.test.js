@@ -24,7 +24,6 @@ describe("CommonsForm tests", () => {
       /Cow Price/,
       /Milk Price/,
       /Starting Date/,
-      /Show Leaderboard?/,
 
     ].forEach(
       (pattern) => {
