@@ -57,17 +57,12 @@ export default function CommonsTable({ commons, currentUser }) {
         }
     ];
 
-    const leaderboardCallback = (cell) => {
-        navigate (`/admin/leaderboard/${cell.row.values.id}`)
-    }
-
     const testid = "CommonsTable";
 
     const columnsIfAdmin = [
         ...columns,
         ButtonColumn("Edit", "primary", editCallback, testid),
-        ButtonColumn("Delete", "danger", deleteCallback, testid),
-        ButtonColumn("Leaderboard", "primary", leaderboardCallback, testid)
+        ButtonColumn("Delete", "danger", deleteCallback, testid)
     ];
 
     const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
