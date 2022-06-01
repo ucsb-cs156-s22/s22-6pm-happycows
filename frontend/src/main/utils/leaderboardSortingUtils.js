@@ -2,13 +2,13 @@ import userCommonsFixtures from "../../fixtures/userCommonsFixtures"
 
 export function sortByWealth(userCommonsArray, returnArraySize = userCommonsArray.length){
   return userCommonsArray.sort((a, b) => {
-    return a.totalWealth - b.totalWealth;
+    return b.totalWealth - a.totalWealth;
   }).slice(0, returnArraySize);
 }
 
 export function sortByNumCows(userCommonsArray, returnArraySize = userCommonsArray.length){
   return userCommonsArray.sort((a, b) => {
-    return a.numOfCows - b.numOfCows;
+    return b.numOfCows - a.numOfCows;
   }).slice(0, returnArraySize);
 }
 
