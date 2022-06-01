@@ -1,4 +1,3 @@
-import userCommonsFixtures from "../../fixtures/userCommonsFixtures"
 
 export function sortByWealth(userCommonsArray, returnArraySize = userCommonsArray.length){
   return userCommonsArray.sort((a, b) => {

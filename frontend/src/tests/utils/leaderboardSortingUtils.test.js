@@ -3,8 +3,8 @@ import userCommonsFixtures from "../../fixtures/userCommonsFixtures"
 
 describe("leaderboardSortingUtils tests", () => {
   const {
-    oneUserCommons,
-    threeUserCommons,
+    _oneUserCommons,
+    _threeUserCommons,
     fiveUserCommons,
     tenUserCommons
   } = userCommonsFixtures;
