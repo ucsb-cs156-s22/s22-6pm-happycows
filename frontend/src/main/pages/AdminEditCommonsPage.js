@@ -34,7 +34,6 @@ export default function CommonsEditPage() {
         "cowPrice": commons.cowPrice,
         "milkPrice": commons.milkPrice,
         "startingDate": commons.startingDate,
-        "showLeaderboard": commons.showLeaderboard,
     }
   });
 
@@ -70,4 +69,3 @@ export default function CommonsEditPage() {
     </BasicLayout>
   )
 }
-
