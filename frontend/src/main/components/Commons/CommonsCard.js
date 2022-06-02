@@ -18,8 +18,10 @@ const CommonsCard = ({ buttonText, buttonLink, commons }) => {
                 <Row>
                     <Col sx={4} data-testid="commonsCard-id">{commons.id}</Col>
                     <Col sx={4} data-testid="commonsCard-name">{commons.name}</Col>
-                    // Stryker disable next-line all : don't care about a 1ms difference
-                    <Col sx={4} data-testid="commonsCard-endDate">{daysLeft >= 0 ? daysLeft : daysLeftText}</Col>
+                    <Col sx={4} data-testid="commonsCard-endDate">{
+                        // Stryker disable next-line all : don't care about a 1ms difference
+                        daysLeft >= 0 ? daysLeft : daysLeftText
+                    }</Col>
                     {buttonText != null &&
                         <Col sm={4}>
                             <Button
