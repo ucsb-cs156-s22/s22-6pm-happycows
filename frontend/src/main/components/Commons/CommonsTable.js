@@ -65,6 +65,7 @@ export default function CommonsTable({ commons, currentUser }) {
             accessor: row => String(row.totalPlayers),
             id: 'totalPlayers'
         },
+        {
             Header:'Show Leaderboard?',
             id: 'showLeaderboard', // needed for tests
             accessor: (row, _rowIndex) => String(row.showLeaderboard) // hack needed for boolean values to show up
