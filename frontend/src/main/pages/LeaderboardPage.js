@@ -1,19 +1,15 @@
 import React from "react";
-//import { Container, CardGroup } from "react-bootstrap";
+
 import { useParams } from "react-router-dom";
-//import { toast } from "react-toastify";
+
 
 import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable";
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-//import CommonsOverview from "main/components/Commons/CommonsOverview";
-//import CommonsPlay from "main/components/Commons/CommonsPlay";
-//import FarmStats from "main/components/Commons/FarmStats";
-//import ManageCows from "main/components/Commons/ManageCows";
-//import Profits from "main/components/Commons/Profits";
-//import { useBackend, useBackendMutation } from "main/utils/useBackend";
+
 import { useBackend } from "main/utils/useBackend";
 import { useCurrentUser } from "main/utils/currentUser";
 import Background from "../../assets/PlayPageBackground.png";
+
 
 export default function LeaderboardPage() {
 

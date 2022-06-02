@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import _mockConsole from "jest-mock-console";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
@@ -6,7 +6,7 @@ import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
 import LeaderboardPage from "main/pages/LeaderboardPage";
-import commonsFixtures from "fixtures/commonsFixtures";
+import leaderboardFixtures from "fixtures/leaderboardFixtures";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
@@ -30,7 +30,7 @@ describe("LeaderboardPage tests", () => {
     
     const axiosMock = new AxiosMockAdapter(axios);
 
-    const _testId = "Leaderboard";
+    const testId = "LeaderboardTable";
 
     const setupUser = () => {
         axiosMock.reset();
@@ -74,25 +74,7 @@ describe("LeaderboardPage tests", () => {
             </QueryClientProvider>
         );
     });
-
-    test("renders one leaderboard without crashing for admin", async () => {
-        setupAdmin();
-        const queryClient = new QueryClient();
-        //apiCurrentUserFixtures.userOnly.user.commons = commonsFixtures.oneCommons;
-        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
-        axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.oneCommons);
-        render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <LeaderboardPage />
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-        await waitFor(() => {expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1")});
-        expect(await screen.findByTestId(`${testId}-cell-row-0-col-name`)).toHaveTextContent("Anika's Commons");
-        expect(screen.getByTestId(`${testId}-cell-row-0-col-day`)).toHaveTextContent("5");
-        expect(screen.getByTestId(`${testId}-cell-row-2-col-startingDate`)).toHaveTextContent("2025-03-05T15:50:10");
-    });
+    
 
     beforeEach(() => {
         axiosMock.reset();
