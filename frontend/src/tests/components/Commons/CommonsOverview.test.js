@@ -22,15 +22,14 @@ jest.mock("react-router-dom", () => ({
     })
 }));
 
-// const mockNavigate = jest.fn();
-// jest.mock('react-router-dom', () => {
-//     const originalModule = jest.requireActual('react-router-dom');
-//     return {
-//         __esModule: true,
-//         ...originalModule,
-//         Navigate: () => mockNavigate
-//     };
-// });
+const mockNavigate = jest.fn();
+jest.mock("react-router-dom", () => ({
+    ...jest.requireActual("react-router-dom"),
+    useParams: () => ({
+        commonsId: 1
+    }),
+    useNavigate: () => mockNavigate
+}));
 
 describe("CommonsOverview tests", () => {
 
@@ -50,7 +49,7 @@ describe("CommonsOverview tests", () => {
     });
 
     test("Redirects to the LeaderboardPage when you click visit", async () => {
-        apiCurrentUserFixtures.userOnly.user.commons = commonsFixtures.oneCommons;
+        apiCurrentUserFixtures.userOnly.user.commons = commonsFixtures.oneCommons[0];
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/commons", {params: {id:1}}).reply(200, commonsFixtures.oneCommons);
         axiosMock.onGet("/api/leaderboard/all").reply(200, leaderboardFixtures.threeUserCommonsLB);

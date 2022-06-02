@@ -5,6 +5,7 @@ import { _Link, useNavigate } from "react-router-dom";
 export default function CommonsOverview({ commons }) {
     
     let navigate = useNavigate();
+    // Stryker disable next-line all
     const leaderboardButtonClick = () => { navigate("/leaderboard/" + commons.id) };
 
     return (
