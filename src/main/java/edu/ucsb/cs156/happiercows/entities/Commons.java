@@ -28,7 +28,9 @@ public class Commons
   private double cowPrice;
   private double milkPrice;
   private double startingBalance;
+  // private double test;
   private LocalDateTime startingDate;
+  private LocalDateTime endingDate;
   private double degradationRate;
   private boolean showLeaderboard;
 
