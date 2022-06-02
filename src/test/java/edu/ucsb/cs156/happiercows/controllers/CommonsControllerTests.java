@@ -392,7 +392,6 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingDate(someTime)
         .totalPlayers(0)
         .endDate(someOtherTime)
-        .totalPlayers(0)
         .showLeaderboard(false)
         .build();
 
