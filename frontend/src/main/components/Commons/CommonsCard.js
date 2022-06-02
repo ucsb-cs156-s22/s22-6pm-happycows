@@ -7,7 +7,7 @@ const CommonsCard = ({ buttonText, buttonLink, commons }) => {
   const endDate = new Date(commons.endDate);
   const daysLeft = Math.floor((endDate.getTime() - currDate.getTime()) / MILLISECONDSPERDAY);
   // endDate.getTime() is 0 when the end date isn't set
-  const daysLeftText = endDate.getTime() == 0 ? "Not set" : "Finished";
+  const daysLeftText = endDate.getTime() === 0 ? "Not set" : "Finished";
 
     return (
         <Card.Body style={
