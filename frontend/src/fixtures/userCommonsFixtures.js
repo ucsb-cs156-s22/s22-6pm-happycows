@@ -1,162 +1,434 @@
-const leaderboardFixtures = {
-    oneUserCommonsLB: 
+const userCommonsFixtures = {
+    oneUserCommons: 
     [
         {
             "id":1,
-            "userId": 1,
-            "commonsId": 1,
+            "user": {
+                "id": 1,
+                "fullName": "George Washington",
+                "givenName": "George",
+                "familyName": "Washington",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 1000,
+            "cowHealth": 98.0,
             "numOfCows": 5
         }
     ],
-    threeUserCommonsLB:
+    threeUserCommons:
     [
         {
             "id":1,
-            "userId": 1,
-            "commonsId": 1,
-            "totalWealth" : 1000,
-            "numOfCows": 8
-        },
-        {
-            "id":2,
-            "userId": 2,
-            "commonsId": 1,
-            "totalWealth" : 1000,
-            "numOfCows": 5
-        },
-        {
-            "id":3,
-            "userId": 3,
-            "commonsId": 1,
-            "totalWealth" : 100000,
-            "numOfCows": 1000
-        }
-    ],
-    fiveUserCommonsLB: 
-    [
-        {
-            "id":1,
-            "userId": 1,
-            "commonsId": 1,
+            "user": {
+                "id": 1,
+                "fullName": "George Washington",
+                "givenName": "George",
+                "familyName": "Washington",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 1000,
             "cowHealth": 93.0,
             "numOfCows": 8
         },
         {
             "id":2,
-            "userId": 2,
-            "commonsId": 1,
+            "user": {
+                "id": 2,
+                "fullName": "John Adams",
+                "givenName": "John",
+                "familyName": "Adams",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 1000,
             "cowHealth": 98.0,
             "numOfCows": 5
         },
         {
             "id":3,
-            "userId": 3,
-            "commonsId": 1,
+            "user": {
+                "id": 3,
+                "fullName": "Thomas Jefferson",
+                "givenName": "Thomas",
+                "familyName": "Jefferson",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
+            "totalWealth" : 100000,
+            "cowHealth": 2.0,
+            "numOfCows": 1000
+        }
+    ],
+    fiveUserCommons: 
+    [
+        {
+            "id":1,
+            "user": {
+                "id": 1,
+                "fullName": "George Washington",
+                "givenName": "George",
+                "familyName": "Washington",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
+            "totalWealth" : 1000,
+            "cowHealth": 93.0,
+            "numOfCows": 8
+        },
+        {
+            "id":2,
+            "user": {
+                "id": 2,
+                "fullName": "John Adams",
+                "givenName": "John",
+                "familyName": "Adams",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
+            "totalWealth" : 1000,
+            "cowHealth": 98.0,
+            "numOfCows": 5
+        },
+        {
+            "id":3,
+            "user": {
+                "id": 3,
+                "fullName": "John Adams",
+                "givenName": "John",
+                "familyName": "Adams",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 100000,
             "cowHealth": 2.0,
             "numOfCows": 1000
         },
         {
             "id":4,
-            "userId": 4,
-            "commonsId": 1,
+            "user": {
+                "id": 3,
+                "fullName": "James Madison",
+                "givenName": "James",
+                "familyName": "Madison",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 50,
             "cowHealth": 84.0,
             "numOfCows": 100
         },
         {
             "id":5,
-            "userId": 5,
-            "commonsId": 1,
+            "user": {
+                "id": 5,
+                "fullName": "James Monroe",
+                "givenName": "James",
+                "familyName": "Monroe",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 800,
+            "cowHealth": 72.0,
             "numOfCows": 60
         }
     ],
-    tenUserCommonsLB: 
+    tenUserCommons: 
     [
         {
             "id":1,
-            "userId": 1,
-            "commonsId": 1,
+            "user": {
+                "id": 1,
+                "fullName": "George Washington",
+                "givenName": "George",
+                "familyName": "Washington",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 1000,
             "cowHealth": 93.0,
             "numOfCows": 8
         },
         {
             "id":2,
-            "userId": 2,
-            "commonsId": 1,
+            "user": {
+                "id": 2,
+                "fullName": "John Adams",
+                "givenName": "John",
+                "familyName": "Adams",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 1000,
             "cowHealth": 98.0,
             "numOfCows": 5
         },
         {
             "id":3,
-            "userId": 3,
-            "commonsId": 1,
+            "user": {
+                "id": 3,
+                "fullName": "Thomas Jefferson",
+                "givenName": "Thomas",
+                "familyName": "Jefferson",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 100000,
             "cowHealth": 2.0,
             "numOfCows": 1000
         },
         {
             "id":4,
-            "userId": 4,
-            "commonsId": 1,
+            "user": {
+                "id": 3,
+                "fullName": "James Madison",
+                "givenName": "James",
+                "familyName": "Madison",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 50,
             "cowHealth": 84.0,
             "numOfCows": 100
         },
         {
             "id":5,
-            "userId": 5,
-            "commonsId": 1,
+            "user": {
+                "id": 5,
+                "fullName": "James Monroe",
+                "givenName": "James",
+                "familyName": "Monroe",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 800,
             "cowHealth": 72.0,
             "numOfCows": 60
         },
         {
             "id":6,
-            "userId": 6,
-            "commonsId": 1,
+            "user": {
+                "id": 6,
+                "fullName": "Ancient McDonald",
+                "givenName": "Ancient",
+                "familyName": "McDonald",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 1000,
             "cowHealth": 93.0,
             "numOfCows": 8
         },
         {
             "id":7,
-            "userId": 7,
-            "commonsId": 1,
+            "user": {
+                "id": 7,
+                "fullName": "Old McDonald",
+                "givenName": "Old",
+                "familyName": "McDonald",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 1000,
             "cowHealth": 98.0,
             "numOfCows": 5
         },
         {
             "id":8,
-            "userId": 8,
-            "commonsId":  1,
+            "user": {
+                "id": 8,
+                "fullName": "Middle Aged McDonald",
+                "givenName": "Middle Aged",
+                "familyName": "McDonald",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 100000,
             "cowHealth": 2.0,
             "numOfCows": 1000
         },
         {
             "id":9,
-            "userId": 9,
-            "commonsId":  1,
+            "user": {
+                "id": 9,
+                "fullName": "Young McDonald",
+                "givenName": "Young",
+                "familyName": "McDonald",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 50,
             "cowHealth": 84.0,
             "numOfCows": 100
         },
         {
             "id":10,
-            "userId": 10,
-            "commonsId": 1,
+            "user": {
+                "id": 10,
+                "fullName": "Child McDonald",
+                "givenName": "Child",
+                "familyName": "McDonald",
+            },
+            "commons":  {
+                "id":1,
+                "name":"Table 11",
+                "day": 5,
+                "endDate":"6/11/2021",
+                "totalPlayers": 50,
+                "cowPrice": 15,
+                "showLeaderboard": true,
+                "degradationRate": .5,
+            },
             "totalWealth" : 800,
+            "cowHealth": 72.0,
             "numOfCows": 60
         }
     ]
 }
 
-export default leaderboardFixtures;
+export default userCommonsFixtures;
