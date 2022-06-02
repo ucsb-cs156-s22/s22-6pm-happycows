@@ -9,6 +9,7 @@ import AdminEditCommonsPage from "main/pages/AdminEditCommonsPage";
 import AdminListCommonsPage from "main/pages/AdminListCommonPage";
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 import PlayPage from "main/pages/PlayPage";
+import LeaderboardPage from "main/pages/LeaderboardPage";
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
           hasRole(currentUser, "ROLE_ADMIN") && <Route path="/admin/editcommons/:id" element={<AdminEditCommonsPage />} />
         }
         <Route path="/play/:commonsId" element={<PlayPage />} />
+        <Route path="/leaderboard/:commonsId" element={<LeaderboardPage />} />
       </Routes>
     </BrowserRouter>
   );

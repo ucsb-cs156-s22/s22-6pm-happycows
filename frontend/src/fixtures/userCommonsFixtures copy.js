@@ -1,5 +1,5 @@
-const userCommonsFixtures = {
-    oneUserCommons: 
+const leaderboardFixtures = {
+    oneUserCommonsLB: 
     [
         {
             "id":1,
@@ -9,7 +9,7 @@ const userCommonsFixtures = {
             "numOfCows": 5
         }
     ],
-    threeUserCommons:
+    threeUserCommonsLB:
     [
         {
             "id":1,
@@ -33,7 +33,7 @@ const userCommonsFixtures = {
             "numOfCows": 1000
         }
     ],
-    fiveUserCommons: 
+    fiveUserCommonsLB: 
     [
         {
             "id":1,
@@ -75,7 +75,7 @@ const userCommonsFixtures = {
             "numOfCows": 60
         }
     ],
-    tenUserCommons: 
+    tenUserCommonsLB: 
     [
         {
             "id":1,
@@ -159,4 +159,4 @@ const userCommonsFixtures = {
     ]
 }
 
-export default userCommonsFixtures;
+export default leaderboardFixtures;

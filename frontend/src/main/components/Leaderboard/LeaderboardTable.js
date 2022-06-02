@@ -19,7 +19,7 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
         },
         {
             Header: 'Cow Health',
-            accessor: 'cowHealth'
+            accessor: 'leaderboardUsers[0].cowHeath'
         }
     ];
 
