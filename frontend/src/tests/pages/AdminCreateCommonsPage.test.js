@@ -101,7 +101,11 @@ describe("AdminCreateCommonsPage tests", () => {
 
         expect(axiosMock.history.post[0].data).toEqual( JSON.stringify(expectedCommons) );
 
-        expect(mockToast).toBeCalledWith(<div>Commons successfully created!<br />id: 5<br />name: My New Commons<br />startDate: 2022-03-05T00:00:00<br />cowPrice: 10</div>);
-        // expect(mockNavigate).toBeCalledWith({ "to": "/admin/listcommons" });
+        expect(mockToast).toBeCalledWith(<div>Commons successfully created!
+            <br />id: 5
+            <br />name: My New Commons
+            <br />startDate: 2022-03-05T00:00:00
+            <br />cowPrice: 10
+        </div>);
     });
 });
