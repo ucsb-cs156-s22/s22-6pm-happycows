@@ -6,7 +6,7 @@ import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
 import LeaderboardPage from "main/pages/LeaderboardPage";
-import leaderboardFixtures from "fixtures/leaderboardFixtures";
+
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
