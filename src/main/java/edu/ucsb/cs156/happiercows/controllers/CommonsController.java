@@ -87,7 +87,7 @@ public class CommonsController extends ApiController {
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
     //doesn't make sense to update totalPlayer number
-    updated.setEndingDate(params.getEndingDate());
+    updated.setEndDate(params.getEndDate());
 
     commonsRepository.save(updated);
 
@@ -120,7 +120,7 @@ public class CommonsController extends ApiController {
       .startingBalance(params.getStartingBalance())
       .startingDate(params.getStartingDate())
       .totalPlayers(0)
-      .endingDate(params.getEndingDate())
+      .endDate(params.getEndDate())
       .build();
 
     Commons saved = commonsRepository.save(commons);

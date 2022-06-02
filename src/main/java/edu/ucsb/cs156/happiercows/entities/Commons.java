@@ -29,7 +29,7 @@ public class Commons
   private double milkPrice;
   private double startingBalance;
   private LocalDateTime startingDate;
-  private LocalDateTime endingDate;
+  private LocalDateTime endDate;
   private double degradationRate;
   private boolean showLeaderboard;
   private int totalPlayers;

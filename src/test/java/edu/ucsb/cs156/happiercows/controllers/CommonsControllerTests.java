@@ -75,8 +75,8 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
-      .endingDate(someOtherTime)
       .totalPlayers(0)
+      .endDate(someOtherTime)
       .build();
 
     CreateCommonsParams parameters = CreateCommonsParams.builder()
@@ -85,8 +85,8 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
-      .endingDate(someOtherTime)
       .totalPlayers(0)
+      .endDate(someOtherTime)
       .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -141,8 +141,8 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
-      .endingDate(someOtherTime)
       .totalPlayers(0)
+      .endDate(someOtherTime)
       .build();
 
     Commons commons = Commons.builder()
@@ -151,8 +151,8 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
-      .endingDate(someOtherTime)
       .totalPlayers(0)
+      .endDate(someOtherTime)
       .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -384,8 +384,8 @@ public class CommonsControllerTests extends ControllerTestCase {
         .milkPrice(8.99)
         .startingBalance(1020.10)
         .startingDate(someTime)
-        .endingDate(someOtherTime)
         .totalPlayers(0)
+        .endDate(someOtherTime)
         .build();
 
       when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));

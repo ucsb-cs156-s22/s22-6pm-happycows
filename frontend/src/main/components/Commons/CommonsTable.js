@@ -59,6 +59,11 @@ export default function CommonsTable({ commons, currentUser }) {
             Header:'TotalPlayers',
             accessor: row => String(row.totalPlayers),
             id: 'totalPlayers'
+        },
+        {
+            Header:'End Date',
+            accessor: row => String(row.endDate),
+            id: 'endDate'
         }
     ];
 
