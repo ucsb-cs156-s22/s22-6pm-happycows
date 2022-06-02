@@ -16,7 +16,7 @@ describe("CommonsForm tests", () => {
         <CommonsForm />
       </Router>
     );
-    
+
     expect(await screen.findByText(/Commons Name/)).toBeInTheDocument();
 
     [
@@ -24,7 +24,8 @@ describe("CommonsForm tests", () => {
       /Cow Price/,
       /Milk Price/,
       /Starting Date/,
-      /Show Leaderboard?/,
+      /Degradation Rate/,
+      /Show Leaderboard\?/,
 
     ].forEach(
       (pattern) => {
@@ -55,6 +56,7 @@ describe("CommonsForm tests", () => {
     expect(screen.getByText(/cow price is required/i)).toBeInTheDocument();
     expect(screen.getByText(/milk price is required/i)).toBeInTheDocument();
     expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
 
     expect(submitAction).not.toBeCalled();
   });
