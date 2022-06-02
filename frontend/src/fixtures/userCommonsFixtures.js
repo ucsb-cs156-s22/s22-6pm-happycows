@@ -432,3 +432,4 @@ const userCommonsFixtures = {
 }
 
 export default userCommonsFixtures;
+
