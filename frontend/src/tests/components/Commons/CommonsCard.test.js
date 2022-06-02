@@ -130,7 +130,8 @@ describe("CommonsCard tests", () => {
     test("countdown says 0 when endDate is the same day", async () => {
         const click = jest.fn();
         let commons = commonsFixtures.threeCommons[2];
-        commons.endDate = new Date();
+        let date = new Date();
+        commons.endDate = date.getTime() + 10; // add 10 for floating point error
 
         render(
             <CommonsCard commons = {commons} buttonText = {"Join"}  buttonLink = {click}/>
@@ -156,7 +157,7 @@ describe("CommonsCard tests", () => {
         const countdown = screen.getByTestId("commonsCard-endDate");
         expect(countdown).toBeInTheDocument();
         expect(typeof(countdown.textContent)).toBe('string');
-        expect(countdown.textContent).toEqual(`${DAYDIFF}`);
+        expect(countdown.textContent).toEqual("0");
 
     });
 
