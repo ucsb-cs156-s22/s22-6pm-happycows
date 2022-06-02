@@ -86,11 +86,8 @@ public class CommonsController extends ApiController {
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
-<<<<<<< HEAD
     //doesn't make sense to update totalPlayer number
-=======
     updated.setEndingDate(params.getEndingDate());
->>>>>>> 841b76f1dd7e4be9b7c66d58dd3048fe2c8929f1
 
     commonsRepository.save(updated);
 
@@ -169,7 +166,7 @@ public class CommonsController extends ApiController {
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @DeleteMapping("")
   public Object deleteCommons(
-          @ApiParam("id") @RequestParam Long id) {
+      @ApiParam("id") @RequestParam Long id) {
 
       Commons foundCommons = commonsRepository.findById(id).orElseThrow( ()->new EntityNotFoundException(Commons.class, id));
 
