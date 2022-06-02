@@ -38,8 +38,8 @@ export default function CommonsEditPage() {
     }
   });
 
-  const onSuccess = (commons) => {
-    toast(`Commons Updated - id: ${commons.id} name: ${commons.name}`);
+  const onSuccess = () => {
+    toast(`Commons Updated!`);
   }
 
   const mutation = useBackendMutation(

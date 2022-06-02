@@ -136,7 +136,7 @@ describe("AdminEditCommonsPage tests", () => {
             fireEvent.click(submitButton);
 
             await waitFor(() => expect(mockToast).toHaveBeenCalled());
-            expect(mockToast).toBeCalledWith("Commons Updated - id: 5 name: Phill's Commons");
+            expect(mockToast).toBeCalledWith("Commons Updated!");
             expect(mockNavigate).toBeCalledWith({ "to": "/admin/listcommons" });
 
             expect(axiosMock.history.put.length).toBe(1); // times called
