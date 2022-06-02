@@ -1,31 +1,48 @@
-import React from 'react'
-import { useBackend } from 'main/utils/useBackend'; // use prefix indicates a React Hook
+import React from "react";
+//import { Container, CardGroup } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+//import { toast } from "react-toastify";
+
+import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable";
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-import LeaderboardTable from 'main/components/Leaderboard/LeaderboardTable';
-import { useCurrentUser } from 'main/utils/currentUser' // use prefix indicates a React Hook
+//import CommonsOverview from "main/components/Commons/CommonsOverview";
+//import CommonsPlay from "main/components/Commons/CommonsPlay";
+//import FarmStats from "main/components/Commons/FarmStats";
+//import ManageCows from "main/components/Commons/ManageCows";
+//import Profits from "main/components/Commons/Profits";
+//import { useBackend, useBackendMutation } from "main/utils/useBackend";
+import { useBackend } from "main/utils/useBackend";
+import { useCurrentUser } from "main/utils/currentUser";
+import Background from "../../assets/PlayPageBackground.png";
 
 export default function LeaderboardPage() {
-    
-    // this will use the argument from the address
-    // this will act as the commons id
-    // let { id } = useParams();
-  const currentUser = useCurrentUser();
-  // this backend should use the get api for a specific commons to get all its users
-  const { data: leaderboardUsers, error: _error, status: _status } =
+
+  const { commonsId } = useParams();
+  const { data: currentUser } = useCurrentUser();
+
+  // Stryker disable all 
+  const { data: userCommons, error: _error, status: _status } =
     useBackend(
-      // Stryker disable next-line all : don't test internal caching of React Query
-      // this api will call leaderboard for a specific commons, using above arg and then get all students
-      ["/api/MenuItemReview/all"],
-            // Stryker disable next-line StringLiteral,ObjectLiteral : since "GET" is default, "" is an equivalent mutation
-            { method: "GET", url: "/api/MenuItemReview/all" },
+      [`/api/usercommons/commons/all?commonsId=${commonsId}`],
+      {
+        method: "GET",
+        url: "/api/usercommons/commons/all",
+        params: {
+          commonsId: commonsId
+        }
+      },
       []
     );
+  // Stryker enable all 
+
   return (
-    <BasicLayout>
-      <div className="pt-2">
-        <h1 data-testid = "leaderboardPage-title" style={{ fontSize: "75px", borderRadius: "7px", backgroundColor: "white", opacity: ".9" }} className="text-center border-0 my-3">Commons Leaderboard</h1>
-        <LeaderboardTable leaderboardUsers={leaderboardUsers} currentUser={currentUser} />
-      </div>
-    </BasicLayout>
+    <div style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }}>
+        <BasicLayout>
+            <div className="pt-2">
+                <h1>Leaderboard</h1>
+                <LeaderboardTable leaderboardUsers={userCommons} currentUser={currentUser} />
+            </div>
+        </BasicLayout>
+    </div>
   )
 }
