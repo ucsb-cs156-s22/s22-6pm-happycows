@@ -126,7 +126,7 @@ public class UserCommonsController extends ApiController {
         @ApiParam("commonsId") @RequestParam Long commonsId) throws JsonProcessingException {
       Iterable<UserCommons> uc = userCommonsRepository.findByCommonsId(commonsId);
       
-      //  Iterable<UserCommons> uc =  userCommonsRepository.findAll());
+   
     String body = mapper.writeValueAsString(uc);
     return ResponseEntity.ok().body(body);
   }
