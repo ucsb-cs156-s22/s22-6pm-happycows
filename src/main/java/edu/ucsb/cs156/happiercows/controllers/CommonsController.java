@@ -88,9 +88,7 @@ public class CommonsController extends ApiController {
     updated.setStartingDate(params.getStartingDate());
     //doesn't make sense to update totalPlayer number
     updated.setEndDate(params.getEndDate());
-
     commonsRepository.save(updated);
-
     return ResponseEntity.status(status).build();
   }
 

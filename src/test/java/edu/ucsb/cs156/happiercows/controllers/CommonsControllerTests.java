@@ -235,6 +235,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     Commons c = Commons.builder()
       .id(2L)
       .name("Example Commons")
+      .totalPlayers(0)
       .build();
 
     UserCommons uc = UserCommons.builder()
@@ -386,6 +387,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingDate(someTime)
         .totalPlayers(0)
         .endDate(someOtherTime)
+        .totalPlayers(0)
         .build();
 
       when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));
