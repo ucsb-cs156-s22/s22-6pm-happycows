@@ -86,6 +86,7 @@ public class CommonsController extends ApiController {
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
+    updated.setEndingDate(params.getEndingDate());
 
     commonsRepository.save(updated);
 
@@ -117,6 +118,7 @@ public class CommonsController extends ApiController {
       .milkPrice(params.getMilkPrice())
       .startingBalance(params.getStartingBalance())
       .startingDate(params.getStartingDate())
+      .endingDate(params.getEndingDate())
       .build();
 
     Commons saved = commonsRepository.save(commons);
@@ -161,9 +163,9 @@ public class CommonsController extends ApiController {
   @DeleteMapping("")
   public Object deleteCommons(
           @ApiParam("id") @RequestParam Long id) {
-      
+
       Commons foundCommons = commonsRepository.findById(id).orElseThrow( ()->new EntityNotFoundException(Commons.class, id));
- 
+
       commonsRepository.deleteById(id);
       userCommonsRepository.deleteAllByCommonsId(id);
 
