@@ -25,7 +25,6 @@ describe("CommonsForm tests", () => {
       /Milk Price/,
       /Starting Date/,
       /Show Leaderboard\?/,
-
     ].forEach(
       (pattern) => {
         expect(screen.getByText(pattern)).toBeInTheDocument();
