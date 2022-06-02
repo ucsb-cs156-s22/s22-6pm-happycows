@@ -1,5 +1,6 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { _Container, _Row, Card, Col, Button } from "react-bootstrap";
+import { Link, _useNavigate } from "react-router-dom";
 
 export default function CommonsOverview({ commons }) {
     return (
@@ -8,6 +9,9 @@ export default function CommonsOverview({ commons }) {
             <Card.Body>
                 <Card.Title>Today is day {commons.day}! This game will end on {commons.endDate}.</Card.Title>
                 <Card.Text>Total Players: {commons.totalPlayers}</Card.Text>
+                <Col>
+                    <Button variant="outline-success" as={Link} to={`/leaderboard/${commons.id}`} data-testid={"user-leaderboard-button"}>Leaderboard</Button>
+                </Col>
             </Card.Body>
         </Card>
     );
