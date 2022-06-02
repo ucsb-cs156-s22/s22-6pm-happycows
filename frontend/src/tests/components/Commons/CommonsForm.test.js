@@ -16,7 +16,7 @@ describe("CommonsForm tests", () => {
         <CommonsForm />
       </Router>
     );
-    
+
     expect(await screen.findByText(/Commons Name/)).toBeInTheDocument();
 
     [
@@ -25,6 +25,7 @@ describe("CommonsForm tests", () => {
       /Milk Price/,
       /Starting Date/,
       /Degradation Rate/,
+      /Show Leaderboard\?/,
 
     ].forEach(
       (pattern) => {
