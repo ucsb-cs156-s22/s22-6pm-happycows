@@ -3,6 +3,7 @@ import { useBackend } from 'main/utils/useBackend'; // use prefix indicates a Re
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import LeaderboardTable from 'main/components/Leaderboard/LeaderboardTable';
 import { useCurrentUser } from 'main/utils/currentUser' // use prefix indicates a React Hook
+
 export default function LeaderboardPage() {
     
     // this will use the argument from the address
@@ -22,7 +23,7 @@ export default function LeaderboardPage() {
   return (
     <BasicLayout>
       <div className="pt-2">
-        <h1> -insert commons name- Commons Leaderboard</h1>
+        <h1 data-testid = "leaderboardPage-title" style={{ fontSize: "75px", borderRadius: "7px", backgroundColor: "white", opacity: ".9" }} className="text-center border-0 my-3">Commons Leaderboard</h1>
         <LeaderboardTable leaderboardUsers={leaderboardUsers} currentUser={currentUser} />
       </div>
     </BasicLayout>
