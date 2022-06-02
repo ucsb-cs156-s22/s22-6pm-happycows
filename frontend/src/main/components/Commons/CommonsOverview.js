@@ -1,8 +1,12 @@
 import React from "react";
 import { _Container, Row, _Router, Card, Col, Button } from "react-bootstrap";
-import { _Link, _useNavigate } from "react-router-dom";
+import { _Link, useNavigate } from "react-router-dom";
 
 export default function CommonsOverview({ commons }) {
+    
+    let navigate = useNavigate();
+    const leaderboardButtonClick = () => { navigate("/leaderboard/" + commons.id) };
+
     return (
         <Card data-testid="CommonsOverview">
             <Card.Header as="h5">Announcements</Card.Header>
@@ -13,7 +17,7 @@ export default function CommonsOverview({ commons }) {
                     <Card.Text>Total Players: {commons.totalPlayers}</Card.Text>
                     </Col>
                     <Col>
-                        <Button variant="outline-success" data-testid="user-leaderboard-button" buttonText={"Leaderboard"} href={`/leaderboard/${commons.id}`}>Leaderboard</Button>
+                        <Button variant="outline-success" data-testid="user-leaderboard-button" onClick={leaderboardButtonClick}>Leaderboard</Button>
                     </Col>
                 </Row>
             </Card.Body>

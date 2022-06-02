@@ -1,4 +1,8 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+
+
+
+
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
@@ -17,6 +21,16 @@ jest.mock("react-router-dom", () => ({
         commonsId: 1
     })
 }));
+
+// const mockNavigate = jest.fn();
+// jest.mock('react-router-dom', () => {
+//     const originalModule = jest.requireActual('react-router-dom');
+//     return {
+//         __esModule: true,
+//         ...originalModule,
+//         Navigate: () => mockNavigate
+//     };
+// });
 
 describe("CommonsOverview tests", () => {
 
@@ -38,7 +52,7 @@ describe("CommonsOverview tests", () => {
     test("Redirects to the LeaderboardPage when you click visit", async () => {
         apiCurrentUserFixtures.userOnly.user.commons = commonsFixtures.oneCommons;
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
-        axiosMock.onGet("/api/commons", {params: {commons_id:1}}).reply(200, commonsFixtures.oneCommons);
+        axiosMock.onGet("/api/commons", {params: {id:1}}).reply(200, commonsFixtures.oneCommons);
         axiosMock.onGet("/api/leaderboard/all").reply(200, leaderboardFixtures.threeUserCommonsLB);
         render(
             <QueryClientProvider client={queryClient}>
@@ -47,8 +61,12 @@ describe("CommonsOverview tests", () => {
                 </MemoryRouter>
             </QueryClientProvider>
         );
+        await waitFor(() => {
+            expect(axiosMock.history.get.length).toEqual(5);
+        });
         expect(await screen.findByTestId("user-leaderboard-button")).toBeInTheDocument();
         const joinButton = screen.getByTestId("user-leaderboard-button");
         fireEvent.click(joinButton);
+        // expect(mockNavigate).toBeCalledWith({ "to": "/leaderboard/1" });
     });
 });
