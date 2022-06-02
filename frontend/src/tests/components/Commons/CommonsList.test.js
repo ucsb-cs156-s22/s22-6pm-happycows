@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import CommonsList from "main/components/Commons/CommonsList"; 
-import commonsFixtures from "fixtures/commonsFixtures"; 
+import CommonsList from "main/components/Commons/CommonsList";
+import commonsFixtures from "fixtures/commonsFixtures";
 
 describe("CommonsList tests", () => {
     test("renders without crashing when button text is set", () => {
@@ -22,6 +22,9 @@ describe("CommonsList tests", () => {
         expect(subtitle_id).toBeInTheDocument();
         expect(typeof(subtitle_id.textContent)).toBe('string');
         expect(subtitle_id.textContent).toEqual('ID#');
+
+        const button_spacer = screen.getByTestId("commonsList-button-spacer");
+        expect(button_spacer).toBeInTheDocument();
 
         const buttons = screen.getAllByTestId(/commonsCard-button/);
         buttons.forEach((b) => {
@@ -70,6 +73,8 @@ describe("CommonsList tests", () => {
         expect(subtitle_id.textContent).toEqual('ID#');
 
         expect(() => screen.getAllByTestId(/commonsCard-button/)).toThrow('Unable to find an element');
+
+        expect(() => screen.getAllByTestId(/commonsList-button-spacer/)).toThrow('Unable to find an element');
 
         let i = 0;
         const names = screen.getAllByTestId("commonsCard-name");
