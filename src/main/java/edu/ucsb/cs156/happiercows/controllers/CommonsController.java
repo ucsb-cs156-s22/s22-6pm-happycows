@@ -77,8 +77,11 @@ public class CommonsController extends ApiController {
       updated = new Commons();
       status = HttpStatus.CREATED;
     }
+
      if(params.getDegradationRate() < 0) { //disallowing negative values for degradation rate
       updated.setDegradationRate(-1*params.getDegradationRate());
+     } else {
+      updated.setDegradationRate(params.getDegradationRate());
      }
 
     updated.setName(params.getName());
@@ -86,7 +89,6 @@ public class CommonsController extends ApiController {
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
-    updated.setDegradationRate(params.getDegradationRate());
     updated.setShowLeaderboard(params.getShowLeaderboard());
 
     
