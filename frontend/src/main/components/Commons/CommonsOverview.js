@@ -13,7 +13,7 @@ export default function CommonsOverview({ commons }) {
                     <Card.Text>Total Players: {commons.totalPlayers}</Card.Text>
                     </Col>
                     <Col>
-                        <Button variant="outline-success" href={`/leaderboard/${commons.id}`}>Leaderboard</Button>
+                        <Button variant="outline-success" data-testid="user-leaderboard-button" buttonText={"Leaderboard"} href={`/leaderboard/${commons.id}`}>Leaderboard</Button>
                     </Col>
                 </Row>
             </Card.Body>
