@@ -76,6 +76,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .startingBalance(1020.10)
       .startingDate(someTime)
       .endDate(someOtherTime)
+      .showLeaderboard(false)
       .build();
 
     CreateCommonsParams parameters = CreateCommonsParams.builder()
@@ -85,6 +86,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .startingBalance(1020.10)
       .startingDate(someTime)
       .endDate(someOtherTime)
+      .showLeaderboard(false)
       .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -140,6 +142,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .startingBalance(1020.10)
       .startingDate(someTime)
       .endDate(someOtherTime)
+      .showLeaderboard(false)
       .build();
 
     Commons commons = Commons.builder()
@@ -149,6 +152,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .startingBalance(1020.10)
       .startingDate(someTime)
       .endDate(someOtherTime)
+      .showLeaderboard(false)
       .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -381,6 +385,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingBalance(1020.10)
         .startingDate(someTime)
         .endDate(someOtherTime)
+        .showLeaderboard(false)
         .build();
 
       when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));
