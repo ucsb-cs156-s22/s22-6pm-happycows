@@ -86,7 +86,7 @@ public class CommonsController extends ApiController {
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
-    updated.setEndingDate(params.getEndingDate());
+    updated.setEndDate(params.getEndDate());
 
     commonsRepository.save(updated);
 
@@ -118,7 +118,7 @@ public class CommonsController extends ApiController {
       .milkPrice(params.getMilkPrice())
       .startingBalance(params.getStartingBalance())
       .startingDate(params.getStartingDate())
-      .endingDate(params.getEndingDate())
+      .endDate(params.getEndDate())
       .build();
 
     Commons saved = commonsRepository.save(commons);

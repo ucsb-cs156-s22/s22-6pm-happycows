@@ -4,10 +4,10 @@ import { Card, Button, Container, Row, Col } from "react-bootstrap";
 const CommonsCard = ({ buttonText, buttonLink, commons }) => {
   const MILLISECONDSPERDAY = 86400000;
   const currDate = new Date();
-  const endDate = new Date(commons.endingDate);
+  const endDate = new Date(commons.endDate);
   const daysLeft = Math.floor((endDate.getTime() - currDate.getTime()) / MILLISECONDSPERDAY);
   // endDate.getTime() is 0 when the end date isn't set
-  const daysLeftText = endDate.getTime() === 0 ? "Not set" : "Finished";
+  const daysLeftText = endDate.getTime() == 0 ? "Not set" : "Finished";
 
     return (
         <Card.Body style={
