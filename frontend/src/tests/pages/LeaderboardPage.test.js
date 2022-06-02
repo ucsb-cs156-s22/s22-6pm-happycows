@@ -74,47 +74,7 @@ describe("LeaderboardPage tests", () => {
             </QueryClientProvider>
         );
     });
-    /*
-    test("renders one leaderboard without crashing for admin", async () => {
-        setupAdmin();
-        const queryClient = new QueryClient();
-        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
-        axiosMock.onGet("/api/leaderboard/all").reply(200, leaderboardFixtures.oneUserCommonsLB);
-        render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <LeaderboardPage />
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-        await waitFor(() => {expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1")});
-        expect(await screen.findByTestId(`${testId}-cell-row-0-col-userId`)).toHaveTextContent("1");
-        expect(screen.getByTestId(`${testId}-cell-row-0-col-commonsId`)).toHaveTextContent("1");
-        expect(screen.getByTestId(`${testId}-cell-row-0-col-totalWealth`)).toHaveTextContent("1000");
-    });
-
-    test("renders empty table when backend unavailable, user only", async () => {
-        setupUserOnly();
-
-        const queryClient = new QueryClient();
-        axiosMock.onGet("/api/leaderboard/all").timeout();
-
-        const restoreConsole = mockConsole();
-
-        render(
-            <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
-                    <LeaderboardIndexPage />
-                </MemoryRouter>
-            </QueryClientProvider>
-        );
-
-        await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1); });
-        restoreConsole();
-
-        expect(screen.queryByTestId(`${testId}-cell-row-0-col-id`)).not.toBeInTheDocument();
-    }); */
-
+    
     beforeEach(() => {
         axiosMock.reset();
         axiosMock.resetHistory();
