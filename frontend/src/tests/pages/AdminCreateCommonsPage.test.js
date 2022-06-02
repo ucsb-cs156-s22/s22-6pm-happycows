@@ -59,8 +59,8 @@ describe("AdminCreateCommonsPage tests", () => {
             "milkPrice": 5,
             "startingBalance": 500,
             "startingDate": "2022-03-05T00:00:00",
-            totalPlayers:"0"
-            "showLeaderboard": false
+            totalPlayers:"0",
+            "showLeaderboard": false,
 
         });
 
