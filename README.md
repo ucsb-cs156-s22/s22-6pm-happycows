@@ -10,6 +10,7 @@
 
 # Heroku
 * [Production](https://s22-6pm-happycows.herokuapp.com/)
+* [Dashboard](https://dashboard.heroku.com/apps/s22-6pm-happycows)
 
 6pm-3:
 * [QA](https://s22-6pm-3-happycows-qa.herokuapp.com/)
