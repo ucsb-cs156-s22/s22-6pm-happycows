@@ -1,10 +1,8 @@
 import React from "react";
-import { Card, Col } from "react-bootstrap";
+import { _Container, Row, Card, Col, Button } from "react-bootstrap";
+import { Link, _useNavigate } from "react-router-dom";
 
 export default function CommonsOverview({ commons }) {
-    
-    let navigate = useNavigate();
-    const leaderboardButtonClick = (id) => { navigate("/leaderboard/" + id) };
     
     return (
         <Card data-testid="CommonsOverview">
@@ -16,7 +14,7 @@ export default function CommonsOverview({ commons }) {
                     <Card.Text>Total Players: {commons.totalPlayers}</Card.Text>
                     </Col>
                     <Col>
-                    <Button variant="outline-success" buttonLink={leaderboardButtonClick} data-testid={"user-leaderboard-button"}>Leaderboard</Button>
+                    <Button variant="outline-success" as={Link} to={`/leaderboard/${commons.id}`} data-testid={"user-leaderboard-button"}>Leaderboard</Button>
                     </Col>
                 </Row>
             </Card.Body>
