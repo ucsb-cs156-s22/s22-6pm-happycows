@@ -29,4 +29,4 @@ public class CreateCommonsParams {
   @DateTimeFormat private LocalDateTime endDate;
   private Boolean showLeaderboard; // NOTE: WHY DOES BOOLEAN HAVE TO BE CAPITALIZED HERE OMG THE AMOUNT OF GRIEF
                                    // THIS GAVE ME-KZ
-
+}
