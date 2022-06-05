@@ -244,24 +244,13 @@ public class CommonsControllerTests extends ControllerTestCase {
     verify(commonsRepository, times(1)).save(commons);
   }
 
+
   @WithMockUser(roles = { "ADMIN" })
   @Test
-  public void updateCommonsTest_invalid() throws Exception
+  public void createCommonsTest_invalid() throws Exception
   {
     LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
     LocalDateTime someOtherTime = LocalDateTime.parse("2022-04-20T15:50:10");
-    
-    CreateCommonsParams parameters = CreateCommonsParams.builder()
-      .name("Jackson's Commons")
-      .cowPrice(500.99)
-      .milkPrice(8.99)
-      .startingBalance(1020.10)
-      .startingDate(someTime)
-      .totalPlayers(0)
-      .startingDate(someTime)
-      .degradationRate(-1.0)
-      .showLeaderboard(false)
-      .build();
 
     Commons commons = Commons.builder()
       .name("Jackson's Commons")
@@ -269,46 +258,44 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .endingDate(someOtherTime)
       .totalPlayers(0)
-      .endDate(someOtherTime)
+      .degradationRate(1.0)
+      .showLeaderboard(false)
+      .build();
+
+    CreateCommonsParams parameters = CreateCommonsParams.builder()
+      .name("Jackson's Commons")
+      .cowPrice(500.99)
+      .milkPrice(8.99)
+      .startingBalance(1020.10)
+      .startingDate(someTime)
+      .endingDate(someOtherTime)
+      .totalPlayers(0)
       .degradationRate(-1.0)
       .showLeaderboard(false)
       .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
+    String expectedResponse = objectMapper.writeValueAsString(commons);
 
     when(commonsRepository.save(commons))
       .thenReturn(commons);
 
-    mockMvc
-      .perform(put("/api/commons/update?id=0").with(csrf())
+    MvcResult response = mockMvc
+      .perform(post("/api/commons/new").with(csrf())
         .contentType(MediaType.APPLICATION_JSON)
         .characterEncoding("utf-8")
         .content(requestBody))
-      .andExpect(status().isCreated());
+      .andExpect(status().isOk())
+      .andReturn();
 
     verify(commonsRepository, times(1)).save(commons);
 
-    parameters.setMilkPrice(parameters.getMilkPrice() + 3.00);
-    commons.setMilkPrice(parameters.getMilkPrice());
-
-    requestBody = objectMapper.writeValueAsString(parameters);
-
-    when(commonsRepository.findById(0L))
-      .thenReturn(Optional.of(commons));
-
-    when(commonsRepository.save(commons))
-      .thenReturn(commons);
-
-    mockMvc
-      .perform(put("/api/commons/update?id=0").with(csrf())
-        .contentType(MediaType.APPLICATION_JSON)
-        .characterEncoding("utf-8")
-        .content(requestBody))
-      .andExpect(status().isNoContent());
-
-    verify(commonsRepository, times(1)).save(commons);
+    String actualResponse = response.getResponse().getContentAsString();
+    assertEquals(expectedResponse, actualResponse);
   }
+
 
   //This common SHOULD be in the repository
   @WithMockUser(roles = { "USER" })
@@ -506,7 +493,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingBalance(1020.10)
         .startingDate(someTime)
         .totalPlayers(0)
-        .endDate(someOtherTime)
+        .endingDate(someOtherTime)
         .degradationRate(50.0)
         .showLeaderboard(false)
         .build();
