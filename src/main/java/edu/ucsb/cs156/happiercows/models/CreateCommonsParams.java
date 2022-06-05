@@ -21,15 +21,15 @@ import edu.ucsb.cs156.happiercows.entities.User;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class CreateCommonsParams {
-  private String name;
-
-  
+  private String name;  
   @NumberFormat private double cowPrice;
   @NumberFormat private double milkPrice;
   @NumberFormat private double startingBalance;
   @DateTimeFormat private LocalDateTime startingDate;
   @NumberFormat private int totalPlayers;
   @DateTimeFormat private LocalDateTime endDate;
+  @NumberFormat private double degradationRate;
+
   private Boolean showLeaderboard; // NOTE: WHY DOES BOOLEAN HAVE TO BE CAPITALIZED HERE OMG THE AMOUNT OF GRIEF
                                    // THIS GAVE ME-KZ
 }
