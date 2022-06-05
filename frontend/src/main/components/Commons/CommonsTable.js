@@ -58,6 +58,17 @@ export default function CommonsTable({ commons, currentUser }) {
             //accessor: row => row.startingDate.toString(),
             accessor: row => String(row.startingDate),
             id: 'startingDate'
+        },
+        {
+            Header:'Degradation Rate',
+            //accessor: row => row.startingDate.toString(),
+            accessor: row => String(row.degradationRate),
+            id: 'degradationRate'
+        },
+        {
+            Header:'Show Leaderboard?',
+            id: 'showLeaderboard', // needed for tests
+            accessor: (row, _rowIndex) => String(row.showLeaderboard) // hack needed for boolean values to show up
         }
     ];
 
