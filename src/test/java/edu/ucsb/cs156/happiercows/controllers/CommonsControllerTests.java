@@ -247,7 +247,8 @@ public class CommonsControllerTests extends ControllerTestCase {
   public void updateCommonsTest_invalid() throws Exception
   {
     LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
-
+    LocalDateTime someOtherTime = LocalDateTime.parse("2022-04-20T15:50:10");
+    
     CreateCommonsParams parameters = CreateCommonsParams.builder()
       .name("Jackson's Commons")
       .cowPrice(500.99)
