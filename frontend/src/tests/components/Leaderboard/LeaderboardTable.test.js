@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import CommonsTable from "main/components/Commons/CommonsTable"
+import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable";
 import { currentUserFixtures } from "fixtures/currentUserFixtures";
-import commonsFixtures from "fixtures/commonsFixtures";
+import userCommonsFixtures from "fixtures/userCommonsFixtures";
 
 const mockedNavigate = jest.fn();
 
@@ -12,7 +12,7 @@ jest.mock('react-router-dom', () => ({
     useNavigate: () => mockedNavigate
 }));
 
-describe("UserTable tests", () => {
+describe("LeaderboardTable tests", () => {
   const queryClient = new QueryClient();
 
   test("renders without crashing for empty table with user not logged in", () => {
@@ -21,7 +21,7 @@ describe("UserTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <CommonsTable commons={[]} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -33,7 +33,7 @@ describe("UserTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <CommonsTable commons={[]} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -46,7 +46,7 @@ describe("UserTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <CommonsTable commons={[]} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -59,15 +59,15 @@ describe("UserTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <CommonsTable commons={commonsFixtures.threeCommons} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={userCommonsFixtures.threeUserCommons} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
 
-    const expectedHeaders = ["id", "Name", "Cow Price", 'Milk Price', 'Starting Balance', 'Starting Date', 'Degradation Rate'];
-    const expectedFields = ["id", "name", "cowPrice", "milkPrice", "startingBalance", "startingDate", "degradationRate"];
-    const testId = "CommonsTable";
+    const expectedHeaders = ['(Admin) User Id', 'Full Name',  'Total Wealth', 'Cows Owned','Cow Health'];
+    const expectedFields = ['id', 'user.fullName', 'totalWealth','numOfCows', 'cowHealth'];
+    const testId = "LeaderboardTable";
 
     expectedHeaders.forEach((headerText) => {
       const header = screen.getByText(headerText);
@@ -79,7 +79,14 @@ describe("UserTable tests", () => {
       expect(header).toBeInTheDocument();
     });
 
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("5");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("4");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-user.fullName`)).toHaveTextContent("George Washington");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-totalWealth`)).toHaveTextContent("1000");
+    expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("2");
+    expect(screen.getByTestId(`${testId}-cell-row-1-col-user.fullName`)).toHaveTextContent("John Adams");
+    expect(screen.getByTestId(`${testId}-cell-row-1-col-totalWealth`)).toHaveTextContent("1000");
+
   });
+
 });
+
