@@ -62,7 +62,6 @@ describe("AdminCreateCommonsPage tests", () => {
             totalPlayers:"0",
             "showLeaderboard": false,
             "degradationRate": 30.4,
-            "showLeaderboard": false
         });
 
         render(
