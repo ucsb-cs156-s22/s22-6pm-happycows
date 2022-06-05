@@ -78,6 +78,12 @@ public class CommonsController extends ApiController {
       status = HttpStatus.CREATED;
     }
 
+     if(params.getDegradationRate() < 0) { //disallowing negative values for degradation rate
+      updated.setDegradationRate(-1*params.getDegradationRate());
+     } else {
+      updated.setDegradationRate(params.getDegradationRate());
+     }
+
     updated.setName(params.getName());
     updated.setCowPrice(params.getCowPrice());
     updated.setMilkPrice(params.getMilkPrice());
@@ -85,6 +91,8 @@ public class CommonsController extends ApiController {
     updated.setStartingDate(params.getStartingDate());
     updated.setEndingDate(params.getEndingDate());
     updated.setShowLeaderboard(params.getShowLeaderboard());
+
+    
 
     commonsRepository.save(updated);
 
@@ -107,6 +115,7 @@ public class CommonsController extends ApiController {
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping(value = "/new", produces = "application/json")
   public ResponseEntity<String> createCommons(
+  
       @ApiParam("request body") @RequestBody CreateCommonsParams params) throws JsonProcessingException {
     Commons commons = Commons.builder()
       .name(params.getName())
@@ -115,9 +124,18 @@ public class CommonsController extends ApiController {
       .startingBalance(params.getStartingBalance())
       .startingDate(params.getStartingDate())
       .endingDate(params.getEndingDate())
+      .degradationRate(params.getDegradationRate())
       .showLeaderboard(params.getShowLeaderboard())
       .build();
 
+      .degradationRate(params.getDegradationRate())
+      .showLeaderboard(params.getShowLeaderboard())
+      .build();
+   
+    if(params.getDegradationRate() < 0) { //disallowing negative values for degradation rate
+      commons.setDegradationRate(-1*params.getDegradationRate());
+    }
+    
     Commons saved = commonsRepository.save(commons);
     String body = mapper.writeValueAsString(saved);
 
