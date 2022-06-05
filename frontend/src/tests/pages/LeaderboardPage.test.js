@@ -30,7 +30,6 @@ describe("LeaderboardPage tests", () => {
     
     const axiosMock = new AxiosMockAdapter(axios);
 
-    const _testId = "LeaderboardTable";
 
     const setupUser = () => {
         axiosMock.reset();
