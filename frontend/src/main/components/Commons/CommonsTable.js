@@ -24,6 +24,10 @@ export default function CommonsTable({ commons, currentUser }) {
     // Stryker disable next-line all : TODO try to make a good test for this
     const deleteCallback = async (cell) => { deleteMutation.mutate(cell); }
 
+    const leaderboardCallback = (cell) => {
+        navigate(`/admin/leaderboard/${cell.row.values.id}`)
+    }
+
     const columns = [
         {
             Header: 'id',
@@ -54,6 +58,17 @@ export default function CommonsTable({ commons, currentUser }) {
             //accessor: row => row.startingDate.toString(),
             accessor: row => String(row.startingDate),
             id: 'startingDate'
+        },
+        {
+            Header:'Degradation Rate',
+            //accessor: row => row.startingDate.toString(),
+            accessor: row => String(row.degradationRate),
+            id: 'degradationRate'
+        },
+        {
+            Header:'Show Leaderboard?',
+            id: 'showLeaderboard', // needed for tests
+            accessor: (row, _rowIndex) => String(row.showLeaderboard) // hack needed for boolean values to show up
         }
     ];
 
@@ -62,7 +77,8 @@ export default function CommonsTable({ commons, currentUser }) {
     const columnsIfAdmin = [
         ...columns,
         ButtonColumn("Edit", "primary", editCallback, testid),
-        ButtonColumn("Delete", "danger", deleteCallback, testid)
+        ButtonColumn("Delete", "danger", deleteCallback, testid),
+        ButtonColumn("Leaderboard", "secondary", leaderboardCallback, testid)
     ];
 
     const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
