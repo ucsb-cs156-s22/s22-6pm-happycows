@@ -271,7 +271,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .startingDate(someTime)
       .totalPlayers(0)
       .endDate(someOtherTime)
-      .degradationRate(1.0)
+      .degradationRate(-1.0)
       .showLeaderboard(false)
       .build();
 
