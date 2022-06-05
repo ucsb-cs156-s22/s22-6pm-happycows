@@ -257,6 +257,8 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .totalPlayers(0)
+      .startingDate(someTime)
       .degradationRate(-1.0)
       .showLeaderboard(false)
       .build();
