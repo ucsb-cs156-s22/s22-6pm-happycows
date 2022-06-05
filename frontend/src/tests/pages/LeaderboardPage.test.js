@@ -1,5 +1,4 @@
-import { _fireEvent, render, _screen, _waitFor } from "@testing-library/react";
-import _mockConsole from "jest-mock-console";
+import { render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
