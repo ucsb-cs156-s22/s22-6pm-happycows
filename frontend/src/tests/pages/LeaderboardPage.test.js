@@ -94,7 +94,4 @@ describe("LeaderboardPage tests", () => {
             "showLeaderboard": true,
         });
     });
-
-    
-
 });

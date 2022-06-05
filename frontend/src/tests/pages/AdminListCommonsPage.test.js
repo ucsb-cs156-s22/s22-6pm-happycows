@@ -163,4 +163,28 @@ describe("AdminListCommonPage tests", () => {
 
         await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/admin/editcommons/5'));
     });
+
+    test("what happens when you click leaderboard as an admin", async () => {
+        setupAdminUser();
+
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.threeCommons);
+
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <AdminListCommonPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        expect(await screen.findByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("5");
+      
+        const leaderboardButton = screen.getByTestId(`${testId}-cell-row-0-col-Leaderboard-button`);
+        expect(leaderboardButton).toBeInTheDocument();
+
+        fireEvent.click(leaderboardButton);
+
+        await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/admin/leaderboard/5'));
+    })
 });

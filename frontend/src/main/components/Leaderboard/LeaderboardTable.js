@@ -43,4 +43,5 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
         columns={columnsToDisplay}
         testid={testid}
     />;
+
 };
