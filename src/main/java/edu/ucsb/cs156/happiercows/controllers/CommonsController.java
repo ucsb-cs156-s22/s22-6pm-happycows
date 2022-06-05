@@ -127,10 +127,6 @@ public class CommonsController extends ApiController {
       .degradationRate(params.getDegradationRate())
       .showLeaderboard(params.getShowLeaderboard())
       .build();
-
-      .degradationRate(params.getDegradationRate())
-      .showLeaderboard(params.getShowLeaderboard())
-      .build();
    
     if(params.getDegradationRate() < 0) { //disallowing negative values for degradation rate
       commons.setDegradationRate(-1*params.getDegradationRate());
