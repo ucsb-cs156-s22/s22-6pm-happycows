@@ -25,7 +25,7 @@ export default function CommonsTable({ commons, currentUser }) {
     const deleteCallback = async (cell) => { deleteMutation.mutate(cell); }
 
     const leaderboardCallback = (cell) => {
-        navigate(`/admin/leaderboard/${cell.row.values.id}`)
+        navigate(`/leaderboard/${cell.row.values.id}`)
     }
 
     const columns = [
@@ -81,7 +81,7 @@ export default function CommonsTable({ commons, currentUser }) {
     ];
 
     const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
-    
+
     return <OurTable
         data={commons}
         columns={columnsToDisplay}
