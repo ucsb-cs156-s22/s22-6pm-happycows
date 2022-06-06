@@ -119,6 +119,36 @@ function CommonsForm({ initialCommons, submitAction, buttonLabel = "Create" }) {
           {errors.startingDate?.message}
         </Form.Control.Feedback>
       </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="degradationRate">Degradation Rate</Form.Label>
+        <Form.Control
+          data-testid={`${testid}-degradationRate`}
+          id="degradationRate"
+          type="number"
+          step="0.01"
+          isInvalid={!!errors.degradationRate}
+          {...register("degradationRate", {
+            valueAsNumber: true,
+            required: "Degradation rate is required",
+            min: { value: 0.00, message: "Degradation rate must be positive" },
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.degradationRate?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="showLeaderboard">Show Leaderboard?</Form.Label>
+        <Form.Check 
+          data-testid={`${testid}-showLeaderboard`}
+          type="checkbox"
+          id="showLeaderboard"
+          {...register("showLeaderboard")}
+        />
+      </Form.Group>
+
       <Button type="submit" data-testid="CommonsForm-Submit-Button">{ buttonLabel }</Button>
     </Form>
   );
