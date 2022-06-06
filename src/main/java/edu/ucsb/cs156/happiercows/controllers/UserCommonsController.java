@@ -120,7 +120,7 @@ public class UserCommonsController extends ApiController {
     }
 
     @ApiOperation(value = "Get all user commons for a specific commons")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/commons/all")
     public  ResponseEntity<String> getUsersCommonsByCommonsId(
         @ApiParam("commonsId") @RequestParam Long commonsId) throws JsonProcessingException {
