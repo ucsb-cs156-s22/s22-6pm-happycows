@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "main/pages/HomePage";
 import LoginPage from "main/pages/LoginPage";
@@ -38,9 +37,7 @@ function App() {
         {
           hasRole(currentUser, "ROLE_ADMIN") && <Route path="/admin/editcommons/:id" element={<AdminEditCommonsPage />} />
         }
-        {
-          hasRole(currentUser, "ROLE_ADMIN") && <Route path="/admin/leaderboard/:id" element={<LeaderboardPage />} />
-        }
+        <Route path="/leaderboard/:commonsId" element={<LeaderboardPage />}/>
         <Route path="/play/:commonsId" element={<PlayPage />} />
       </Routes>
     </BrowserRouter>
