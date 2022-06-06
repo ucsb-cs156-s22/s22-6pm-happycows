@@ -88,8 +88,8 @@ public class ProfitsController extends ApiController {
 
         UserCommons userCommons = userCommonsRepository.findById(userCommonsId).orElseThrow(() -> new EntityNotFoundException(UserCommons.class, userCommonsId));
 
-        // if (userId != userCommons.getUserId())
-        //     throw new EntityNotFoundException(UserCommons.class, userCommonsId);
+        if (userId != userCommons.getUserId())
+            throw new EntityNotFoundException(UserCommons.class, userCommonsId);
 
         Iterable<Profit> profits = profitRepository.findAllByUserCommonsId(userCommonsId);
 
