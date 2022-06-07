@@ -1,7 +1,3 @@
-
-
-
-
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
@@ -15,12 +11,12 @@ import leaderboardFixtures from "fixtures/leaderboardFixtures";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
-jest.mock("react-router-dom", () => ({
-    ...jest.requireActual("react-router-dom"),
-    useParams: () => ({
-        commonsId: 1
-    })
-}));
+// jest.mock("react-router-dom", () => ({
+//     ...jest.requireActual("react-router-dom"),
+//     useParams: () => ({
+//         commonsId: 1
+//     })
+// }));
 
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
@@ -48,9 +44,9 @@ describe("CommonsOverview tests", () => {
         );
     });
 
-    test("Redirects to the LeaderboardPage when you click visit", async () => {
-        apiCurrentUserFixtures.userOnly.user.commons = commonsFixtures.oneCommons[0];
-        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
+    test("Redirects to the LeaderboardPage for an admin when you click visit", async () => {
+        apiCurrentUserFixtures.adminUser.user.commons = commonsFixtures.oneCommons[0];
+        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.adminUser);
         axiosMock.onGet("/api/commons", {params: {id:1}}).reply(200, commonsFixtures.oneCommons);
         axiosMock.onGet("/api/leaderboard/all").reply(200, leaderboardFixtures.threeUserCommonsLB);
         render(
@@ -64,8 +60,30 @@ describe("CommonsOverview tests", () => {
             expect(axiosMock.history.get.length).toEqual(5);
         });
         expect(await screen.findByTestId("user-leaderboard-button")).toBeInTheDocument();
-        const joinButton = screen.getByTestId("user-leaderboard-button");
-        fireEvent.click(joinButton);
-        // expect(mockNavigate).toBeCalledWith({ "to": "/leaderboard/1" });
+        const leaderboardButton = screen.getByTestId("user-leaderboard-button");
+        fireEvent.click(leaderboardButton);
+        //expect(mockNavigate).toBeCalledWith({ "to": "/leaderboard/1" });
+    });
+
+    test("No LeaderboardPage for an ordinary user when commons has showLeaderboard = false", async () => {
+        const ourCommons = {
+            ...commonsFixtures.oneCommons,
+            showLeaderboard : false
+        };
+        apiCurrentUserFixtures.userOnly.user.commons = commonsFixtures.oneCommons[0];
+        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
+        axiosMock.onGet("/api/commons", {params: {id:1}}).reply(200, ourCommons);
+        axiosMock.onGet("/api/leaderboard/all").reply(200, leaderboardFixtures.threeUserCommonsLB);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <PlayPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+        await waitFor(() => {
+            expect(axiosMock.history.get.length).toEqual(3);
+        });
+        expect(() => screen.getByTestId("user-leaderboard-button")).toThrow();
     });
 });

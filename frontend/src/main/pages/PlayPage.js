@@ -125,7 +125,7 @@ export default function PlayPage() {
       <BasicLayout >
         <Container >
           {!!currentUser && <CommonsPlay currentUser={currentUser} />}
-          {!!commons && <CommonsOverview commons={commons} />}
+          {!!commons && <CommonsOverview commons={commons} currentUser={currentUser} />}
           <br />
           {!!userCommons &&
             <CardGroup >
