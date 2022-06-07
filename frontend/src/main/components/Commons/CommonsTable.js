@@ -92,7 +92,7 @@ export default function CommonsTable({ commons, currentUser }) {
     ];
 
     const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
-    
+
     return <OurTable
         data={commons}
         columns={columnsToDisplay}
