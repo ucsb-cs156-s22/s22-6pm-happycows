@@ -29,7 +29,7 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
             accessor: 'id'
         },
         ...columns
-        
+
     ];
 
     const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
@@ -39,4 +39,5 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
         columns={columnsToDisplay}
         testid={testid}
     />;
+
 };
