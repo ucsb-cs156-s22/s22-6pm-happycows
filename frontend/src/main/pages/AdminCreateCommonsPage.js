@@ -15,7 +15,7 @@ const AdminCreateCommonsPage = () => {
     });
 
     const onSuccess = (commons) => {
-        toast(`Commons successfully created! - id: ${commons.id} name: ${commons.name} startDate: ${commons.startingDate} cowPrice: ${commons.cowPrice} showLeaderboard: ${commons.showLeaderboard}`);
+        toast(`Commons successfully created! - id: ${commons.id} name: ${commons.name} startDate: ${commons.startingDate} cowPrice: ${commons.cowPrice} degradationRate: ${commons.degradationRate} showLeaderboard: ${commons.showLeaderboard}`);
     }
    
     // Stryker disable all
