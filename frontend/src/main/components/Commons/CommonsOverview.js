@@ -1,6 +1,6 @@
 import React from "react";
-import { _Container, Row, _Router, Card, Col, Button } from "react-bootstrap";
-import { _Link, useNavigate } from "react-router-dom";
+import { Row, Card, Col, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
 
 export default function CommonsOverview({ commons, currentUser }) {

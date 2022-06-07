@@ -11,13 +11,6 @@ import leaderboardFixtures from "fixtures/leaderboardFixtures";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
-// jest.mock("react-router-dom", () => ({
-//     ...jest.requireActual("react-router-dom"),
-//     useParams: () => ({
-//         commonsId: 1
-//     })
-// }));
-
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
     ...jest.requireActual("react-router-dom"),
