@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable";
 import { currentUserFixtures } from "fixtures/currentUserFixtures";
-import userCommonsFixtures from "fixtures/userCommonsFixtures";
+import leaderboardFixtures from "fixtures/leaderboardFixtures";
 
 const mockedNavigate = jest.fn();
 
@@ -59,14 +59,14 @@ describe("LeaderboardTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={userCommonsFixtures.threeUserCommons} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={leaderboardFixtures.threeUserCommonsLB} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
 
-    const expectedHeaders = ['(Admin) User Id', 'Full Name',  'Total Wealth', 'Cows Owned','Cow Health'];
-    const expectedFields = ['id', 'user.fullName', 'totalWealth','numOfCows', 'cowHealth'];
+    const expectedHeaders = ['(Admin) userCommons Id', 'User Id', 'Total Wealth', 'Cows Owned'];
+    const expectedFields = ['id', 'userId', 'totalWealth','numOfCows'];
     const testId = "LeaderboardTable";
 
     expectedHeaders.forEach((headerText) => {
@@ -80,10 +80,10 @@ describe("LeaderboardTable tests", () => {
     });
 
     expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-user.fullName`)).toHaveTextContent("George Washington");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-userId`)).toHaveTextContent("1");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-totalWealth`)).toHaveTextContent("1000");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("2");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-user.fullName`)).toHaveTextContent("John Adams");
+    expect(screen.getByTestId(`${testId}-cell-row-1-col-userId`)).toHaveTextContent("2");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-totalWealth`)).toHaveTextContent("1000");
 
   });
