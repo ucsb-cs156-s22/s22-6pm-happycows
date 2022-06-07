@@ -1,7 +1,7 @@
 import React from 'react';
 
 import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable";
-import userCommonsFixtures from 'fixtures/userCommonsFixtures';
+import leaderboardFixtures from 'fixtures/leaderboardFixtures';
 import { currentUserFixtures } from 'fixtures/currentUserFixtures';
 
 export default {
@@ -24,20 +24,20 @@ Empty.args = {
 export const OneUserCommons = Template.bind({});
 
 OneUserCommons.args = {
-    leaderboardUsers: userCommonsFixtures.oneUserCommons
+    leaderboardUsers: leaderboardFixtures.oneUserCommonsLB
 };
 
 export const ThreeUserCommons = Template.bind({});
 
 ThreeUserCommons.args = {
-    leaderboardUsers: userCommonsFixtures.threeUserCommons
+    leaderboardUsers: leaderboardFixtures.threeUserCommonsLB
 
 };
 
 export const ThreeUserCommonsAdmin = Template.bind({});
 
 ThreeUserCommonsAdmin.args = {
-    leaderboardUsers: userCommonsFixtures.threeUserCommons,
+    leaderboardUsers: leaderboardFixtures.threeUserCommonsLB,
     currentUser: currentUserFixtures.adminUser
 
 };
@@ -45,14 +45,14 @@ ThreeUserCommonsAdmin.args = {
 export const FiveUserCommons = Template.bind({});
 
 FiveUserCommons.args = {
-    leaderboardUsers: userCommonsFixtures.fiveUserCommons
+    leaderboardUsers: leaderboardFixtures.fiveUserCommonsLB
 };
 
 
 export const FiveUserCommonsAdmin = Template.bind({});
 
 FiveUserCommonsAdmin.args = {
-    leaderboardUsers: userCommonsFixtures.fiveUserCommons,
+    leaderboardUsers: leaderboardFixtures.fiveUserCommonsLB,
     currentUser: currentUserFixtures.adminUser
 
 };
@@ -60,7 +60,7 @@ FiveUserCommonsAdmin.args = {
 export const TenUserCommons = Template.bind({});
 
 TenUserCommons.args = {
-    leaderboardUsers: userCommonsFixtures.tenUserCommons
+    leaderboardUsers: leaderboardFixtures.tenUserCommonsLB
 };
 
 

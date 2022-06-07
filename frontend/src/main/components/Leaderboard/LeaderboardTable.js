@@ -6,8 +6,8 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
 
     const columns = [
         {
-            Header: 'Full Name',
-            accessor: 'user.fullName', 
+            Header: 'User Id',
+            accessor: 'userId', 
         },
         {
             Header: 'Total Wealth',
@@ -17,10 +17,6 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
             Header: 'Cows Owned',
             accessor: 'numOfCows', 
         },
-        {
-            Header: 'Cow Health',
-            accessor: 'cowHealth', 
-        }
     ];
 
     const testid = "LeaderboardTable";
@@ -29,7 +25,7 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
 
     const columnsIfAdmin = [
         {
-            Header: '(Admin) User Id',
+            Header: '(Admin) userCommons Id',
             accessor: 'id'
         },
         ...columns

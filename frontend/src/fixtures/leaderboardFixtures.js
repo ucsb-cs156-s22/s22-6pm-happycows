@@ -159,4 +159,4 @@ const leaderboardFixtures = {
     ]
 }
 
-export default leaderboardFixtures; 
+export default leaderboardFixtures;
