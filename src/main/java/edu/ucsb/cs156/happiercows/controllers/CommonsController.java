@@ -78,12 +78,20 @@ public class CommonsController extends ApiController {
       status = HttpStatus.CREATED;
     }
 
+     if(params.getDegradationRate() < 0) { //disallowing negative values for degradation rate
+      updated.setDegradationRate(-1*params.getDegradationRate());
+     } else {
+      updated.setDegradationRate(params.getDegradationRate());
+     }
+
     updated.setName(params.getName());
     updated.setCowPrice(params.getCowPrice());
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
     updated.setShowLeaderboard(params.getShowLeaderboard());
+
+    
 
     commonsRepository.save(updated);
 
@@ -106,16 +114,22 @@ public class CommonsController extends ApiController {
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping(value = "/new", produces = "application/json")
   public ResponseEntity<String> createCommons(
+  
       @ApiParam("request body") @RequestBody CreateCommonsParams params) throws JsonProcessingException {
     Commons commons = Commons.builder()
-        .name(params.getName())
-        .cowPrice(params.getCowPrice())
-        .milkPrice(params.getMilkPrice())
-        .startingBalance(params.getStartingBalance())
-        .startingDate(params.getStartingDate())
-        .showLeaderboard(params.getShowLeaderboard())
-        .build();
-
+      .name(params.getName())
+      .cowPrice(params.getCowPrice())
+      .milkPrice(params.getMilkPrice())
+      .startingBalance(params.getStartingBalance())
+      .startingDate(params.getStartingDate())
+      .degradationRate(params.getDegradationRate())
+      .showLeaderboard(params.getShowLeaderboard())
+      .build();
+   
+    if(params.getDegradationRate() < 0) { //disallowing negative values for degradation rate
+      commons.setDegradationRate(-1*params.getDegradationRate());
+    }
+    
     Commons saved = commonsRepository.save(commons);
     String body = mapper.writeValueAsString(saved);
 
@@ -185,4 +199,6 @@ public class CommonsController extends ApiController {
     userCommonsRepository.deleteById(userCommons.getId());
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
+
+
 }
