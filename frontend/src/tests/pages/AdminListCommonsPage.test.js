@@ -185,6 +185,6 @@ describe("AdminListCommonPage tests", () => {
 
         fireEvent.click(leaderboardButton);
 
-        await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/admin/leaderboard/5'));
+        await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/leaderboard/5'));
     })
 });
