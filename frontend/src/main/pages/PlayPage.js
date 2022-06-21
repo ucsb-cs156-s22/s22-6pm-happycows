@@ -36,7 +36,7 @@ export default function PlayPage() {
   // Stryker disable all 
   const { data: commons } =
     useBackend(
-      [`/api/commons?commons_id=${commonsId}`],
+      [`/api/commons?id=${commonsId}`],
       {
         method: "GET",
         url: "/api/commons",
@@ -125,7 +125,7 @@ export default function PlayPage() {
       <BasicLayout >
         <Container >
           {!!currentUser && <CommonsPlay currentUser={currentUser} />}
-          {!!commons && <CommonsOverview commons={commons} />}
+          {!!commons && <CommonsOverview commons={commons} currentUser={currentUser} />}
           <br />
           {!!userCommons &&
             <CardGroup >
