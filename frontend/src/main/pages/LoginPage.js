@@ -2,8 +2,6 @@ import React from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-import CommonsList from "main/components/Commons/CommonsList";
-import { useBackend } from "main/utils/useBackend";
 import Background from './../../assets/HomePageBackground.jpg';
 
 const LoginCard = () => {
@@ -24,32 +22,19 @@ const LoginCard = () => {
 }
 
 export default function LoginPage() {
-  // Stryker disable all
-  const { data: commons } =
-    useBackend(
-      ["/api/commons/all"],
-      {
-        method: "GET",
-        url: "/api/commons/all"
-      },
-      []
-    );
-  // Stryker enable all
-
-
-  var listCommons = commons;
-  if (commons.length > 5) {
-    listCommons = commons.slice(0, 5);
-    listCommons.push({ id: "...", name: "..." });
-  }
-
+  
   return (
-    <div style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }}>
+    <div  style={
+      // Stryker disable next-line all : no need to unit test CSS
+      { backgroundSize: 'cover', backgroundImage: `url(${Background})` }}>
       <BasicLayout>
-        <Container style={{ marginTop: "8%" }}>
-          <Row style={{ alignItems: "center", justifyContent: "center" }}>
+        <Container style={
+          // Stryker disable next-line all : no need to unit test CSS
+          { marginTop: "8%" }}>
+          <Row style={
+            // Stryker disable next-line all : no need to unit test CSS
+            { alignItems: "center", justifyContent: "center" }}>
             <Col sm="auto"><LoginCard /></Col>
-            <Col sm="5"><CommonsList title="Available Commons" commonList={listCommons} buttonText={null} buttonLink={null} /></Col>
           </Row>
         </Container>
       </BasicLayout>

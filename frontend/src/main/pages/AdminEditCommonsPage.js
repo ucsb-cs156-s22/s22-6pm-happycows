@@ -39,7 +39,7 @@ export default function CommonsEditPage() {
     }
   });
 
-  const onSuccess = (commons) => {
+  const onSuccess = (_, commons) => {
     toast(`Commons Updated - id: ${commons.id} name: ${commons.name}`);
   }
 
