@@ -31,6 +31,6 @@ public class CreateCommonsParams {
   @NumberFormat private double degradationRate;
   @DateTimeFormat
   private LocalDateTime startingDate;
-  private Boolean showLeaderboard; // NOTE: WHY DOES BOOLEAN HAVE TO BE CAPITALIZED HERE OMG THE AMOUNT OF GRIEF
-                                   // THIS GAVE ME-KZ
+  @Builder.Default
+  private Boolean showLeaderboard = false; 
 }

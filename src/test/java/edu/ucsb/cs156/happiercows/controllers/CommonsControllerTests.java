@@ -162,45 +162,45 @@ public class CommonsControllerTests extends ControllerTestCase {
   @WithMockUser(roles = { "ADMIN" })
   @Test
   public void createCommonsTest_withIllegalDegradationRate() throws Exception {
-    // LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
 
-    // Commons commons = Commons.builder()
-    //     .name("Jackson's Commons")
-    //     .cowPrice(500.99)
-    //     .milkPrice(8.99)
-    //     .startingBalance(1020.10)
-    //     .startingDate(someTime)
-    //     .degradationRate(-8.49)
-    //     .build();
+    Commons commons = Commons.builder()
+        .name("Jackson's Commons")
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .degradationRate(-8.49)
+        .build();
 
-    // CreateCommonsParams parameters = CreateCommonsParams.builder()
-    //     .name("Jackson's Commons")
-    //     .cowPrice(500.99)
-    //     .milkPrice(8.99)
-    //     .startingBalance(1020.10)
-    //     .startingDate(someTime)
-    //     .degradationRate(-8.49)
-    //     .build();
+    CreateCommonsParams parameters = CreateCommonsParams.builder()
+        .name("Jackson's Commons")
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .degradationRate(-8.49)
+        .build();
 
-    // String requestBody = objectMapper.writeValueAsString(parameters);
-    // String expectedResponse = objectMapper.writeValueAsString(commons);
+    String requestBody = objectMapper.writeValueAsString(parameters);
+    String expectedResponse = objectMapper.writeValueAsString(commons);
 
-    // when(commonsRepository.save(commons))
-    //     .thenReturn(commons);
+    when(commonsRepository.save(commons))
+        .thenReturn(commons);
 
-    // MvcResult response = mockMvc
-    //     .perform(post("/api/commons/new").with(csrf())
-    //         .contentType(MediaType.APPLICATION_JSON)
-    //         .characterEncoding("utf-8")
-    //         .content(requestBody))
-    //         .andExpect(status().isBadRequest()).andReturn();
+    MvcResult response = mockMvc
+        .perform(post("/api/commons/new").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .characterEncoding("utf-8")
+            .content(requestBody))
+            .andExpect(status().isBadRequest()).andReturn();
 
-    //     Optional<IllegalArgumentException> someException = Optional
-    //     .ofNullable((IllegalArgumentException) response.getResolvedException());
+        Optional<IllegalArgumentException> someException = Optional
+        .ofNullable((IllegalArgumentException) response.getResolvedException());
 
 
-    // assertNotNull(someException.get());
-    //     assertTrue(someException.get() instanceof IllegalArgumentException);
+    assertNotNull(someException.get());
+        assertTrue(someException.get() instanceof IllegalArgumentException);
   }
 
   @WithMockUser(roles = { "USER" })
@@ -297,6 +297,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingBalance(1020.10)
         .startingDate(someTime)
         .degradationRate(8.49)
+        .showLeaderboard(false)
         .build();
 
     Commons commons = Commons.builder()
@@ -306,6 +307,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingBalance(1020.10)
         .startingDate(someTime)
         .degradationRate(8.49)
+        .showLeaderboard(false)
         .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
@@ -358,6 +360,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingBalance(1020.10)
         .startingDate(someTime)
         .degradationRate(8.49)
+        .showLeaderboard(false)
         .build();
 
     Commons commons = Commons.builder()
@@ -367,6 +370,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingBalance(1020.10)
         .startingDate(someTime)
         .degradationRate(8.49)
+        .showLeaderboard(false)
         .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
