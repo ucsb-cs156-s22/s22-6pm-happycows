@@ -26,7 +26,8 @@ const CommonsList = (props) => {
                     <Row>
                         <Col data-testid="commonsList-subtitle-id" sx={4}>ID#</Col>
                         <Col data-testid="commonsList-subtitle-name" sx={4}>Common's Name</Col>
-                        <Col sm={4}></Col>
+                        <Col data-testid="commonsList-countdown" sx={4}>Days Left</Col>
+                        {props.buttonText && <Col data-testid="commonsList-button-spacer" sm={4}></Col>}
                     </Row>
                 </Container>
             </Card.Subtitle>

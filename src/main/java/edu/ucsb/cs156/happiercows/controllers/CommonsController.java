@@ -89,12 +89,12 @@ public class CommonsController extends ApiController {
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
+    //doesn't make sense to update totalPlayer number
+    updated.setEndDate(params.getEndDate());
     updated.setShowLeaderboard(params.getShowLeaderboard());
 
     
-
     commonsRepository.save(updated);
-
     return ResponseEntity.status(status).build();
   }
 
@@ -117,11 +117,15 @@ public class CommonsController extends ApiController {
   
       @ApiParam("request body") @RequestBody CreateCommonsParams params) throws JsonProcessingException {
     Commons commons = Commons.builder()
+
+      
       .name(params.getName())
       .cowPrice(params.getCowPrice())
       .milkPrice(params.getMilkPrice())
       .startingBalance(params.getStartingBalance())
       .startingDate(params.getStartingDate())
+      .totalPlayers(0)
+      .endDate(params.getEndDate())
       .degradationRate(params.getDegradationRate())
       .showLeaderboard(params.getShowLeaderboard())
       .build();
@@ -163,6 +167,8 @@ public class CommonsController extends ApiController {
         .build();
 
     userCommonsRepository.save(uc);
+    joinedCommons.setTotalPlayers(joinedCommons.getTotalPlayers()+1);
+    commonsRepository.save(joinedCommons);
 
     String body = mapper.writeValueAsString(joinedCommons);
     return ResponseEntity.ok().body(body);
@@ -174,11 +180,14 @@ public class CommonsController extends ApiController {
   public Object deleteCommons(
       @ApiParam("id") @RequestParam Long id) {
 
+
+
     Commons foundCommons = commonsRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException(Commons.class, id));
 
     commonsRepository.deleteById(id);
     userCommonsRepository.deleteAllByCommonsId(id);
+
 
     String responseString = String.format("commons with id %d deleted", id);
 

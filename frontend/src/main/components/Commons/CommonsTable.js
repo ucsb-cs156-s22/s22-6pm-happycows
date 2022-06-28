@@ -59,6 +59,16 @@ export default function CommonsTable({ commons, currentUser }) {
             id: 'startingDate'
         },
         {
+            Header:'End Date',
+            accessor: row => String(row.endDate),
+            id: 'endDate'
+        },
+        {
+            Header:'TotalPlayers',
+            accessor: row => String(row.totalPlayers),
+            id: 'totalPlayers'
+        },
+        {
             Header:'Degradation Rate',
             //accessor: row => row.startingDate.toString(),
             accessor: row => String(row.degradationRate),
@@ -69,6 +79,7 @@ export default function CommonsTable({ commons, currentUser }) {
             id: 'showLeaderboard', // needed for tests
             accessor: (row, _rowIndex) => String(row.showLeaderboard) // hack needed for boolean values to show up
         }
+
     ];
 
     const testid = "CommonsTable";
