@@ -115,6 +115,5 @@ describe("AdminCreateCommonsPage tests", () => {
             <br />startDate: 2022-03-05T00:00:00
             <br />cowPrice: 10
         </div>);
-        // expect(mockNavigate).toBeCalledWith({ "to": "/admin/listcommons" });
     });
 });
