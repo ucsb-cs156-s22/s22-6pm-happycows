@@ -89,6 +89,7 @@ public class CommonsController extends ApiController {
     updated.setMilkPrice(params.getMilkPrice());
     updated.setStartingBalance(params.getStartingBalance());
     updated.setStartingDate(params.getStartingDate());
+    updated.setEndDate(params.getEndDate());
     updated.setShowLeaderboard(params.getShowLeaderboard());
 
     
@@ -122,6 +123,7 @@ public class CommonsController extends ApiController {
       .milkPrice(params.getMilkPrice())
       .startingBalance(params.getStartingBalance())
       .startingDate(params.getStartingDate())
+      .endDate(params.getEndDate())
       .degradationRate(params.getDegradationRate())
       .showLeaderboard(params.getShowLeaderboard())
       .build();
@@ -172,13 +174,12 @@ public class CommonsController extends ApiController {
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @DeleteMapping("")
   public Object deleteCommons(
-      @ApiParam("id") @RequestParam Long id) {
+          @ApiParam("id") @RequestParam Long id) {
 
-    Commons foundCommons = commonsRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException(Commons.class, id));
+      Commons foundCommons = commonsRepository.findById(id).orElseThrow( ()->new EntityNotFoundException(Commons.class, id));
 
-    commonsRepository.deleteById(id);
-    userCommonsRepository.deleteAllByCommonsId(id);
+      commonsRepository.deleteById(id);
+      userCommonsRepository.deleteAllByCommonsId(id);
 
     String responseString = String.format("commons with id %d deleted", id);
 

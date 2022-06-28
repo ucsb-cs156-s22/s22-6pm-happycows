@@ -22,15 +22,13 @@ import edu.ucsb.cs156.happiercows.entities.User;
 @Builder
 public class CreateCommonsParams {
   private String name;
-  @NumberFormat
-  private double cowPrice;
-  @NumberFormat
-  private double milkPrice;
-  @NumberFormat
-  private double startingBalance;
+  @NumberFormat private double cowPrice;
+  @NumberFormat private double milkPrice;
+  @NumberFormat private double startingBalance;
   @NumberFormat private double degradationRate;
-  @DateTimeFormat
-  private LocalDateTime startingDate;
+  @DateTimeFormat private LocalDateTime startingDate;
+  @DateTimeFormat private LocalDateTime endDate;
+
   private Boolean showLeaderboard; // NOTE: WHY DOES BOOLEAN HAVE TO BE CAPITALIZED HERE OMG THE AMOUNT OF GRIEF
                                    // THIS GAVE ME-KZ
 }
