@@ -21,7 +21,10 @@ const columns = [
     {
         Header: 'Log',
         id: 'log',
-        accessor: (row, _rowIndex) => `<pre>${row.log}</pre>` 
+        Cell: (props) => {
+            return <pre>{props.cell.value}</pre>;
+        },
+        accessor: 'log'
     },
 ];
 
