@@ -78,12 +78,6 @@ public class CommonsController extends ApiController {
       status = HttpStatus.CREATED;
     }
 
-     if(params.getDegradationRate() < 0) { //disallowing negative values for degradation rate
-      updated.setDegradationRate(-1*params.getDegradationRate());
-     } else {
-      updated.setDegradationRate(params.getDegradationRate());
-     }
-
     updated.setName(params.getName());
     updated.setCowPrice(params.getCowPrice());
     updated.setMilkPrice(params.getMilkPrice());
@@ -91,7 +85,11 @@ public class CommonsController extends ApiController {
     updated.setStartingDate(params.getStartingDate());
     updated.setEndingDate(params.getEndingDate());
     updated.setShowLeaderboard(params.getShowLeaderboard());
+    updated.setDegradationRate(params.getDegradationRate()); 
 
+    if(params.getDegradationRate() < 0){
+      throw new IllegalArgumentException("Degradation Rate cannot be negative");
+    }
     
 
     commonsRepository.save(updated);
@@ -128,8 +126,9 @@ public class CommonsController extends ApiController {
       .showLeaderboard(params.getShowLeaderboard())
       .build();
    
-    if(params.getDegradationRate() < 0) { //disallowing negative values for degradation rate
-      commons.setDegradationRate(-1*params.getDegradationRate());
+    //throw exception for degradation rate 
+    if(params.getDegradationRate() < 0){
+      throw new IllegalArgumentException("Degradation Rate cannot be negative");
     }
     
     Commons saved = commonsRepository.save(commons);
