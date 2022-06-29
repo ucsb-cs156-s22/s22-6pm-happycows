@@ -5,6 +5,7 @@ import ProfilePage from "main/pages/ProfilePage";
 import LeaderboardPage from "main/pages/LeaderboardPage";
 
 import AdminUsersPage from "main/pages/AdminUsersPage";
+import AdminJobsPage from "main/pages/AdminJobsPage";
 import AdminCreateCommonsPage from "main/pages/AdminCreateCommonsPage";
 import AdminEditCommonsPage from "main/pages/AdminEditCommonsPage";
 import AdminListCommonsPage from "main/pages/AdminListCommonPage";
@@ -30,6 +31,7 @@ function App() {
           (
             <>
               <Route path="/admin/users" element={<AdminUsersPage />} />
+              <Route path="/admin/jobs" element={<AdminJobsPage />} />
               <Route path="/admin/createcommons" element={<AdminCreateCommonsPage />} />
               <Route path="/admin/listcommons" element={<AdminListCommonsPage />} />
               <Route path="/admin/editcommons/:id" element={<AdminEditCommonsPage />} />
