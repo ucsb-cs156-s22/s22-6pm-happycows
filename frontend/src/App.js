@@ -10,6 +10,7 @@ import AdminEditCommonsPage from "main/pages/AdminEditCommonsPage";
 import AdminListCommonsPage from "main/pages/AdminListCommonPage";
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 import PlayPage from "main/pages/PlayPage";
+import NotFoundPage from "main/pages/NotFoundPage";
 
 function App() {
 
@@ -24,22 +25,28 @@ function App() {
         {
           !(hasRole(currentUser, "ROLE_ADMIN") || hasRole(currentUser, "ROLE_USER")) && <Route path="/" element={<LoginPage />} />
         }
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/leaderboard/:commonsId" element={<LeaderboardPage />}/>
         {
-          hasRole(currentUser, "ROLE_ADMIN") && <Route path="/admin/users" element={<AdminUsersPage />} />
+          hasRole(currentUser, "ROLE_ADMIN") && 
+          (
+            <>
+              <Route path="/admin/users" element={<AdminUsersPage />} />
+              <Route path="/admin/createcommons" element={<AdminCreateCommonsPage />} />
+              <Route path="/admin/listcommons" element={<AdminListCommonsPage />} />
+              <Route path="/admin/editcommons/:id" element={<AdminEditCommonsPage />} />
+            </>
+          )
         }
         {
-          hasRole(currentUser, "ROLE_ADMIN") && <Route path="/admin/createcommons" element={<AdminCreateCommonsPage />} />
+          hasRole(currentUser, "ROLE_USER") && 
+          (
+            <>
+             <Route path="/profile" element={<ProfilePage />} />
+             <Route path="/leaderboard/:commonsId" element={<LeaderboardPage />}/>
+             <Route path="/play/:commonsId" element={<PlayPage />} />
+           </>
+          )
         }
-        {
-          hasRole(currentUser, "ROLE_ADMIN") && <Route path="/admin/listcommons" element={<AdminListCommonsPage />} />
-        }
-        {
-          hasRole(currentUser, "ROLE_ADMIN") && <Route path="/admin/editcommons/:id" element={<AdminEditCommonsPage />} />
-        }
-        <Route path="/leaderboard/:commonsId" element={<LeaderboardPage />}/>
-        <Route path="/play/:commonsId" element={<PlayPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
