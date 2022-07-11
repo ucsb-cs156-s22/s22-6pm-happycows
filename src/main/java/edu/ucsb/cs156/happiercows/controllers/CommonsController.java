@@ -2,6 +2,7 @@ package edu.ucsb.cs156.happiercows.controllers;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.ucsb.cs156.happiercows.entities.Commons;
+import edu.ucsb.cs156.happiercows.entities.CommonsPlus;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
@@ -54,9 +56,74 @@ public class CommonsController extends ApiController {
   @GetMapping("/all")
   public ResponseEntity<String> getCommons() throws JsonProcessingException {
     log.info("getCommons()...");
-    Iterable<Commons> users = commonsRepository.findAll();
-    String body = mapper.writeValueAsString(users);
+    Iterable<Commons> commons = commonsRepository.findAll();
+    String body = mapper.writeValueAsString(commons);
     return ResponseEntity.ok().body(body);
+  }
+
+  // @ApiOperation(value = "Get a list of all commons and number of cows/users")
+  // @GetMapping("/allplus")
+  // public Iterable<CommonsPlus> getCommonsPlus() throws JsonProcessingException {
+  //   log.info("getCommonsPlus()...");
+  //   Iterable<Commons> commonsList = commonsRepository.findAll();
+    
+  //   ArrayList<CommonsPlus> commonsPlusList = new ArrayList<CommonsPlus>();
+
+  //  // NOTE: the following can probably be done much more efficiently using Java Streams 
+  // // and functional programming that uses a lambda to map a commons to a commonsPlus
+
+  //   for (Commons c : commonsList) {
+  //      Integer numCows = 0;
+  //      Long commonsId = c.getId();
+  //      Optional<Integer> numberOfCows = commonsRepository.getNumCows(commonsId);
+
+  //      if (numberOfCows.isPresent()) {
+  //        numCows = numberOfCows.get();
+  //      } 
+       
+  //      //int numUsers = commonsRepository.getNumUsers(c.id);
+  //      //commonsPlusList.add( new CommonsPlus(c, numCows, numUsers));
+  //      commonsPlusList.add( new CommonsPlus(c, numCows, commonsId));
+  //   }    
+
+  // return commonsPlusList;
+
+  // }
+
+  @ApiOperation(value = "Get a list of all commons and number of cows/users")
+  @GetMapping("/allplus")
+  public ResponseEntity<String> getCommonsPlus() throws JsonProcessingException {
+    log.info("getCommonsPlus()...");
+    Iterable<Commons> commonsList = commonsRepository.findAll();
+    
+    ArrayList<CommonsPlus> commonsPlusList = new ArrayList<CommonsPlus>();
+
+   // NOTE: the following can probably be done much more efficiently using Java Streams 
+  // and functional programming that uses a lambda to map a commons to a commonsPlus
+
+    for (Commons c : commonsList) {
+       Integer numCows = 0;
+       Integer numUsers = 0;
+       Long commonsId = c.getId();
+       Optional<Integer> numberOfCows = commonsRepository.getNumCows(commonsId);
+       Optional<Integer> numberOfUsers = commonsRepository.getNumUsers(commonsId);
+
+       if (numberOfCows.isPresent()) {
+         numCows = numberOfCows.get();
+       } 
+
+       if (numberOfUsers.isPresent()) {
+         numUsers = numberOfUsers.get();
+       } 
+       
+       //int numUsers = commonsRepository.getNumUsers(c.id);
+       //commonsPlusList.add( new CommonsPlus(c, numCows, numUsers));
+       commonsPlusList.add( new CommonsPlus(c, numCows, numUsers));
+    }
+
+    String body = mapper.writeValueAsString(commonsPlusList);
+    return ResponseEntity.ok().body(body);
+    // return commonsPlusList;
   }
 
   @ApiOperation(value = "Update a commons")

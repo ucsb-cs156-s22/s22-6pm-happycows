@@ -17,7 +17,7 @@ export default function CommonsTable({ commons, currentUser }) {
     const deleteMutation = useBackendMutation(
         cellToAxiosParamsDelete,
         { onSuccess: onDeleteSuccess },
-        ["/api/commons/all"]
+        ["/api/commons/allplus"]
     );
     // Stryker enable all
 
@@ -31,43 +31,47 @@ export default function CommonsTable({ commons, currentUser }) {
     const columns = [
         {
             Header: 'id',
-            accessor: 'id', // accessor is the "key" in the data
+            accessor: 'commons.id', // accessor is the "key" in the data
 
         },
         {
             Header:'Name',
-            accessor: 'name',
+            accessor: 'commons.name',
         },
         {
             Header:'Cow Price',
-            accessor: row => String(row.cowPrice),
+            accessor: row => String(row.commons.cowPrice),
             id: 'cowPrice'
         },
         {
             Header:'Milk Price',
-            accessor: row => String(row.milkPrice),
+            accessor: row => String(row.commons.milkPrice),
             id: 'milkPrice'
         },
         {
             Header:'Starting Balance',
-            accessor: row => String(row.startingBalance),
+            accessor: row => String(row.commons.startingBalance),
             id: 'startingBalance'
         },
         {
             Header:'Starting Date',
-            accessor: row => String(row.startingDate).slice(0,10),
+            accessor: row => String(row.commons.startingDate).slice(0,10),
             id: 'startingDate'
         },
         {
             Header:'Degradation Rate',
             //accessor: row => row.startingDate.toString(),
-            accessor: row => String(row.degradationRate),
+            accessor: row => String(row.commons.degradationRate),
             id: 'degradationRate'
         },
         {
             Header:'Show Leaderboard?',
             id: 'showLeaderboard', // needed for tests
-            accessor: (row, _rowIndex) => String(row.showLeaderboard) // hack needed for boolean values to show up
+            accessor: (row, _rowIndex) => String(row.commons.showLeaderboard) // hack needed for boolean values to show up
+        },
+        {
+            Header: 'Cows',
+            accessor: 'totalCows'
         }
     ];
 
