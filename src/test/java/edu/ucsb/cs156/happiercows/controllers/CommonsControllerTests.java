@@ -713,128 +713,39 @@ public class CommonsControllerTests extends ControllerTestCase {
     }
   }
   
-  // // NEW
-  // @WithMockUser(roles = {"USER"})
-  // @Test
-  // public void getNumCowsFromCommonsIfCommonsExistAndPlayerJoined() throws Exception {
-  //   List<CommonsPlus> expectedCommonsList = new ArrayList<CommonsPlus>();
-  //   CommonsPlus Commons1 = CommonsPlus.builder().name("TestCommons1").build();
 
-  //   expectedCommons.add(Commons1);
-  //   when(commonsRepository.findAll()).thenReturn(expectedCommons);
-  //   MvcResult response = mockMvc.perform(get("/api/commons/all").contentType("application/json"))
-  //       .andExpect(status().isOk()).andReturn();
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void getCommonsPlusTest() throws Exception {
+    List<Commons> expectedCommons = new ArrayList<Commons>();
+    Commons Commons1 = Commons.builder().name("TestCommons1").id(1L).build();
+    expectedCommons.add(Commons1);
 
-  //   verify(commonsRepository, times(1)).findAll();
+    List<CommonsPlus> expectedCommonsPlus = new ArrayList<CommonsPlus>();
+    List<CommonsPlus> dummy = new ArrayList<CommonsPlus>();
+    CommonsPlus CommonsPlus1 = CommonsPlus.builder()
+          .commons(Commons1)
+          .totalCows(50)
+          .totalUsers(20)
+          .build();
 
-  //   String responseString = response.getResponse().getContentAsString();
-  //   List<Commons> actualCommons = objectMapper.readValue(responseString, new TypeReference<List<Commons>>() {
-  //   });
-  //   assertEquals(actualCommons, expectedCommons);
-    
-  //   Commons common = Commons.builder()
-  //     .name("TestCommons1")
-  //     .id(1L)
-  //     .build();
+    expectedCommonsPlus.add(CommonsPlus1);
+    when(commonsRepository.findAll()).thenReturn(expectedCommons);
+    when(commonsRepository.getNumCows(1L)).thenReturn(Optional.of(50));
+    when(commonsRepository.getNumUsers(1L)).thenReturn(Optional.of(20));
 
-  //   when(commonsRepository.findById(1L)).thenReturn(Optional.of(common));
-  //   when(commonsRepository.getNumCows(1L)).thenReturn(Optional.of(547));
+    MvcResult response = mockMvc.perform(get("/api/commons/allplus").contentType("application/json"))
+        .andExpect(status().isOk()).andReturn();
 
-  //   MvcResult response = mockMvc.perform(get("/api/commons/allplus").contentType("application/json"))
-  //       .andExpect(status().isOk()).andReturn();
+    //verify(commonsRepository, times(1)).findAll();
+    verify(commonsRepository, times(1)).findAll();
+    verify(commonsRepository, times(1)).getNumCows(1L);
+    verify(commonsRepository, times(1)).getNumUsers(1L);
 
-  //   verify(commonsRepository, times(1)).findById(1L);
-  //   verify(commonsRepository, times(1)).getNumCows(1L);
-
-  //   String responseString = response.getResponse().getContentAsString();
-  //   assertEquals(responseString, "547");
-  // }
-
-  // // NEW
-  // @WithMockUser(roles = {"USER"})
-  // @Test
-  // public void getNumCowsFromCommonsIfCommonsExistAndPlayerDidNotJoinYet() throws Exception {
-  //   Commons common = Commons.builder()
-  //     .name("TestCommons1")
-  //     .id(1L)
-  //     .build();
-
-  //   when(commonsRepository.findById(1L)).thenReturn(Optional.of(common));
-  //   when(commonsRepository.getNumCows(1L)).thenReturn(Optional.empty());
-
-  //   MvcResult response = mockMvc.perform(get("/api/commons/allplus").contentType("application/json"))
-  //       .andExpect(status().isOk()).andReturn();
-
-  //   verify(commonsRepository, times(1)).findById(1L);
-  //   verify(commonsRepository, times(1)).getNumCows(1L);
-
-  //   String responseString = response.getResponse().getContentAsString();
-  //   assertEquals(responseString, "0");
-  // }
-
-  // // NEW
-  // @WithMockUser(roles = {"USER"})
-  // @Test
-  // public void getNumCowsFromCommonsIfCommonsDoesNotExist() throws Exception {
-  //   Commons common = Commons.builder()
-  //     .name("TestCommons1")
-  //     .id(1L)
-  //     .build();
-
-  //   when(commonsRepository.findById(1L)).thenReturn(Optional.empty());
-
-  //   MvcResult response = mockMvc.perform(get("/api/commons/allplus").contentType("application/json"))
-  //       .andExpect(status().is(404)).andReturn();
-
-  //   verify(commonsRepository, times(1)).findById(1L);
-
-  //   Map<String, Object> responseMap = responseToJson(response);
-
-  //   assertEquals(responseMap.get("message"), "Commons with id 1 not found");
-  //   assertEquals(responseMap.get("type"), "EntityNotFoundException");
-
-  // }
-
-  //   @WithMockUser(roles = { "USER" })
-  // @Test
-  // public void getCommonsTest() throws Exception {
-  //   List<Commons> expectedCommons = new ArrayList<Commons>();
-  //   Commons Commons1 = Commons.builder().name("TestCommons1").build();
-
-  //   expectedCommons.add(Commons1);
-  //   when(commonsRepository.findAll()).thenReturn(expectedCommons);
-  //   MvcResult response = mockMvc.perform(get("/api/commons/all").contentType("application/json"))
-  //       .andExpect(status().isOk()).andReturn();
-
-  //   verify(commonsRepository, times(1)).findAll();
-
-  //   String responseString = response.getResponse().getContentAsString();
-  //   List<Commons> actualCommons = objectMapper.readValue(responseString, new TypeReference<List<Commons>>() {
-  //   });
-  //   assertEquals(actualCommons, expectedCommons);
-  // }
-
-
-  // @WithMockUser(roles = { "USER" })
-  // @Test
-  // public void getCommonsPlusTest() throws Exception {
-  //   List<CommonsPlus> expectedCommonsPlus = new ArrayList<CommonsPlus>();
-  //   CommonsPlus CommonsPlus1 = Commons.builder()
-          // .totalCows(50)
-          // .commonsId(1L)
-          // .build();
-
-  //   expectedCommons.add(Commons1);
-  //   when(commonsRepository.findAll()).thenReturn(expectedCommons);
-  //   MvcResult response = mockMvc.perform(get("/api/commons/all").contentType("application/json"))
-  //       .andExpect(status().isOk()).andReturn();
-
-  //   verify(commonsRepository, times(1)).findAll();
-
-  //   String responseString = response.getResponse().getContentAsString();
-  //   List<Commons> actualCommons = objectMapper.readValue(responseString, new TypeReference<List<Commons>>() {
-  //   });
-  //   assertEquals(actualCommons, expectedCommons);
-  // }
+    String responseString = response.getResponse().getContentAsString();
+    List<CommonsPlus> actualCommonsPlus = objectMapper.readValue(responseString, new TypeReference<List<CommonsPlus>>() {
+    });
+    assertEquals(actualCommonsPlus, expectedCommonsPlus);
+  }
 
 }
