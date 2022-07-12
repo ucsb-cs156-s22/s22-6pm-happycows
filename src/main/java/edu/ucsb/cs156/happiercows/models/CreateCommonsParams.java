@@ -33,6 +33,6 @@ public class CreateCommonsParams {
   private LocalDateTime startingDate;
   @DateTimeFormat 
   private LocalDateTime endingDate;
-  private Boolean showLeaderboard; // NOTE: WHY DOES BOOLEAN HAVE TO BE CAPITALIZED HERE OMG THE AMOUNT OF GRIEF
-                                   // THIS GAVE ME-KZ
+  @Builder.Default
+  private Boolean showLeaderboard = false; 
 }

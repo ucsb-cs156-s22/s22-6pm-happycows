@@ -11,8 +11,8 @@ export default function AdminListCommonsPage()
   // Stryker disable  all 
   const { data: commons, error: _error, status: _status } =
     useBackend(
-      ["/api/commons/all"],
-      { method: "GET", url: "/api/commons/all" },
+      ["/api/commons/allplus"],
+      { method: "GET", url: "/api/commons/allplus" },
       []
     );
   // Stryker enable  all 

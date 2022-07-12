@@ -8,8 +8,10 @@ import java.util.Optional;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -29,9 +31,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -39,6 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import edu.ucsb.cs156.happiercows.ControllerTestCase;
 import edu.ucsb.cs156.happiercows.entities.Commons;
+import edu.ucsb.cs156.happiercows.entities.CommonsPlus;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.models.CreateCommonsParams;
@@ -113,7 +119,7 @@ public class CommonsControllerTests extends ControllerTestCase {
 
   @WithMockUser(roles = { "ADMIN" })
   @Test
-  public void createCommonsTest_invalid() throws Exception
+  public void createCommonsTest_zeroDegradation() throws Exception
   {
     LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
     LocalDateTime someOtherTime = LocalDateTime.parse("2022-04-20T15:50:10");
@@ -124,8 +130,8 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .degradationRate(0)
       .endingDate(someOtherTime)
-      .degradationRate(1.0)
       .showLeaderboard(false)
       .build();
 
@@ -135,8 +141,8 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .degradationRate(0)
       .endingDate(someOtherTime)
-      .degradationRate(-1.0)
       .showLeaderboard(false)
       .build();
 
@@ -158,6 +164,50 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     String actualResponse = response.getResponse().getContentAsString();
     assertEquals(expectedResponse, actualResponse);
+  }
+
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void createCommonsTest_withIllegalDegradationRate() throws Exception {
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+    Commons commons = Commons.builder()
+        .name("Jackson's Commons")
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .degradationRate(-8.49)
+        .build();
+
+    CreateCommonsParams parameters = CreateCommonsParams.builder()
+        .name("Jackson's Commons")
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .degradationRate(-8.49)
+        .build();
+
+    String requestBody = objectMapper.writeValueAsString(parameters);
+    String expectedResponse = objectMapper.writeValueAsString(commons);
+
+    when(commonsRepository.save(commons))
+        .thenReturn(commons);
+
+    MvcResult response = mockMvc
+        .perform(post("/api/commons/new").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .characterEncoding("utf-8")
+            .content(requestBody))
+            .andExpect(status().isBadRequest()).andReturn();
+
+        Optional<IllegalArgumentException> someException = Optional
+        .ofNullable((IllegalArgumentException) response.getResolvedException());
+
+
+    assertNotNull(someException.get());
+        assertTrue(someException.get() instanceof IllegalArgumentException);
   }
 
   @WithMockUser(roles = { "USER" })
@@ -224,6 +274,8 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     parameters.setMilkPrice(parameters.getMilkPrice() + 3.00);
     commons.setMilkPrice(parameters.getMilkPrice());
+    parameters.setDegradationRate(parameters.getDegradationRate() + 1.00);
+    commons.setDegradationRate(parameters.getDegradationRate());
 
     requestBody = objectMapper.writeValueAsString(parameters);
 
@@ -245,66 +297,134 @@ public class CommonsControllerTests extends ControllerTestCase {
 
   @WithMockUser(roles = { "ADMIN" })
   @Test
-  public void updateCommonsTest_invalid() throws Exception
-  {
+  public void updateCommonsTest_withDegradationRate_Zero() throws Exception {
     LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
     LocalDateTime someOtherTime = LocalDateTime.parse("2022-04-20T15:50:10");
 
     CreateCommonsParams parameters = CreateCommonsParams.builder()
-      .name("Jackson's Commons")
-      .cowPrice(500.99)
-      .milkPrice(8.99)
-      .startingBalance(1020.10)
-      .startingDate(someTime)
-      .endingDate(someOtherTime)
-      .degradationRate(-1.0)
-      .showLeaderboard(false)
-      .build();
+        .name("Jackson's Commons")
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .endingDate(someOtherTime)
+        .degradationRate(8.49)
+        .showLeaderboard(false)
+        .build();
 
     Commons commons = Commons.builder()
-      .name("Jackson's Commons")
-      .cowPrice(500.99)
-      .milkPrice(8.99)
-      .startingBalance(1020.10)
-      .startingDate(someTime)
-      .endingDate(someOtherTime)
-      .degradationRate(1.0)
-      .showLeaderboard(false)
-      .build();
+        .name("Jackson's Commons")
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .degradationRate(8.49)
+        .endingDate(someOtherTime)
+        .showLeaderboard(false)
+        .build();
 
     String requestBody = objectMapper.writeValueAsString(parameters);
 
     when(commonsRepository.save(commons))
-      .thenReturn(commons);
+        .thenReturn(commons);
 
     mockMvc
       .perform(put("/api/commons/update?id=0").with(csrf())
-        .contentType(MediaType.APPLICATION_JSON)
-        .characterEncoding("utf-8")
-        .content(requestBody))
+          .contentType(MediaType.APPLICATION_JSON)
+          .characterEncoding("utf-8")
+          .content(requestBody))
       .andExpect(status().isCreated());
 
     verify(commonsRepository, times(1)).save(commons);
 
     parameters.setMilkPrice(parameters.getMilkPrice() + 3.00);
     commons.setMilkPrice(parameters.getMilkPrice());
+    parameters.setDegradationRate(0);
+    commons.setDegradationRate(parameters.getDegradationRate());
 
     requestBody = objectMapper.writeValueAsString(parameters);
 
     when(commonsRepository.findById(0L))
-      .thenReturn(Optional.of(commons));
+        .thenReturn(Optional.of(commons));
 
     when(commonsRepository.save(commons))
-      .thenReturn(commons);
+        .thenReturn(commons);
 
     mockMvc
       .perform(put("/api/commons/update?id=0").with(csrf())
-        .contentType(MediaType.APPLICATION_JSON)
-        .characterEncoding("utf-8")
-        .content(requestBody))
+          .contentType(MediaType.APPLICATION_JSON)
+          .characterEncoding("utf-8")
+          .content(requestBody))
       .andExpect(status().isNoContent());
 
     verify(commonsRepository, times(1)).save(commons);
+  }
+
+
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void updateCommonsTest_withIllegalDegradationRate() throws Exception {
+    LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+    CreateCommonsParams parameters = CreateCommonsParams.builder()
+        .name("Jackson's Commons")
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .degradationRate(8.49)
+        .showLeaderboard(false)
+        .build();
+
+    Commons commons = Commons.builder()
+        .name("Jackson's Commons")
+        .cowPrice(500.99)
+        .milkPrice(8.99)
+        .startingBalance(1020.10)
+        .startingDate(someTime)
+        .degradationRate(8.49)
+        .showLeaderboard(false)
+        .build();
+
+    String requestBody = objectMapper.writeValueAsString(parameters);
+
+    when(commonsRepository.save(commons))
+        .thenReturn(commons);
+
+    mockMvc
+        .perform(put("/api/commons/update?id=0").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .characterEncoding("utf-8")
+            .content(requestBody))
+        .andExpect(status().isCreated());
+
+    verify(commonsRepository, times(1)).save(commons);
+
+    parameters.setDegradationRate(-10);
+    commons.setDegradationRate(parameters.getDegradationRate());
+
+    requestBody = objectMapper.writeValueAsString(parameters);
+
+    when(commonsRepository.findById(0L))
+        .thenReturn(Optional.of(commons));
+
+    when(commonsRepository.save(commons))
+        .thenReturn(commons);
+
+    MvcResult response = mockMvc
+        .perform(put("/api/commons/update?id=0").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .characterEncoding("utf-8")
+            .content(requestBody))
+        .andExpect(status().isBadRequest()).andReturn();
+
+    Optional<IllegalArgumentException> someException = Optional
+        .ofNullable((IllegalArgumentException) response.getResolvedException());
+
+
+
+    assertNotNull(someException.get());
+        assertTrue(someException.get() instanceof IllegalArgumentException);
   }
 
   //This common SHOULD be in the repository
@@ -345,7 +465,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     assertEquals(responseMap.get("type"), "EntityNotFoundException");
   }
 
-  @WithMockUser(roles = { "USER"})
+  @WithMockUser(roles = { "USER" })
   @Test
   public void joinCommonsTest() throws Exception {
 
@@ -608,4 +728,36 @@ public class CommonsControllerTests extends ControllerTestCase {
     }
   }
   
+
+  @WithMockUser(roles = { "USER" })
+  @Test
+  public void getCommonsPlusTest() throws Exception {
+    List<Commons> expectedCommons = new ArrayList<Commons>();
+    Commons Commons1 = Commons.builder().name("TestCommons1").id(1L).build();
+    expectedCommons.add(Commons1);
+
+    List<CommonsPlus> expectedCommonsPlus = new ArrayList<CommonsPlus>();
+    List<CommonsPlus> dummy = new ArrayList<CommonsPlus>();
+    CommonsPlus CommonsPlus1 = CommonsPlus.builder()
+          .commons(Commons1)
+          .totalCows(50)
+          .totalUsers(20)
+          .build();
+
+    expectedCommonsPlus.add(CommonsPlus1);
+    when(commonsRepository.findAll()).thenReturn(expectedCommons);
+    when(commonsRepository.getNumCows(1L)).thenReturn(Optional.of(50));
+    when(commonsRepository.getNumUsers(1L)).thenReturn(Optional.of(20));
+
+    MvcResult response = mockMvc.perform(get("/api/commons/allplus").contentType("application/json"))
+        .andExpect(status().isOk()).andReturn();
+
+    verify(commonsRepository, times(1)).findAll();
+
+    String responseString = response.getResponse().getContentAsString();
+    List<CommonsPlus> actualCommonsPlus = objectMapper.readValue(responseString, new TypeReference<List<CommonsPlus>>() {
+    });
+    assertEquals(actualCommonsPlus, expectedCommonsPlus);
+  }
+
 }
