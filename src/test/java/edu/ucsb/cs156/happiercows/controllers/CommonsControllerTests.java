@@ -737,10 +737,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     MvcResult response = mockMvc.perform(get("/api/commons/allplus").contentType("application/json"))
         .andExpect(status().isOk()).andReturn();
 
-    //verify(commonsRepository, times(1)).findAll();
     verify(commonsRepository, times(1)).findAll();
-    verify(commonsRepository, times(1)).getNumCows(1L);
-    verify(commonsRepository, times(1)).getNumUsers(1L);
 
     String responseString = response.getResponse().getContentAsString();
     List<CommonsPlus> actualCommonsPlus = objectMapper.readValue(responseString, new TypeReference<List<CommonsPlus>>() {
