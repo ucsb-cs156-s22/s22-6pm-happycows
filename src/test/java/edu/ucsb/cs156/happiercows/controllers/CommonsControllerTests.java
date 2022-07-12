@@ -73,6 +73,7 @@ public class CommonsControllerTests extends ControllerTestCase {
   public void createCommonsTest() throws Exception
   {
     LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+    LocalDateTime someOtherTime = LocalDateTime.parse("2022-04-20T15:50:10");
 
     Commons commons = Commons.builder()
       .name("Jackson's Commons")
@@ -80,6 +81,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .endingDate(someOtherTime)
       .degradationRate(50.0)
       .showLeaderboard(false)
       .build();
@@ -90,6 +92,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .endingDate(someOtherTime)
       .degradationRate(50.0)
       .showLeaderboard(false)
       .build();
@@ -119,6 +122,7 @@ public class CommonsControllerTests extends ControllerTestCase {
   public void createCommonsTest_zeroDegradation() throws Exception
   {
     LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+    LocalDateTime someOtherTime = LocalDateTime.parse("2022-04-20T15:50:10");
 
     Commons commons = Commons.builder()
       .name("Jackson's Commons")
@@ -127,6 +131,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .startingBalance(1020.10)
       .startingDate(someTime)
       .degradationRate(0)
+      .endingDate(someOtherTime)
       .showLeaderboard(false)
       .build();
 
@@ -137,6 +142,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .startingBalance(1020.10)
       .startingDate(someTime)
       .degradationRate(0)
+      .endingDate(someOtherTime)
       .showLeaderboard(false)
       .build();
 
@@ -228,6 +234,7 @@ public class CommonsControllerTests extends ControllerTestCase {
   public void updateCommonsTest() throws Exception
   {
     LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+    LocalDateTime someOtherTime = LocalDateTime.parse("2022-04-20T15:50:10");
 
     CreateCommonsParams parameters = CreateCommonsParams.builder()
       .name("Jackson's Commons")
@@ -235,6 +242,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .endingDate(someOtherTime)
       .degradationRate(50.0)
       .showLeaderboard(false)
       .build();
@@ -245,6 +253,7 @@ public class CommonsControllerTests extends ControllerTestCase {
       .milkPrice(8.99)
       .startingBalance(1020.10)
       .startingDate(someTime)
+      .endingDate(someOtherTime)
       .degradationRate(50.0)
       .showLeaderboard(false)
       .build();
@@ -290,6 +299,7 @@ public class CommonsControllerTests extends ControllerTestCase {
   @Test
   public void updateCommonsTest_withDegradationRate_Zero() throws Exception {
     LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+    LocalDateTime someOtherTime = LocalDateTime.parse("2022-04-20T15:50:10");
 
     CreateCommonsParams parameters = CreateCommonsParams.builder()
         .name("Jackson's Commons")
@@ -297,6 +307,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .milkPrice(8.99)
         .startingBalance(1020.10)
         .startingDate(someTime)
+        .endingDate(someOtherTime)
         .degradationRate(8.49)
         .showLeaderboard(false)
         .build();
@@ -308,6 +319,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         .startingBalance(1020.10)
         .startingDate(someTime)
         .degradationRate(8.49)
+        .endingDate(someOtherTime)
         .showLeaderboard(false)
         .build();
 
@@ -601,33 +613,36 @@ public class CommonsControllerTests extends ControllerTestCase {
   @Test
   public void deleteCommons_test_admin_exists() throws Exception {
       LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+      LocalDateTime someOtherTime = LocalDateTime.parse("2022-04-20T15:50:10");
+
       Commons c = Commons.builder()
         .name("Jackson's Commons")
         .cowPrice(500.99)
         .milkPrice(8.99)
         .startingBalance(1020.10)
         .startingDate(someTime)
+        .endingDate(someOtherTime)
         .degradationRate(50.0)
         .showLeaderboard(false)
         .build();
-      
+
       when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));
       doNothing().when(commonsRepository).deleteById(2L);
       doNothing().when(userCommonsRepository).deleteAllByCommonsId(2L);
 
-      
+
       MvcResult response = mockMvc.perform(
               delete("/api/commons?id=2")
                       .with(csrf()))
               .andExpect(status().is(200)).andReturn();
-      
+
       verify(commonsRepository, times(1)).findById(2L);
       verify(commonsRepository, times(1)).deleteById(2L);
       verify(userCommonsRepository, times(1)).deleteAllByCommonsId(2L);
 
       String responseString = response.getResponse().getContentAsString();
-      
-      String expectedString = "{\"message\":\"commons with id 2 deleted\"}"; 
+
+      String expectedString = "{\"message\":\"commons with id 2 deleted\"}";
 
       assertEquals(expectedString, responseString);
   }
@@ -635,27 +650,27 @@ public class CommonsControllerTests extends ControllerTestCase {
   @WithMockUser(roles = { "ADMIN" })
   @Test
   public void deleteCommons_test_admin_nonexists() throws Exception {
-      
+
       when(commonsRepository.findById(eq(2L))).thenReturn(Optional.empty());
-      
+
       MvcResult response = mockMvc.perform(
               delete("/api/commons?id=2")
                       .with(csrf()))
               .andExpect(status().is(404)).andReturn();
-      
       verify(commonsRepository, times(1)).findById(2L);
-      
+
+
 
       String responseString = response.getResponse().getContentAsString();
-      
+
       String expectedString = "{\"message\":\"Commons with id 2 not found\",\"type\":\"EntityNotFoundException\"}";
-      
+
       Map<String, Object> expectedJson = mapper.readValue(expectedString, Map.class);
       Map<String, Object> jsonResponse = responseToJson(response);
       assertEquals(expectedJson, jsonResponse);
   }
-  
-  
+
+
   @WithMockUser(roles = {"ADMIN"})
   @Test
   public void deleteUserFromCommonsTest() throws Exception {
